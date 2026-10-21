@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>老師專區｜動物探險家</title>
+<meta name="description" content="一鍵產生可列印的動物學習單與答案、投影出題、全班搶答計分板與倒數計時器。">
+<link rel="stylesheet" href="/css/style.css?v=1">
+</head>
+<body data-page="teacher">
+<main>
+  <h1>🍎 老師專區</h1>
+  <p class="lead">備課、上課、評量都在這裡。所有資料只存在這台電腦，不會上傳。</p>
+
+  <div class="tabs noprint" role="tablist" aria-label="老師工具">
+    <button class="tab" role="tab" aria-selected="true" data-tab="sheet">🖨️ 學習單</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="slides">📽️ 出題投影</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="board">🏆 搶答計分板</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="guide">📚 教學建議</button>
+  </div>
+
+  <section id="tab-sheet" class="panel">
+    <div class="form-row noprint" id="ctl">
+      <label>主題<select id="theme"></select></label>
+      <label>題型<select id="kind"></select></label>
+      <label>題數<select id="num"><option>5</option><option selected>8</option><option>10</option><option>12</option><option>15</option></select></label>
+      <label style="grid-auto-flow:column;align-items:center;gap:8px"><input type="checkbox" id="withAns" checked style="width:24px;height:24px"> 附答案頁</label>
+    </div>
+    <p class="noprint"><button class="btn primary" id="gen">產生學習單</button> <button class="btn" id="print" disabled>列印</button></p>
+    <div id="sheet" class="sheet" hidden></div>
+  </section>
+
+  <section id="tab-slides" class="panel" hidden>
+    <p class="noprint">用上面「學習單」分頁選好的主題、題型、題數出題。</p>
+    <p class="noprint"><button class="btn primary" id="gen2">開始出題</button></p>
+    <div id="slide" class="stage" hidden></div>
+  </section>
+
+  <section id="tab-board" class="panel" hidden></section>
+
+  <section id="tab-guide" class="panel" hidden>
+    <h2 style="margin-top:0">各工具對應的學習重點</h2>
+    <p class="lead">以下為建議對應，實際請依貴校課程計畫調整。</p>
+    <ul>
+      <li><b>動物小百科</b>：自然科學「生物的特徵」；資訊閱讀、查找資料。</li>
+      <li><b>分類闖關</b>：自然科學「生物的分類」，觀察外形與生活方式。</li>
+      <li><b>誰住哪裡</b>：自然科學「生物與環境」，棲地與適應。</li>
+      <li><b>猜猜我是誰</b>：觀察、歸納與推理；表達與聆聽。</li>
+      <li><b>保育小教室</b>：環境教育「生物多樣性與保育」。</li>
+    </ul>
+    <h2>三個現成的課堂活動</h2>
+    <ol>
+      <li><b>暖身 5 分鐘</b>：投影「猜猜我是誰」全班搶答，用計分板記各組分數。</li>
+      <li><b>主課 15 分鐘</b>：學生用平板玩「分類闖關」或「誰住哪裡」，老師巡視。</li>
+      <li><b>收尾 10 分鐘</b>：列印學習單當隨堂練習，下課前對答案；最後看「保育小教室」討論我們能做什麼。</li>
+    </ol>
+    <h2>使用小提醒</h2>
+    <ul>
+      <li>全班投影建議用「猜猜我是誰」的全班搶答模式，按空白鍵出下一個線索。</li>
+      <li>棲地、食性分類是依動物園文字自動判斷，少數動物可能與課本寫法略有出入，可當作討論題。</li>
+      <li>動物照片來自臺北市立動物園，網路不穩時會自動改顯示圖示，不影響操作。</li>
+    </ul>
+  </section>
+</main>
+<script src="/js/data.js?v=1"></script>
+<script src="/js/layout.js?v=1"></script>
+<script src="/js/qgen.js?v=1"></script>
+<script src="/js/p-board.js?v=1"></script>
+<script src="/js/p-teacher.js?v=1"></script>
+</body>
+</html>
