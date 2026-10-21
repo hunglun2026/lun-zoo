@@ -1,0 +1,70 @@
+{
+ "saimiri-boliviensis": {
+  "kind": "photo",
+  "src": "/img/animals/saimiri-boliviensis.webp",
+  "credit": "formicacid，CC0",
+  "creditUrl": "https://commons.wikimedia.org/wiki/File:Saimiri_boliviensis_522226471.jpg"
+ },
+ "ateles-fusciceps": {
+  "kind": "photo",
+  "src": "/img/animals/ateles-fusciceps.webp",
+  "credit": "Petruss，CC BY-SA 3.0",
+  "creditUrl": "https://commons.wikimedia.org/wiki/File:Ateles_fusciceps_Colombia.JPG"
+ },
+ "choloepus-didactylus": {
+  "kind": "photo",
+  "src": "/img/animals/choloepus-didactylus.webp",
+  "credit": "Dick Culbert from Gibsons, B.C., Canada，CC BY 2.0",
+  "creditUrl": "https://commons.wikimedia.org/wiki/File:Cholepus_didactylus_-_Flickr_-_Dick_Culbert.jpg"
+ },
+ "dendrobates-leucomelas": {
+  "kind": "photo",
+  "src": "/img/animals/dendrobates-leucomelas.webp",
+  "credit": "Arpingstone，Public domain",
+  "creditUrl": "https://commons.wikimedia.org/wiki/File:Yellow-banded.poison.dart.frog.arp.jpg"
+ },
+ "dendrobates-azureus": {
+  "kind": "photo",
+  "src": "/img/animals/dendrobates-azureus.webp",
+  "credit": "Quartl，CC BY-SA 3.0",
+  "creditUrl": "https://commons.wikimedia.org/wiki/File:Dendrobates_azureus_qtl1.jpg"
+ },
+ "probarbus-jullieni": {
+  "kind": "photo",
+  "src": "/img/animals/probarbus-jullieni.webp",
+  "credit": "Lerdsuwa，CC BY-SA 3.0",
+  "creditUrl": "https://commons.wikimedia.org/wiki/File:Probarbus_jullieni.jpg"
+ },
+ "tomistoma-schlegelii": {
+  "kind": "photo",
+  "src": "/img/animals/tomistoma-schlegelii.webp",
+  "credit": "Fritz Geller-Grimm，CC BY-SA 2.5",
+  "creditUrl": "https://commons.wikimedia.org/wiki/File:Tomistoma_schlegelii_fg01.JPG"
+ },
+ "amazona-oratrix": {
+  "kind": "photo",
+  "src": "/img/animals/amazona-oratrix.webp",
+  "credit": "Vancouver Aquarium 照片（維基共享資源上傳者），CC BY-SA 2.0",
+  "creditUrl": "https://commons.wikimedia.org/wiki/File:Amazona_oratrix_-Vancouver_Aquarium-8a-4c.jpg"
+ },
+ "mauremys-mutica": {
+  "kind": "art",
+  "src": "/img/animals/mauremys-mutica.webp"
+ },
+ "mauremys-annamensis": {
+  "kind": "art",
+  "src": "/img/animals/mauremys-annamensis.webp"
+ },
+ "trachychorax-sexpunctatus": {
+  "kind": "art",
+  "src": "/img/animals/trachychorax-sexpunctatus.webp"
+ },
+ "pheidole-sp": {
+  "kind": "art",
+  "src": "/img/animals/pheidole-sp.webp"
+ },
+ "acridotheres-tristis": {
+  "kind": "art",
+  "src": "/img/animals/acridotheres-tristis.webp"
+ }
+}

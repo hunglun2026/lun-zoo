@@ -73,9 +73,10 @@ Zoo.boot(function (animals) {
       fact("科學分類", [a.phylum, a.class, a.ord, a.family].filter(Boolean).join(" › ")) + "</div>" +
       (vid ? '<h3>🎬 影片</h3><iframe src="' + vid + '" title="' + esc(a.name) + ' 影片" style="width:100%;aspect-ratio:16/9;border:0;border-radius:14px" loading="lazy" allowfullscreen></iframe>' : "") +
       (a.voices.length ? "<h3>🔊 聲音</h3>" + a.voices.map((v) => "<p>" + esc(v.alt) + '<br><audio controls preload="none" src="' + esc(v.url) + '"></audio> <a href="' + esc(v.url) + '" target="_blank" rel="noopener">聽不到？開新分頁</a></p>').join("") : "") +
-      '<p style="font-size:.8rem;color:var(--ink2)">資料與照片來源：<a href="https://www.zoo.gov.tw/" target="_blank" rel="noopener">臺北市立動物園</a></p>';
+      '<p style="font-size:.8rem;color:var(--ink2)">資料與照片來源：<a href="https://www.zoo.gov.tw/" target="_blank" rel="noopener">臺北市立動物園</a>。' + Zoo.creditLine(a) + "</p>";
     const gal = body.querySelector("#gal");
-    a.pics.slice(0, 4).forEach((_, i) => gal.appendChild(photo(a, i)));
+    // 有補圖的動物（原照片全部失效）只放 1 張，不然同一張補圖會重複 4 次
+    a.pics.slice(0, a.fallback ? 1 : 4).forEach((_, i) => gal.appendChild(photo(a, i)));
     if (!a.pics.length) gal.appendChild(Zoo.placeholder(a, "xl"));
     body.querySelector("#x").onclick = () => dlg.close();
     if (!dlg.open) dlg.showModal();

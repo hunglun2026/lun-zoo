@@ -144,7 +144,10 @@
       } catch (e2) { /* 沒有快取 */ }
       if (!animals) throw e;
     }
-    animals.forEach(enrich);
+    // 補圖表：動物園原照片失效（404）的動物，改用維基共享資源的自由授權照片或自製插圖
+    let fb = {};
+    try { fb = await (await fetch("/js/img-fallback.json?v=3")).json(); } catch (e) { /* 沒有補圖表就只用圖示 */ }
+    animals.forEach((a) => { a.fallback = fb[a.id] || null; enrich(a); });
     return { animals, meta };
   }
 
@@ -166,9 +169,23 @@
     img.loading = "lazy";
     img.referrerPolicy = "no-referrer";
     img.alt = (p.alt || a.nameClean).replace(/[?？]/g, "");
-    img.onerror = () => img.replaceWith(placeholder(a, cls));
+    // 原照片失敗 → 補圖（自由授權照片或插圖）→ 類別圖示
+    img.onerror = () => {
+      if (a.fallback && !img.dataset.fb) {
+        img.dataset.fb = "1";
+        img.alt = a.nameClean + (a.fallback.kind === "art" ? "（示意插圖）" : "");
+        img.src = a.fallback.src;
+      } else img.replaceWith(placeholder(a, cls));
+    };
     img.src = p.url;
     return img;
+  }
+  // 詳情頁用：補圖的出處說明（原照片正常時回空字串）
+  function creditLine(a) {
+    if (!a.fallback) return "";
+    return a.fallback.kind === "art"
+      ? "此動物的原照片已無法顯示，圖為示意插圖（AI 繪製），不代表實際外觀細節。"
+      : '此動物的原照片已無法顯示，改用維基共享資源照片：<a href="' + esc(a.fallback.creditUrl) + '" target="_blank" rel="noopener">' + esc(a.fallback.credit) + "</a>。";
   }
 
   // ---- 小工具 ----
@@ -209,5 +226,5 @@
     });
   }
 
-  window.Zoo = { GROUPS, HABITATS, CONS, DIETS, enrich, mask, load, photo, placeholder, esc, shuffle, pick, el, youtubeEmbed, dialog };
+  window.Zoo = { GROUPS, HABITATS, CONS, DIETS, enrich, mask, load, photo, creditLine, placeholder, esc, shuffle, pick, el, youtubeEmbed, dialog };
 })();
