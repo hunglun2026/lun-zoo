@@ -124,34 +124,48 @@
   }
 
   // ---- 載入與快取 ----
-  const KEY = "zoo-cache-v1";
-  async function load() {
-    let meta = null, animals = null;
+  const KEY = "zoo-cache-v2";
+  const FORMAT = 2; // 快取資料的格式代號：API 欄位或 enrich() 用到的欄位改了就加 1，舊快取就不會被新程式拿來用
+  try { localStorage.removeItem("zoo-cache-v1"); } catch (e) { /* 舊版快取約 500 KB，清掉 */ }
+  function readCache() {
     try {
-      meta = await (await fetch("/api/meta")).json();
-      let cached = null;
-      try { cached = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) { /* 無痕模式可能不能用 */ }
-      if (cached && cached.modifiedDate === meta.modifiedDate && cached.version === meta.version) animals = cached.animals;
-      if (!animals) {
-        animals = (await (await fetch("/api/animals")).json()).animals;
-        try { localStorage.setItem(KEY, JSON.stringify({ modifiedDate: meta.modifiedDate, version: meta.version, animals })); } catch (e) { /* 容量滿就不存 */ }
-      }
-    } catch (e) {
-      // 離線或伺服器忙：退回上次存的資料，教室網路不穩時還能用
-      try {
-        const c = JSON.parse(localStorage.getItem(KEY) || "null");
-        if (c) { animals = c.animals; meta = meta || { modifiedDate: c.modifiedDate, count: c.animals.length, offline: true }; }
-      } catch (e2) { /* 沒有快取 */ }
-      if (!animals) throw e;
+      const c = JSON.parse(localStorage.getItem(KEY) || "null");
+      return c && c.format === FORMAT && Array.isArray(c.animals) ? c : null;
+    } catch (e) { return null; } // 無痕模式可能不能用
+  }
+  function saveCache(meta, animals) {
+    try { localStorage.setItem(KEY, JSON.stringify({ format: FORMAT, modifiedDate: meta.modifiedDate, syncedAt: meta.syncedAt, version: meta.version, animals })); } catch (e) { /* 容量滿就不存 */ }
+  }
+  const getJson = (u) => fetch(u).then((r) => { if (!r.ok) throw new Error(u + " HTTP " + r.status); return r.json(); });
+  // 抓動物資料一定帶上「最後匯入時間」：伺服器依它分開快取，同步（含手動強制同步）後才不會拿到舊資料卻當成新的存起來
+  const getAnimals = (m) => getJson("/api/animals?m=" + encodeURIComponent(m.syncedAt || "")).then((d) => d.animals);
+
+  // 有本機快取就馬上用它畫畫面，背景再問伺服器資料有沒有更新（有就存起來，下一頁生效）。
+  // 學生在工具間切換時不用每頁都等網路；教室網路斷了也照樣能用。第一次（沒快取）才等網路。
+  async function load() {
+    let meta, animals;
+    const cached = readCache();
+    if (cached) {
+      animals = cached.animals;
+      meta = { modifiedDate: cached.modifiedDate, syncedAt: cached.syncedAt, version: cached.version, count: animals.length };
+      getJson("/api/meta").then((m) => {
+        if (m.syncedAt !== cached.syncedAt || m.version !== cached.version) {
+          return getAnimals(m).then((list) => saveCache(m, list));
+        }
+      }).catch(() => { /* 離線或伺服器忙：下次再檢查 */ });
+    } else {
+      meta = await getJson("/api/meta");
+      animals = await getAnimals(meta);
+      saveCache(meta, animals);
     }
     // 補圖表：動物園原照片失效（404）的動物，改用維基共享資源的自由授權照片或自製插圖
     // 縮圖表：本站依原照片縮小的小圖（scripts/build-thumbs.py 產生），卡片和遊戲優先用，比原照片小幾十倍
-    const [fb, thumbs] = await Promise.all(["/js/img-fallback.json?v=5", "/js/thumbs.json?v=5"].map((u) =>
+    const [fb, thumbs] = await Promise.all(["/js/img-fallback.json?v=6", "/js/thumbs.json?v=6"].map((u) =>
       fetch(u).then((r) => r.json()).catch(() => null))); // 沒有就只用原照片與圖示
     const hasThumb = new Set(thumbs || []);
     animals.forEach((a) => {
       a.fallback = (fb || {})[a.id] || null;
-      a.thumb = hasThumb.has(a.id) ? "/img/thumbs/" + a.id + ".webp?v=5" : "";
+      a.thumb = hasThumb.has(a.id) ? "/img/thumbs/" + a.id + ".webp?v=6" : "";
       enrich(a);
     });
     return { animals, meta };

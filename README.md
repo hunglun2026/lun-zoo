@@ -33,8 +33,10 @@ npm run db:local           # 建本機資料庫
 npx wrangler dev           # 本機啟動
 curl -X POST -H "Authorization: Bearer <ADMIN_TOKEN>" "http://127.0.0.1:8787/admin/sync?force=1"   # 匯入資料
 npm test                   # 離線檢查解析與分類規則
-python scripts/build-font.py --check    # 資料更新後檢查字型有沒有缺字
+python scripts/build-font.py --check    # 資料更新後檢查字型有沒有缺字（缺字就不帶參數重建，字型會切成多包，只下載畫面用到的）
 python scripts/build-thumbs.py          # 資料更新後補做新動物的縮圖（卡片與遊戲用，原照片太大）
 ```
+
+API 有邊緣快取：`/api/meta` 最多 5 分鐘、`/api/animals` 依最後匯入時間分開存，同步或強制同步後最多 5 分鐘大家就會拿到新資料。
 
 本機 `.dev.vars` 寫 `ADMIN_TOKEN=...`；正式環境的 `NTFY_TOPIC`、`ADMIN_TOKEN` 是 Worker 密鑰，不放在 repo。

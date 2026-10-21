@@ -38,7 +38,7 @@
       const { animals, meta } = await window.Zoo.load();
       document.getElementById("boot").remove();
       document.getElementById("data-stamp").textContent =
-        "目前共收錄 " + animals.length + " 種動物。資料更新日期：" + String(meta.modifiedDate || "").slice(0, 10) + (meta.offline ? "（離線，使用上次存的資料）" : "") + "。";
+        "目前共收錄 " + animals.length + " 種動物。資料更新日期：" + String(meta.modifiedDate || "").slice(0, 10) + "。";
       document.querySelectorAll("[data-count]").forEach((e) => (e.textContent = animals.length));
       await fn(animals, meta);
     } catch (e) {
