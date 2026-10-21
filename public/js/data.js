@@ -147,7 +147,7 @@
     // 補圖表：動物園原照片失效（404）的動物，改用維基共享資源的自由授權照片或自製插圖
     // 縮圖表：本站依原照片縮小的小圖（scripts/build-thumbs.py 產生），卡片和遊戲優先用，比原照片小幾十倍
     // 一開始就跟動物資料同時抓，不要等資料抓完才開始
-    const lists = Promise.all(["/js/img-fallback.json?v=8", "/js/thumbs.json?v=8"].map((u) =>
+    const lists = Promise.all(["/js/img-fallback.json?v=9", "/js/thumbs.json?v=9"].map((u) =>
       getJson(u).catch(() => null))); // 沒有就只用原照片與圖示
     const cached = readCache();
     if (cached) {
@@ -167,7 +167,7 @@
     const hasThumb = new Set(thumbs || []);
     animals.forEach((a) => {
       a.fallback = (fb || {})[a.id] || null;
-      a.thumb = hasThumb.has(a.id) ? "/img/thumbs/" + a.id + ".webp?v=8" : "";
+      a.thumb = hasThumb.has(a.id) ? "/img/thumbs/" + a.id + ".webp?v=9" : "";
       enrich(a);
     });
     return { animals, meta };
