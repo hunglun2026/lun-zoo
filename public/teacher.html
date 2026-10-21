@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>老師專區｜動物探險家</title>
-<meta name="description" content="一鍵產生可列印的動物學習單與答案、投影出題、全班搶答計分板與倒數計時器。">
-<link rel="stylesheet" href="/css/style.css?v=3">
+<meta name="description" content="四個現成課程包、一鍵產生可列印的動物學習單與答案、投影出題、全班搶答計分板與倒數計時器。">
+<link rel="stylesheet" href="/css/style.css?v=4">
 </head>
 <body data-page="teacher">
 <main>
@@ -16,7 +16,7 @@
     <button class="tab" role="tab" aria-selected="true" data-tab="sheet">🖨️ 學習單</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="slides">📽️ 出題投影</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="board">🏆 搶答計分板</button>
-    <button class="tab" role="tab" aria-selected="false" data-tab="guide">📚 教學建議</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="guide">📚 課程包</button>
   </div>
 
   <section id="tab-sheet" class="panel">
@@ -39,33 +39,78 @@
   <section id="tab-board" class="panel" hidden></section>
 
   <section id="tab-guide" class="panel" hidden>
-    <h2 style="margin-top:0">各工具對應的學習重點</h2>
-    <p class="lead">以下為建議對應，實際請依貴校課程計畫調整。</p>
+    <h2 style="margin-top:0">四個現成課程包（每包 40 分鐘）</h2>
+    <p class="lead">按「一鍵帶入學習單」會自動選好主題與題型並產生學習單，可直接列印。實際請依貴校課程計畫調整。</p>
+    <div class="packs">
+      <article class="pack">
+        <h3>🧩 生物分類</h3>
+        <p><b>學習目標</b>：說出六大類動物的特徵，能依外形與生活方式把動物分類。</p>
+        <ol>
+          <li><b>暖身 5 分</b>：投影<a href="/guess.html">猜猜我是誰</a>的全班搶答，用計分板記分。</li>
+          <li><b>闖關 10 分</b>：<a href="/classify.html">分類闖關</a>先玩入門，再挑戰六大類。</li>
+          <li><b>配對 10 分</b>：兩人一組玩<a href="/memory.html">翻牌配對</a>，說出每隻是哪一類。</li>
+          <li><b>練習 10 分</b>：學習單「屬於哪一類」。</li>
+          <li><b>回顧 5 分</b>：打開<a href="/passport.html">探險護照</a>，看誰拿到「分類小達人」。</li>
+        </ol>
+        <button class="btn primary" data-pack="all,group,10">一鍵帶入學習單</button>
+      </article>
+      <article class="pack">
+        <h3>🗺️ 棲地與適應</h3>
+        <p><b>學習目標</b>：知道動物住在不同環境，能說出一種動物和牠的家。</p>
+        <ol>
+          <li><b>觀察 5 分</b>：<a href="/animals.html">小百科</a>用「棲地」篩選，比較森林和沙漠的動物。</li>
+          <li><b>闖關 15 分</b>：<a href="/habitat.html">誰住哪裡</a> 10 題，學有餘力的玩 60 秒挑戰。</li>
+          <li><b>比一比 10 分</b>：在小百科挑兩種住在不同地方的動物「比一比」，討論牠們長得哪裡不一樣。</li>
+          <li><b>練習 10 分</b>：學習單「住在哪裡」。</li>
+        </ol>
+        <button class="btn primary" data-pack="all,habitat,8">一鍵帶入學習單</button>
+      </article>
+      <article class="pack">
+        <h3>🍽️ 動物吃什麼</h3>
+        <p><b>學習目標</b>：分辨吃植物、吃肉、什麼都吃的動物，說出判斷的理由。</p>
+        <ol>
+          <li><b>觀察 5 分</b>：<a href="/animals.html">小百科</a>用「食物」篩選，各看一種。</li>
+          <li><b>搶答 10 分</b>：「出題投影」選「喜歡吃什麼」，每題按「10 秒」倒數再舉手，用計分板記分。</li>
+          <li><b>比一比 10 分</b>：挑一種吃植物、一種吃肉的動物「比一比」，看牙齒或嘴巴的描述。</li>
+          <li><b>練習 15 分</b>：學習單「喜歡吃什麼」。</li>
+        </ol>
+        <button class="btn primary" data-pack="all,diet,8">一鍵帶入學習單</button>
+      </article>
+      <article class="pack">
+        <h3>🌏 保育</h3>
+        <p><b>學習目標</b>：認識保育等級，說出動物遇到的危機與我們能做的一件事。</p>
+        <ol>
+          <li><b>認識 10 分</b>：<a href="/conserve.html">保育小教室</a>的等級階梯，從「野外滅絕」往下看。</li>
+          <li><b>討論 10 分</b>：「為什麼有危險」換幾隻，分組討論危機是什麼。</li>
+          <li><b>對決 10 分</b>：玩「誰比較危險」。</li>
+          <li><b>練習 10 分</b>：學習單「有危險的動物」看圖認動物，背面寫一句「我能做的事」。</li>
+        </ol>
+        <button class="btn primary" data-pack="danger,picture,8">一鍵帶入學習單</button>
+      </article>
+    </div>
+    <h2>各工具對應的學習重點</h2>
     <ul>
-      <li><b>動物小百科</b>：自然科學「生物的特徵」；資訊閱讀、查找資料。</li>
-      <li><b>分類闖關</b>：自然科學「生物的分類」，觀察外形與生活方式。</li>
+      <li><b>動物小百科</b>、<b>比一比</b>：自然科學「生物的特徵」、比較異同；資訊閱讀、查找資料。</li>
+      <li><b>分類闖關</b>、<b>翻牌配對</b>：自然科學「生物的分類」，觀察外形與生活方式。</li>
       <li><b>誰住哪裡</b>：自然科學「生物與環境」，棲地與適應。</li>
       <li><b>猜猜我是誰</b>：觀察、歸納與推理；表達與聆聽。</li>
       <li><b>保育小教室</b>：環境教育「生物多樣性與保育」。</li>
+      <li><b>探險護照</b>：自主學習，學生自己看進度與徽章。</li>
     </ul>
-    <h2>三個現成的課堂活動</h2>
-    <ol>
-      <li><b>暖身 5 分鐘</b>：投影「猜猜我是誰」全班搶答，用計分板記各組分數。</li>
-      <li><b>主課 15 分鐘</b>：學生用平板玩「分類闖關」或「誰住哪裡」，老師巡視。</li>
-      <li><b>收尾 10 分鐘</b>：列印學習單當隨堂練習，下課前對答案；最後看「保育小教室」討論我們能做什麼。</li>
-    </ol>
     <h2>使用小提醒</h2>
     <ul>
       <li>全班投影建議用「猜猜我是誰」的全班搶答模式，按空白鍵出下一個線索。</li>
+      <li>遊戲結束會列出答錯的動物，可按「只練錯的」再練一次。</li>
       <li>棲地、食性分類是依動物園文字自動判斷，少數動物可能與課本寫法略有出入，可當作討論題。</li>
       <li>動物照片來自臺北市立動物園，網路不穩時會自動改顯示圖示，不影響操作。</li>
     </ul>
   </section>
 </main>
-<script src="/js/data.js?v=3"></script>
-<script src="/js/layout.js?v=3"></script>
-<script src="/js/qgen.js?v=3"></script>
-<script src="/js/p-board.js?v=3"></script>
-<script src="/js/p-teacher.js?v=3"></script>
+<script src="/js/data.js?v=4"></script>
+<script src="/js/layout.js?v=4"></script>
+<script src="/js/fx.js?v=4"></script>
+<script src="/js/qgen.js?v=4"></script>
+<script src="/js/p-board.js?v=4"></script>
+<script src="/js/p-teacher.js?v=4"></script>
 </body>
 </html>

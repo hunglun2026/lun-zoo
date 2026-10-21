@@ -31,7 +31,7 @@ Zoo.boot(function (animals) {
   function showWhy() {
     const a = shuffle(risky)[0];
     why.replaceChildren();
-    why.appendChild(Zoo.photo(a, 0));
+    why.appendChild(Zoo.photo(a));
     why.appendChild(el(
       "<div><h3>" + esc(a.name) + ' <span class="badge" style="background:' + a.cons.color + '">' + esc(a.cons.name) + "</span></h3>" +
       '<div class="clue" style="max-width:640px"><small>牠面臨的危機</small><br>' + esc(a.crisis.trim().slice(0, 220)) + (a.crisis.trim().length > 220 ? "…" : "") + "</div></div>"
@@ -46,20 +46,24 @@ Zoo.boot(function (animals) {
   const duel = document.getElementById("duel");
   const known = animals.filter((a) => a.cons.rank >= 3 && !a.name_suspect && a.hasPhoto);
   function playDuel() {
-    let i = 0, score = 0;
-    const N = 5;
+    let i = 0, score = 0, combo = 0;
+    const N = 5, wrongs = [];
     const next = () => {
       if (i >= N) return end();
       let a, b;
       do { a = shuffle(known)[0]; b = shuffle(known)[0]; } while (a.cons.rank === b.cons.rank);
-      duel.replaceChildren(el("<div><p>第 " + (i + 1) + " / " + N + " 題　⭐ " + score + '</p><h3 style="margin:.2em 0">哪一種動物比較危險？</h3></div>'));
+      duel.replaceChildren(el("<div><p>第 " + (i + 1) + " / " + N + " 題　⭐ " + score + "</p>" +
+        (combo >= 2 ? '<p class="combo">🔥 連續答對 ' + combo + " 題！</p>" : "") + '<h3 style="margin:.2em 0">哪一種動物比較危險？</h3></div>'));
       const row = el('<div class="opts"></div>');
       [a, b].forEach((x) => {
         const o = el('<button class="opt"><span class="ph-slot"></span>' + esc(x.name) + "</button>");
-        o.querySelector(".ph-slot").replaceWith(Zoo.photo(x, 0));
+        o.querySelector(".ph-slot").replaceWith(Zoo.photo(x));
         o.onclick = () => {
           const ok = x.cons.rank > (x === a ? b : a).cons.rank;
-          if (ok) score += 10;
+          const hi = a.cons.rank > b.cons.rank ? a : b, lo = hi === a ? b : a;
+          combo = ok ? combo + 1 : 0;
+          if (ok) { score += 10; Fx.right(); }
+          else { Fx.wrong(); wrongs.push({ animal: hi, answer: hi.name + "（" + hi.cons.name + "）比" + lo.name + "（" + lo.cons.name + "）危險" }); }
           row.querySelectorAll(".opt").forEach((btn, k) => {
             const y = k === 0 ? a : b;
             btn.disabled = true;
@@ -77,7 +81,12 @@ Zoo.boot(function (animals) {
       duel.appendChild(row);
     };
     const end = () => {
-      duel.replaceChildren(el('<div><h3>完成！</h3><div class="score">' + score + " / " + N * 10 + '</div><p><button class="btn primary big">再玩一次</button></p></div>'));
+      const stars = score >= 50 ? 3 : score >= 30 ? 2 : score > 0 ? 1 : 0;
+      Progress.stars("conserve", stars);
+      if (stars === 3) Fx.confetti();
+      duel.replaceChildren(el('<div><h3>完成！</h3><div class="stars" aria-label="' + stars + ' 顆星">' + "⭐".repeat(stars) + "☆".repeat(3 - stars) + "</div>" +
+        '<div class="score">' + score + " / " + N * 10 + '</div><div id="rv"></div><p><button class="btn primary big">再玩一次</button></p></div>'));
+      duel.querySelector("#rv").appendChild(Quiz.review(wrongs));
       duel.querySelector("button").onclick = playDuel;
     };
     next();

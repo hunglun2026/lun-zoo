@@ -1,5 +1,6 @@
 /* 出題產生器：學習單與「出題投影」共用。
-   Qgen.make(pool, types, n) → [{ kind, animal, q, choices[], answer }]
+   Qgen.make(pool, types, n) → [{ kind, animal, q, choices[], answer, pic }]
+   pic＝true 的題目要配動物照片（看圖認動物），照片用本站縮圖，列印也印得出來。
    choices 是顯示用文字；answer 是正確答案文字。所有題目都是選擇題，答案唯一。 */
 (function () {
   "use strict";
@@ -11,6 +12,7 @@
     diet: { name: "喜歡吃什麼", ok: (a) => a.dietInfo },
     // 猜謎要有「特徵」線索才能唯一指到一種動物，只有棲地、食性、類別的話符合的動物太多
     riddle: { name: "猜猜我是誰", ok: (a) => a.habitatInfo && a.goodClue },
+    picture: { name: "看圖認動物", ok: (a) => a.thumb },
   };
 
   function build(kind, a, pool) {
@@ -28,8 +30,12 @@
       const ch = Object.values(Zoo.DIETS).map((d) => d.emoji + d.name);
       return { q: a.name + " 喜歡吃什麼？", choices: ch, answer: a.dietInfo.emoji + a.dietInfo.name };
     }
-    // 猜謎：類別＋棲地＋一句遮住名字的特徵，從四個同類動物裡選
+    // 同類動物當干擾選項，不然一看類別就知道答案
     const same = shuffle(pool.filter((x) => x.group === a.group && x.id !== a.id && !x.name_suspect)).slice(0, 3);
+    if (kind === "picture") {
+      return { q: "照片裡的是哪一種動物？", choices: shuffle([a].concat(same)).map((x) => x.name), answer: a.name, pic: true };
+    }
+    // 猜謎：類別＋棲地＋一句遮住名字的特徵，從四個同類動物裡選
     const names = shuffle([a].concat(same)).map((x) => x.name);
     return {
       q: "我是" + a.groupInfo.name + "，我住在" + a.habitatInfo.name + "。" + Zoo.mask(a, a.feature1) + " 我是誰？",

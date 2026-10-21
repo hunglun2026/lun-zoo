@@ -51,6 +51,12 @@ export const NAME_FIXES: Record<string, string> = {
   "dromaius novaehollandiae": "鴯鶓",
 };
 
+// 同一種動物在不同展區用了不同學名（舊屬名）：先換成正式學名再合併，不然會出現兩筆
+export const LATIN_SYNONYMS: Record<string, string> = {
+  "cistoclemmys flavomarginata": "Cuora flavomarginata", // 食蛇龜
+};
+const canonLatin = (latin: string) => LATIN_SYNONYMS[latin.trim().toLowerCase()] ?? latin;
+
 function hash(s: string): string {
   let h = 5381;
   for (const ch of s) h = ((h << 5) + h + ch.codePointAt(0)!) >>> 0;
@@ -80,11 +86,14 @@ const textLen = (r: Record<string, string>) =>
 // 把 CSV 列轉成「一種動物一筆」：同學名的重複列只留內容最多的那列
 export function toAnimals(rows: Record<string, string>[]): Animal[] {
   const best = new Map<string, Record<string, string>>();
-  for (const r of rows) {
-    if (!r.A_Name_Ch) continue;
-    const id = animalId(r.A_Name_Latin ?? "", r.A_Name_Ch);
+  const places = new Map<string, Set<string>>(); // 同一種動物可能在好幾個展區都有，全部列出
+  for (const raw of rows) {
+    if (!raw.A_Name_Ch) continue;
+    const r = { ...raw, A_Name_Latin: canonLatin(raw.A_Name_Latin ?? "") };
+    const id = animalId(r.A_Name_Latin, r.A_Name_Ch);
     const cur = best.get(id);
     if (!cur || textLen(r) > textLen(cur)) best.set(id, r);
+    if (r.A_Location) places.set(id, (places.get(id) ?? new Set()).add(r.A_Location));
   }
   return [...best].map(([id, r]) => {
     const latinKey = (r.A_Name_Latin ?? "").trim().toLowerCase();
@@ -107,7 +116,7 @@ export function toAnimals(rows: Record<string, string>[]): Animal[] {
       cons_raw: r.A_Conservation ?? "", cons_code: consCode(r.A_Conservation ?? ""),
       distribution: r.A_Distribution ?? "", habitat: r.A_Habitat ?? "", feature: r.A_Feature ?? "",
       behavior: r.A_Behavior ?? "", diet: r.A_Diet ?? "", crisis: r.A_Crisis ?? "",
-      location: r.A_Location ?? "", pics: JSON.stringify(pics), videos: https(r.A_Vedio_URL ?? ""),
+      location: [...(places.get(id) ?? [])].join("、"), pics: JSON.stringify(pics), videos: https(r.A_Vedio_URL ?? ""),
       voices: JSON.stringify(voices), name_suspect: suspect,
     };
   });

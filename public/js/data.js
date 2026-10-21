@@ -145,9 +145,15 @@
       if (!animals) throw e;
     }
     // 補圖表：動物園原照片失效（404）的動物，改用維基共享資源的自由授權照片或自製插圖
-    let fb = {};
-    try { fb = await (await fetch("/js/img-fallback.json?v=3")).json(); } catch (e) { /* 沒有補圖表就只用圖示 */ }
-    animals.forEach((a) => { a.fallback = fb[a.id] || null; enrich(a); });
+    // 縮圖表：本站依原照片縮小的小圖（scripts/build-thumbs.py 產生），卡片和遊戲優先用，比原照片小幾十倍
+    const [fb, thumbs] = await Promise.all(["/js/img-fallback.json?v=4", "/js/thumbs.json?v=4"].map((u) =>
+      fetch(u).then((r) => r.json()).catch(() => null))); // 沒有就只用原照片與圖示
+    const hasThumb = new Set(thumbs || []);
+    animals.forEach((a) => {
+      a.fallback = (fb || {})[a.id] || null;
+      a.thumb = hasThumb.has(a.id) ? "/img/thumbs/" + a.id + ".webp?v=4" : "";
+      enrich(a);
+    });
     return { animals, meta };
   }
 
@@ -161,23 +167,31 @@
     d.setAttribute("aria-label", a.nameClean);
     return d;
   }
+  // photo(a)：卡片、遊戲用的小圖，依序試「本站縮圖 → 原照片第 1～4 張 → 補圖 → 類別圖示」
+  // photo(a, i)：詳情頁大圖，連動物園原照片第 i 張；第 1 張失效才退回縮圖與補圖
   function photo(a, i, cls) {
-    const p = a.pics[i || 0];
-    if (!p) return placeholder(a, cls);
+    const small = i == null;
+    const fb = a.fallback ? [{ src: a.fallback.src, art: a.fallback.kind === "art" }] : [];
+    const thumb = a.thumb ? [{ src: a.thumb }] : [];
+    const pics = a.pics.map((p) => ({ src: p.url, alt: p.alt }));
+    const list = small ? thumb.concat(pics, fb) : [pics[i]].filter(Boolean).concat(i === 0 ? thumb.concat(fb) : []);
+    if (!list.length) return placeholder(a, cls);
     const img = new Image();
     img.className = "photo " + (cls || "");
     img.loading = "lazy";
     img.referrerPolicy = "no-referrer";
-    img.alt = (p.alt || a.nameClean).replace(/[?？]/g, "");
-    // 原照片失敗 → 補圖（自由授權照片或插圖）→ 類別圖示
-    img.onerror = () => {
-      if (a.fallback && !img.dataset.fb) {
-        img.dataset.fb = "1";
-        img.alt = a.nameClean + (a.fallback.kind === "art" ? "（示意插圖）" : "");
-        img.src = a.fallback.src;
-      } else img.replaceWith(placeholder(a, cls));
+    let k = 0;
+    const use = () => {
+      const c = list[k];
+      img.alt = ((c.alt || a.nameClean) + (c.art ? "（示意插圖）" : "")).replace(/[?？]/g, "");
+      img.src = c.src;
     };
-    img.src = p.url;
+    img.onerror = () => {
+      if (++k < list.length) use();
+      else if (small || i === 0) img.replaceWith(placeholder(a, cls));
+      else img.remove(); // 詳情頁第 2 張以後失效就不顯示，前面已經有圖了
+    };
+    use();
     return img;
   }
   // 詳情頁用：補圖的出處說明（原照片正常時回空字串）

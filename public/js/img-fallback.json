@@ -48,23 +48,31 @@
   "creditUrl": "https://commons.wikimedia.org/wiki/File:Amazona_oratrix_-Vancouver_Aquarium-8a-4c.jpg"
  },
  "mauremys-mutica": {
-  "kind": "art",
-  "src": "/img/animals/mauremys-mutica.webp"
+  "kind": "photo",
+  "src": "/img/animals/mauremys-mutica.webp",
+  "credit": "Yung-Lun Lin，CC BY 4.0",
+  "creditUrl": "https://commons.wikimedia.org/wiki/File:Mauremys_mutica_266722872.jpg"
  },
  "mauremys-annamensis": {
-  "kind": "art",
-  "src": "/img/animals/mauremys-annamensis.webp"
+  "kind": "photo",
+  "src": "/img/animals/mauremys-annamensis.webp",
+  "credit": "Adam G. Stern，CC BY-SA 4.0",
+  "creditUrl": "https://commons.wikimedia.org/wiki/File:Vietnamese_Pond_Turtle_Mauremys_annamensis_Adam_G._Stern.jpg"
  },
  "trachychorax-sexpunctatus": {
   "kind": "art",
   "src": "/img/animals/trachychorax-sexpunctatus.webp"
  },
  "pheidole-sp": {
-  "kind": "art",
-  "src": "/img/animals/pheidole-sp.webp"
+  "kind": "photo",
+  "src": "/img/animals/pheidole-sp.webp",
+  "credit": "Philipp Hoenle，CC0",
+  "creditUrl": "https://commons.wikimedia.org/wiki/File:Pheidole_megacephala_333840361.jpg"
  },
  "acridotheres-tristis": {
-  "kind": "art",
-  "src": "/img/animals/acridotheres-tristis.webp"
+  "kind": "photo",
+  "src": "/img/animals/acridotheres-tristis.webp",
+  "credit": "Hobbyfotowiki，CC0",
+  "creditUrl": "https://commons.wikimedia.org/wiki/File:Common_myna,_(Acridotheres_tristis).jpg"
  }
 }

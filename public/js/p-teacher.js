@@ -1,4 +1,4 @@
-/* 老師專區：分頁切換、學習單產生與列印、出題投影。計分板在 p-board.js。 */
+/* 老師專區：分頁切換、學習單產生與列印、出題投影（含 10 秒倒數）、課程包一鍵帶入設定。計分板在 p-board.js。 */
 Zoo.boot(function (animals) {
   const { esc, el } = Zoo;
   const $ = (id) => document.getElementById(id);
@@ -7,10 +7,11 @@ Zoo.boot(function (animals) {
 
   // ---- 分頁 ----
   const tabs = document.querySelectorAll(".tab");
-  tabs.forEach((t) => (t.onclick = () => {
-    tabs.forEach((x) => x.setAttribute("aria-selected", String(x === t)));
-    document.querySelectorAll("main > section").forEach((s) => (s.hidden = s.id !== "tab-" + t.dataset.tab));
-  }));
+  const showTab = (name) => {
+    tabs.forEach((x) => x.setAttribute("aria-selected", String(x.dataset.tab === name)));
+    document.querySelectorAll("main > section").forEach((s) => (s.hidden = s.id !== "tab-" + name));
+  };
+  tabs.forEach((t) => (t.onclick = () => showTab(t.dataset.tab)));
   Board.init($("tab-board"));
 
   // ---- 主題與題型 ----
@@ -39,6 +40,7 @@ Zoo.boot(function (animals) {
       "<h2>🦁 動物探險家學習單" + (ans ? "（答案）" : "") + "</h2><p>主題：" + esc(themeName()) + "　班級：<span class='blank' style='min-width:4em'></span>　座號：<span class='blank' style='min-width:3em'></span>　姓名：<span class='blank'></span></p>";
     const body = (ans) => sheetQs.map((q, i) => {
       let h = '<div class="q"><b>' + (i + 1) + ".</b> " + esc(q.q);
+      if (q.pic) h += '<br><img class="qimg" src="' + esc(q.animal.thumb) + '" alt="第 ' + (i + 1) + ' 題的動物照片">';
       if (q.choices.length) h += "<br>" + q.choices.map((c) => (ans && c === q.answer ? '<span class="ans">● ' : "○ <span>") + esc(c) + "</span>").join("　　");
       else h += "<br>答：" + (ans ? '<span class="ans">' + esc(q.answer) + "</span>" : '<span class="blank"></span>');
       return h + "</div>";
@@ -57,25 +59,48 @@ Zoo.boot(function (animals) {
   $("gen2").onclick = async () => {
     const qs = questions();
     if (!qs.length) { await Zoo.dialog("這個主題找不到足夠的題目，請換一個主題或題型。"); return; }
-    let i = 0, showAns = false;
+    let i = 0, showAns = false, cd = null;
     const box = $("slide");
     box.hidden = false;
     const draw = () => {
+      clearInterval(cd); // 換題就停掉倒數
       const q = qs[i];
       box.replaceChildren(el(
         "<div><p>第 " + (i + 1) + " / " + qs.length + " 題</p>" +
         '<div id="pic"></div><h2 style="font-size:2rem">' + esc(q.kind === "riddle" ? q.q : q.q) + "</h2>" +
         (q.choices.length ? '<div class="opts">' + q.choices.map((c) => '<div class="opt' + (showAns && c === q.answer ? " right" : "") + '">' + esc(c) + "</div>").join("") + "</div>" : "") +
         '<div class="feedback ok" style="font-size:2rem">' + (showAns ? "答案：" + esc(q.answer) : "") + "</div>" +
-        '<p class="noprint"><button class="btn big" id="prev">◀ 上一題</button> <button class="btn primary big" id="show">' + (showAns ? "隱藏答案" : "顯示答案") + '</button> <button class="btn big" id="next">下一題 ▶</button></p></div>'
+        '<div class="timer" id="cd" aria-live="polite"></div>' +
+        '<p class="noprint"><button class="btn big" id="prev">◀ 上一題</button> <button class="btn big" id="ten">⏱️ 10 秒</button> <button class="btn primary big" id="show">' + (showAns ? "隱藏答案" : "顯示答案") + '</button> <button class="btn big" id="next">下一題 ▶</button></p></div>'
       ));
       // 猜謎題先不顯示照片，不然就直接看到答案；揭曉後才顯示
-      if (q.kind !== "riddle" || showAns) box.querySelector("#pic").appendChild(Zoo.photo(q.animal, 0));
+      if (q.kind !== "riddle" || showAns) box.querySelector("#pic").appendChild(Zoo.photo(q.animal));
       box.querySelector("#prev").onclick = () => { i = Math.max(0, i - 1); showAns = false; draw(); };
       box.querySelector("#next").onclick = () => { i = Math.min(qs.length - 1, i + 1); showAns = false; draw(); };
       box.querySelector("#show").onclick = () => { showAns = !showAns; draw(); };
+      // 10 秒倒數：給全班想一想再舉手，時間到響三聲
+      box.querySelector("#ten").onclick = () => {
+        let left = 10;
+        const t = box.querySelector("#cd");
+        clearInterval(cd);
+        t.textContent = left;
+        cd = setInterval(() => {
+          left--;
+          t.textContent = left > 0 ? left : "時間到！";
+          if (left > 0 && left <= 3) Fx.tick();
+          if (left <= 0) { clearInterval(cd); Fx.ding(); }
+        }, 1000);
+      };
     };
     draw();
     box.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+
+  // ---- 課程包：一鍵帶入學習單的主題、題型、題數，直接產生 ----
+  document.querySelectorAll("[data-pack]").forEach((b) => (b.onclick = () => {
+    const [theme, kind, num] = b.dataset.pack.split(",");
+    $("theme").value = theme; $("kind").value = kind; $("num").value = num;
+    showTab("sheet");
+    $("gen").click();
+  }));
 });

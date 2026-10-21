@@ -24,7 +24,7 @@ Zoo.boot(function (animals) {
       '<p><button class="btn primary big" id="solo">單人挑戰（8 題）</button></p>' +
       '<p><button class="btn big" id="class">全班搶答（老師投影）</button></p></div>'
     ));
-    root.querySelector("#solo").onclick = solo;
+    root.querySelector("#solo").onclick = () => solo();
     root.querySelector("#class").onclick = classMode;
   }
 
@@ -32,7 +32,7 @@ Zoo.boot(function (animals) {
     const box = el("<div></div>");
     cs.slice(0, shown).forEach((c, i) => {
       if (c.photo) {
-        const p = Zoo.photo(a, 0);
+        const p = Zoo.photo(a);
         p.style.filter = "none";
         box.appendChild(p);
       } else {
@@ -43,9 +43,11 @@ Zoo.boot(function (animals) {
   }
 
   // ---- 單人 ----
-  function solo() {
-    const picked = shuffle(pool).slice(0, 8);
-    let idx = 0, score = 0;
+  // list：「只練錯的」時傳入上一輪答錯的動物
+  function solo(list) {
+    const picked = list ? shuffle(list) : shuffle(pool).slice(0, 8);
+    let idx = 0, score = 0, combo = 0;
+    const wrongs = [];
     const next = () => (idx >= picked.length ? done() : round(picked[idx]));
     function round(a) {
       const cs = clues(a);
@@ -55,7 +57,8 @@ Zoo.boot(function (animals) {
       const options = shuffle([a].concat(distract));
       root.replaceChildren(el(
         '<div class="stage"><div class="bar"><i style="width:' + (idx / picked.length) * 100 + '%"></i></div>' +
-        "<p>第 " + (idx + 1) + " / " + picked.length + " 題　⭐ " + score + ' 分</p><div id="clues"></div>' +
+        "<p>第 " + (idx + 1) + " / " + picked.length + " 題　⭐ " + score + " 分</p>" +
+        (combo >= 2 ? '<p class="combo">🔥 連續答對 ' + combo + " 題！</p>" : "") + '<div id="clues"></div>' +
         '<div class="opts" id="opts"></div><p><button class="btn" id="more">再給我一個線索（-1 分）</button></p>' +
         '<div class="feedback" id="fb" role="status" aria-live="polite"></div><div id="nx"></div></div>'
       ));
@@ -69,6 +72,8 @@ Zoo.boot(function (animals) {
         over = true;
         const pts = ok ? Math.max(1, 7 - shown) : 0;
         score += pts;
+        combo = ok ? combo + 1 : 0;
+        if (ok) Fx.right(); else { Fx.wrong(); wrongs.push({ animal: a, answer: a.name }); }
         shown = cs.length; draw(); more.remove();
         opts.querySelectorAll(".opt").forEach((b) => { b.disabled = true; if (b.dataset.id === a.id) b.classList.add("right"); });
         fb.className = "feedback " + (ok ? "ok" : "no");
@@ -83,7 +88,7 @@ Zoo.boot(function (animals) {
         b.onclick = () => {
           if (over) return;
           if (o.id === a.id) return finishRound(true);
-          b.disabled = true; b.classList.add("wrong");
+          b.disabled = true; b.classList.add("wrong"); Fx.wrong();
           if (shown < cs.length) { shown++; draw(); fb.className = "feedback no"; fb.textContent = "不是喔，再給你一個線索！"; }
           else finishRound(false);
         };
@@ -94,15 +99,28 @@ Zoo.boot(function (animals) {
     }
     function done() {
       const total = picked.length * 6;
+      const stars = score >= total * 0.7 ? 3 : score >= total * 0.4 ? 2 : score > 0 ? 1 : 0;
       let best = 0;
-      try { best = +localStorage.getItem("zoo-best-guess") || 0; localStorage.setItem("zoo-best-guess", Math.max(best, score)); } catch (e) { /* 忽略 */ }
-      root.replaceChildren(el(
-        '<div class="stage"><h2>猜謎完成！</h2><div class="score">' + score + " / " + total + "</div>" +
-        "<p>" + (score >= total * 0.7 ? "你是觀察小偵探！🕵️" : "多看幾次線索，下次一定更厲害！") + "</p>" +
+      // 「只練錯的」是複習，不記最佳分數與護照星數
+      if (!list) {
+        try { best = +localStorage.getItem("zoo-best-guess") || 0; localStorage.setItem("zoo-best-guess", Math.max(best, score)); } catch (e) { /* 忽略 */ }
+        Progress.stars("guess", stars);
+      }
+      if (stars === 3) Fx.confetti();
+      const box = el(
+        '<div class="stage"><h2>猜謎完成！</h2><div class="stars" aria-label="' + stars + ' 顆星">' + "⭐".repeat(stars) + "☆".repeat(3 - stars) + "</div>" +
+        '<div class="score">' + score + " / " + total + "</div>" +
+        "<p>" + (stars === 3 ? "你是觀察小偵探！🕵️" : "多看幾次線索，下次一定更厲害！") + "</p>" +
         (best ? "<p>最佳紀錄：" + Math.max(best, score) + " 分</p>" : "") +
-        '<p><button class="btn primary big" id="again">再玩一次</button> <a class="btn big" href="/">回首頁</a></p></div>'
-      ));
+        '<div id="rv"></div><p><button class="btn primary big" id="again">再玩一次</button> ' +
+        (wrongs.length ? '<button class="btn big" id="redo">只練錯的（' + wrongs.length + " 題）</button> " : "") +
+        '<a class="btn big" href="/passport.html">看我的護照</a></p></div>'
+      );
+      box.querySelector("#rv").appendChild(Quiz.review(wrongs));
+      root.replaceChildren(box);
       root.querySelector("#again").onclick = menu;
+      const redo = root.querySelector("#redo");
+      if (redo) redo.onclick = () => solo(wrongs.map((w) => w.animal));
     }
     next();
   }

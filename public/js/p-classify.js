@@ -1,4 +1,4 @@
-/* 分類闖關：看照片，選出牠屬於哪一類。入門 3 類、挑戰 6 類。 */
+/* 分類闖關：看照片，選出牠屬於哪一類。入門 3 類、挑戰 6 類、60 秒挑戰。 */
 Zoo.boot(function (animals) {
   const { esc, el, shuffle } = Zoo;
   const root = document.getElementById("root");
@@ -13,21 +13,24 @@ Zoo.boot(function (animals) {
       '<div class="panel"><p class="lead" style="margin-top:0">每一題會出現一隻動物，請選出牠屬於哪一類。一共 10 題。</p>' +
       '<p><button class="btn primary big" data-m="easy">入門（哺乳類、鳥類、爬蟲類）</button></p>' +
       '<p><button class="btn big" data-m="hard">挑戰（六大類都出現）</button></p>' +
+      '<p><button class="btn big" data-m="easy" data-t="1">⏱️ 60 秒挑戰（入門三類，答越多越好）</button></p>' +
       "<details><summary>六大類怎麼分？</summary><ul>" +
       Zoo.GROUPS.map((g) => "<li>" + g.emoji + " <b>" + esc(g.name) + "</b>：" + esc(g.hint) + "</li>").join("") +
       "</ul></details></div>"
     ));
-    root.querySelectorAll("[data-m]").forEach((b) => (b.onclick = () => play(b.dataset.m)));
+    root.querySelectorAll("[data-m]").forEach((b) => (b.onclick = () => play(b.dataset.m, !!b.dataset.t)));
   }
 
-  function play(mode) {
+  // timed：60 秒挑戰，多準備 40 題讓手快的學生答不完
+  function play(mode, timed) {
+    const n = timed ? 40 : 10;
     const ids = MODES[mode].groups;
     const groups = ids.map((id) => Zoo.GROUPS.find((g) => g.id === id));
     // 每一類至少出現一次，剩下隨機，題目才不會偏掉
     const chosen = [];
     ids.forEach((id) => { const c = shuffle(pool.filter((a) => a.group === id)); if (c[0]) chosen.push(c[0]); });
     const rest = shuffle(pool.filter((a) => ids.includes(a.group) && !chosen.includes(a)));
-    const picked = shuffle(chosen.concat(rest.slice(0, 10 - chosen.length))).slice(0, 10);
+    const picked = shuffle(chosen.concat(rest.slice(0, n - chosen.length))).slice(0, n);
     const rounds = picked.map((a) => ({
       animal: a,
       prompt: "<b>" + esc(a.name) + "</b> 是哪一類動物？",
@@ -35,7 +38,7 @@ Zoo.boot(function (animals) {
       answer: a.group,
       explain: esc(a.name) + "是" + esc(a.groupInfo.name) + "：" + esc(a.groupInfo.hint) + "。",
     }));
-    Quiz.run(root, { key: "classify-" + mode, title: "分類闖關", rounds, onAgain: menu });
+    Quiz.run(root, { key: "classify-" + mode + (timed ? "-timed" : ""), title: timed ? "60 秒分類挑戰" : "分類闖關", rounds, onAgain: menu, timed: timed ? 60 : 0 });
   }
   menu();
 });
