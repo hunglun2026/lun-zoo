@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>老師專區｜動物探險家</title>
 <meta name="description" content="一鍵產生可列印的動物學習單與答案、投影出題、全班搶答計分板與倒數計時器。">
-<link rel="stylesheet" href="/css/style.css?v=1">
+<link rel="stylesheet" href="/css/style.css?v=2">
 </head>
 <body data-page="teacher">
 <main>
@@ -26,13 +26,13 @@
       <label>題數<select id="num"><option>5</option><option selected>8</option><option>10</option><option>12</option><option>15</option></select></label>
       <label style="grid-auto-flow:column;align-items:center;gap:8px"><input type="checkbox" id="withAns" checked style="width:24px;height:24px"> 附答案頁</label>
     </div>
-    <p class="noprint"><button class="btn primary" id="gen">產生學習單</button> <button class="btn" id="print" disabled>列印</button></p>
+    <p class="noprint"><button class="btn primary" id="gen" disabled>產生學習單</button> <button class="btn" id="print" disabled>列印</button></p>
     <div id="sheet" class="sheet" hidden></div>
   </section>
 
   <section id="tab-slides" class="panel" hidden>
     <p class="noprint">用上面「學習單」分頁選好的主題、題型、題數出題。</p>
-    <p class="noprint"><button class="btn primary" id="gen2">開始出題</button></p>
+    <p class="noprint"><button class="btn primary" id="gen2" disabled>開始出題</button></p>
     <div id="slide" class="stage" hidden></div>
   </section>
 
@@ -62,10 +62,10 @@
     </ul>
   </section>
 </main>
-<script src="/js/data.js?v=1"></script>
-<script src="/js/layout.js?v=1"></script>
-<script src="/js/qgen.js?v=1"></script>
-<script src="/js/p-board.js?v=1"></script>
-<script src="/js/p-teacher.js?v=1"></script>
+<script src="/js/data.js?v=2"></script>
+<script src="/js/layout.js?v=2"></script>
+<script src="/js/qgen.js?v=2"></script>
+<script src="/js/p-board.js?v=2"></script>
+<script src="/js/p-teacher.js?v=2"></script>
 </body>
 </html>

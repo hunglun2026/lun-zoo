@@ -1,5 +1,5 @@
 /* 動物探險家：共用樣式。大字、大按鈕、高對比，給低年級在平板與投影上用。 */
-@font-face{font-family:"ZooSans";src:url("/fonts/zoo-sans.woff2?v=1") format("woff2");font-weight:400 800;font-display:swap}
+@font-face{font-family:"ZooSans";src:url("/fonts/zoo-sans.woff2?v=2") format("woff2");font-weight:400 800;font-display:swap}
 :root{
   --bg:#fbf8ef;--card:#fff;--ink:#23332b;--ink2:#566a5e;--line:#e3dcc6;
   --green:#2f8f5b;--green-d:#1f6f43;--green-l:#e4f4ea;--orange:#e8873a;--orange-l:#fff0e0;

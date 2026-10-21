@@ -2,6 +2,8 @@
 Zoo.boot(function (animals) {
   const { esc, el } = Zoo;
   const $ = (id) => document.getElementById(id);
+  $("gen").disabled = false; // 資料載入完才能按（HTML 裡預設停用）
+  $("gen2").disabled = false;
 
   // ---- 分頁 ----
   const tabs = document.querySelectorAll(".tab");
