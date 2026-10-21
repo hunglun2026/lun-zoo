@@ -41,7 +41,9 @@
         "目前共收錄 " + animals.length + " 種動物。資料更新日期：" + String(meta.modifiedDate || "").slice(0, 10) + "。";
       document.querySelectorAll("[data-count]").forEach((e) => (e.textContent = animals.length));
       await fn(animals, meta);
-      performance.mark("zoo-ready"); // 量「畫面可以操作」的時間用（瀏覽器開發者工具或測試腳本讀得到）
+      // 量「畫面可以操作」的時間用：開發者工具看效能標記，測試腳本讀 <html data-ready>（毫秒）
+      performance.mark("zoo-ready");
+      document.documentElement.dataset.ready = Math.round(performance.now());
     } catch (e) {
       console.error(e);
       const b = document.getElementById("boot");
