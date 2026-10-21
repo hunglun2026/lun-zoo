@@ -34,7 +34,11 @@ Zoo.boot(function (animals) {
     cards.forEach((c) => {
       const b = el('<button class="mcard" aria-label="蓋著的牌"><span class="back" aria-hidden="true">🐾</span><span class="front"></span></button>');
       const front = b.querySelector(".front");
-      if (c.kind === "pic") front.appendChild(Zoo.photo(c.a));
+      if (c.kind === "pic") {
+        const p = Zoo.photo(c.a);
+        p.loading = "eager"; // 牌蓋著時也先載好，翻開才不會空白
+        front.appendChild(p);
+      }
       else front.innerHTML = "<b>" + esc(c.a.name) + "</b>";
       c.btn = b;
       b.onclick = () => flip(c);
@@ -59,7 +63,7 @@ Zoo.boot(function (animals) {
         found++;
         head.querySelector("#found").textContent = found;
         Fx.right();
-        if (found === n) setTimeout(done, 600);
+        if (found === picked.length) setTimeout(done, 600);
       } else {
         lock = true;
         setTimeout(() => { open(a, false); open(c, false); lock = false; }, 1000);

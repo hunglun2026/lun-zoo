@@ -1,5 +1,6 @@
 /* 出題產生器：學習單與「出題投影」共用。
-   Qgen.make(pool, types, n) → [{ kind, animal, q, choices[], answer, pic }]
+   Qgen.make(pool, types, n, all) → [{ kind, animal, q, choices[], answer, pic }]
+   all：全部動物，主題內同類動物不夠 3 隻時從這裡補干擾選項（例如「極地冰原」只有幾隻）。
    pic＝true 的題目要配動物照片（看圖認動物），照片用本站縮圖，列印也印得出來。
    choices 是顯示用文字；answer 是正確答案文字。所有題目都是選擇題，答案唯一。 */
 (function () {
@@ -15,7 +16,7 @@
     picture: { name: "看圖認動物", ok: (a) => a.thumb },
   };
 
-  function build(kind, a, pool) {
+  function build(kind, a, pool, all) {
     if (kind === "habitat") {
       const others = shuffle(Zoo.HABITATS.filter((h) => h.id !== a.habitatInfo.id)).slice(0, 3);
       const ch = shuffle([a.habitatInfo].concat(others)).map((h) => h.emoji + h.name);
@@ -30,8 +31,12 @@
       const ch = Object.values(Zoo.DIETS).map((d) => d.emoji + d.name);
       return { q: a.name + " 喜歡吃什麼？", choices: ch, answer: a.dietInfo.emoji + a.dietInfo.name };
     }
-    // 同類動物當干擾選項，不然一看類別就知道答案
-    const same = shuffle(pool.filter((x) => x.group === a.group && x.id !== a.id && !x.name_suspect)).slice(0, 3);
+    // 干擾選項：主題內同類 → 全部同類 → 主題內其他 → 全部其他，湊滿 3 個。同類優先，不然一看類別就知道答案
+    const ok = (x) => x.id !== a.id && !x.name_suspect;
+    const src = all || pool;
+    const same = [...new Set([].concat(
+      shuffle(pool.filter((x) => ok(x) && x.group === a.group)), shuffle(src.filter((x) => ok(x) && x.group === a.group)),
+      shuffle(pool.filter(ok)), shuffle(src.filter(ok))))].slice(0, 3);
     if (kind === "picture") {
       return { q: "照片裡的是哪一種動物？", choices: shuffle([a].concat(same)).map((x) => x.name), answer: a.name, pic: true };
     }
@@ -44,7 +49,7 @@
     };
   }
 
-  function make(pool, types, n) {
+  function make(pool, types, n, all) {
     const out = [];
     const used = new Set();
     const order = shuffle(pool.filter((a) => !a.name_suspect));
@@ -55,7 +60,7 @@
       for (let k = 0; k < types.length; k++) {
         const kind = types[(t + k) % types.length];
         if (!used.has(a.id) && KINDS[kind].ok(a)) {
-          out.push(Object.assign({ kind, animal: a }, build(kind, a, pool)));
+          out.push(Object.assign({ kind, animal: a }, build(kind, a, pool, all)));
           used.add(a.id);
           t = (t + k + 1) % types.length;
           break;

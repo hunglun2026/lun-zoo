@@ -146,12 +146,12 @@
     }
     // 補圖表：動物園原照片失效（404）的動物，改用維基共享資源的自由授權照片或自製插圖
     // 縮圖表：本站依原照片縮小的小圖（scripts/build-thumbs.py 產生），卡片和遊戲優先用，比原照片小幾十倍
-    const [fb, thumbs] = await Promise.all(["/js/img-fallback.json?v=4", "/js/thumbs.json?v=4"].map((u) =>
+    const [fb, thumbs] = await Promise.all(["/js/img-fallback.json?v=5", "/js/thumbs.json?v=5"].map((u) =>
       fetch(u).then((r) => r.json()).catch(() => null))); // 沒有就只用原照片與圖示
     const hasThumb = new Set(thumbs || []);
     animals.forEach((a) => {
       a.fallback = (fb || {})[a.id] || null;
-      a.thumb = hasThumb.has(a.id) ? "/img/thumbs/" + a.id + ".webp?v=4" : "";
+      a.thumb = hasThumb.has(a.id) ? "/img/thumbs/" + a.id + ".webp?v=5" : "";
       enrich(a);
     });
     return { animals, meta };
@@ -168,13 +168,13 @@
     return d;
   }
   // photo(a)：卡片、遊戲用的小圖，依序試「本站縮圖 → 原照片第 1～4 張 → 補圖 → 類別圖示」
-  // photo(a, i)：詳情頁大圖，連動物園原照片第 i 張；第 1 張失效才退回縮圖與補圖
+  // photo(a, i)：詳情頁大圖，連動物園原照片第 i 張；第 1 張失效才退回補圖與縮圖
   function photo(a, i, cls) {
     const small = i == null;
     const fb = a.fallback ? [{ src: a.fallback.src, art: a.fallback.kind === "art" }] : [];
     const thumb = a.thumb ? [{ src: a.thumb }] : [];
     const pics = a.pics.map((p) => ({ src: p.url, alt: p.alt }));
-    const list = small ? thumb.concat(pics, fb) : [pics[i]].filter(Boolean).concat(i === 0 ? thumb.concat(fb) : []);
+    const list = small ? thumb.concat(pics, fb) : [pics[i]].filter(Boolean).concat(i === 0 ? fb.concat(thumb) : []);
     if (!list.length) return placeholder(a, cls);
     const img = new Image();
     img.className = "photo " + (cls || "");

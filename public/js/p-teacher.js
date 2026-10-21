@@ -27,7 +27,7 @@ Zoo.boot(function (animals) {
     const th = themes.find((t) => t[0] === $("theme").value);
     const pool = animals.filter(th[2]);
     const types = $("kind").value === "mix" ? Object.keys(Qgen.KINDS) : [$("kind").value];
-    return Qgen.make(pool, types, +$("num").value);
+    return Qgen.make(pool, types, +$("num").value, animals);
   }
   const themeName = () => $("theme").selectedOptions[0].textContent;
 
@@ -36,6 +36,8 @@ Zoo.boot(function (animals) {
   $("gen").onclick = async () => {
     sheetQs = questions();
     if (!sheetQs.length) { await Zoo.dialog("這個主題找不到足夠的題目，請換一個主題或題型。"); return; }
+    // 主題太小（例如極地冰原）湊不滿題數時要講，不然老師會以為印出來的是完整份
+    if (sheetQs.length < +$("num").value) await Zoo.dialog("這個主題和題型只湊得到 " + sheetQs.length + " 題（你選了 " + $("num").value + " 題）。可以換成「混合題型」或別的主題來湊滿。");
     const head = (ans) =>
       "<h2>🦁 動物探險家學習單" + (ans ? "（答案）" : "") + "</h2><p>主題：" + esc(themeName()) + "　班級：<span class='blank' style='min-width:4em'></span>　座號：<span class='blank' style='min-width:3em'></span>　姓名：<span class='blank'></span></p>";
     const body = (ans) => sheetQs.map((q, i) => {
@@ -53,13 +55,20 @@ Zoo.boot(function (animals) {
     $("print").disabled = false;
     $("sheet").scrollIntoView({ behavior: "smooth", block: "start" });
   };
-  $("print").onclick = () => window.print();
+  // 等學習單上的照片都載完才列印，不然網路慢時會印出空白框
+  $("print").onclick = async () => {
+    const imgs = [...$("sheet").querySelectorAll("img")].filter((i) => !i.complete);
+    await Promise.all(imgs.map((i) => new Promise((r) => { i.addEventListener("load", r); i.addEventListener("error", r); })));
+    window.print();
+  };
 
   // ---- 出題投影 ----
+  let cd = null; // 投影的 10 秒倒數；放外層，重新出題時才停得掉上一輪的
   $("gen2").onclick = async () => {
     const qs = questions();
     if (!qs.length) { await Zoo.dialog("這個主題找不到足夠的題目，請換一個主題或題型。"); return; }
-    let i = 0, showAns = false, cd = null;
+    clearInterval(cd);
+    let i = 0, showAns = false;
     const box = $("slide");
     box.hidden = false;
     const draw = () => {

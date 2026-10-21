@@ -1,5 +1,5 @@
 /* 動物探險家：共用樣式。大字、大按鈕、高對比，給低年級在平板與投影上用。 */
-@font-face{font-family:"ZooSans";src:url("/fonts/zoo-sans.woff2?v=4") format("woff2");font-weight:400 800;font-display:swap}
+@font-face{font-family:"ZooSans";src:url("/fonts/zoo-sans.woff2?v=5") format("woff2");font-weight:400 800;font-display:swap}
 :root{
   --bg:#fbf8ef;--card:#fff;--ink:#23332b;--ink2:#566a5e;--line:#e3dcc6;
   --green:#2f8f5b;--green-d:#1f6f43;--green-l:#e4f4ea;--orange:#e8873a;--orange-l:#fff0e0;
@@ -73,7 +73,7 @@ input[type=search],input[type=text],input[type=number],select{font:inherit;borde
 dialog{border:none;border-radius:24px;padding:0;max-width:min(860px,94vw);width:100%;box-shadow:0 20px 60px rgba(0,0,0,.35);color:var(--ink);background:var(--card)}
 dialog::backdrop{background:rgba(20,32,26,.55)}
 .dlg-in{padding:22px;max-height:88vh;overflow:auto}
-.dlg-close{float:right}
+.dlg-bar{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-bottom:6px}
 .zdlg{padding:24px;max-width:420px;text-align:center}
 .zdlg .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .facts{display:grid;gap:10px;margin:12px 0}
@@ -153,6 +153,7 @@ dialog::backdrop{background:rgba(20,32,26,.55)}
 .cmpbar{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);z-index:20;background:var(--card);border:3px solid var(--green);border-radius:18px;padding:8px 14px;box-shadow:var(--shadow);width:max-content;max-width:calc(100vw - 32px)}
 .cmpbar .btn{min-height:40px;padding:4px 14px}
 #cmp{margin-bottom:20px}
+body.has-cmpbar main{padding-bottom:120px}
 table.cmp{width:100%;border-collapse:collapse;table-layout:fixed}
 table.cmp th,table.cmp td{border:1px solid #bbb;padding:6px 8px;vertical-align:top;text-align:left;font-size:.95rem}
 table.cmp thead th{background:var(--green-l);text-align:center}

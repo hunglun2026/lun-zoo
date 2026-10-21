@@ -62,8 +62,7 @@ Zoo.boot(function (animals) {
     Progress.seen(a.id);
     const vid = Zoo.youtubeEmbed(a.videos);
     body.innerHTML =
-      '<button class="btn dlg-close" id="x">關閉 ✕</button>' +
-      '<button class="btn dlg-close" id="add" style="margin-right:8px">' + (cmp.includes(a) ? "✔ 已加入比一比" : "➕ 加入比一比") + "</button>" +
+      '<div class="dlg-bar"><button class="btn" id="add">' + (cmp.includes(a) ? "✔ 已加入比一比" : "➕ 加入比一比") + '</button><button class="btn" id="x">關閉 ✕</button></div>' +
       "<h2 style='margin-top:0'>" + esc(a.name) + "</h2>" +
       '<p><span class="badge" style="background:' + a.cons.color + '">' + esc(a.cons.name) + "</span> " +
       esc(a.name_en) + (a.name_latin ? "（<i>" + esc(a.name_latin) + "</i>）" : "") + "</p>" +
@@ -101,6 +100,7 @@ Zoo.boot(function (animals) {
   }
   function drawBar() {
     bar.hidden = !cmp.length;
+    document.body.classList.toggle("has-cmpbar", cmp.length > 0); // 留底部空間，浮動列才不會蓋住頁尾
     bar.replaceChildren(el("<div><b>比一比：</b>" + cmp.map((a, i) => '<button class="chip" data-i="' + i + '" aria-label="移除 ' + esc(a.name) + '">' + esc(a.name) + " ✕</button>").join(" ") +
       (cmp.length < 2 ? " <small>再選一種動物</small>" : ' <button class="btn primary" id="go-cmp">開始比較 ➜</button>') + "</div>"));
     bar.querySelectorAll("[data-i]").forEach((b) => (b.onclick = () => { cmp.splice(+b.dataset.i, 1); drawBar(); }));

@@ -67,13 +67,14 @@ Zoo.boot(function (animals) {
         clueEl.replaceChildren(clueBox(a, cs, shown));
         more.disabled = shown >= cs.length;
       };
-      let over = false;
+      let over = false, missed = false; // missed：這題有沒有猜錯過，猜錯過就列入複習
       const finishRound = (ok) => {
         over = true;
         const pts = ok ? Math.max(1, 7 - shown) : 0;
         score += pts;
         combo = ok ? combo + 1 : 0;
-        if (ok) Fx.right(); else { Fx.wrong(); wrongs.push({ animal: a, answer: a.name }); }
+        if (ok) Fx.right();
+        if (!ok || missed) wrongs.push({ animal: a, answer: a.name });
         shown = cs.length; draw(); more.remove();
         opts.querySelectorAll(".opt").forEach((b) => { b.disabled = true; if (b.dataset.id === a.id) b.classList.add("right"); });
         fb.className = "feedback " + (ok ? "ok" : "no");
@@ -88,7 +89,7 @@ Zoo.boot(function (animals) {
         b.onclick = () => {
           if (over) return;
           if (o.id === a.id) return finishRound(true);
-          b.disabled = true; b.classList.add("wrong"); Fx.wrong();
+          b.disabled = true; b.classList.add("wrong"); Fx.wrong(); missed = true;
           if (shown < cs.length) { shown++; draw(); fb.className = "feedback no"; fb.textContent = "不是喔，再給你一個線索！"; }
           else finishRound(false);
         };

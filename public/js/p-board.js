@@ -13,18 +13,6 @@ window.Board = (function () {
   }
   const save = (s) => { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) { /* 忽略 */ } };
 
-  function beep() {
-    try {
-      const ctx = new (window.AudioContext || window.webkitAudioContext)();
-      [0, 0.25, 0.5].forEach((t) => {
-        const o = ctx.createOscillator(), g = ctx.createGain();
-        o.frequency.value = 880; o.connect(g); g.connect(ctx.destination);
-        g.gain.setValueAtTime(0.2, ctx.currentTime + t); g.gain.setValueAtTime(0, ctx.currentTime + t + 0.18);
-        o.start(ctx.currentTime + t); o.stop(ctx.currentTime + t + 0.2);
-      });
-    } catch (e) { /* 沒有音效也沒關係，畫面會變紅 */ }
-  }
-
   function init(root) {
     const st = loadState();
     root.innerHTML =
@@ -69,7 +57,7 @@ window.Board = (function () {
       if (left === 0) return;
       timer = setInterval(() => {
         left--; show();
-        if (left <= 0) { clearInterval(timer); timer = null; beep(); }
+        if (left <= 0) { clearInterval(timer); timer = null; Fx.ding(); }
       }, 1000);
     };
     draw(); show();
