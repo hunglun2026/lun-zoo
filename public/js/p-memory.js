@@ -83,8 +83,8 @@ Zoo.boot(function (animals) {
         "<p>翻了 <b>" + flips + "</b> 次，花了 <b>" + sec + "</b> 秒。" +
         (prev && flips < prev ? "🎊 打破紀錄！（上次 " + prev + " 次）" : prev ? "最佳紀錄：" + Math.min(prev, flips) + " 次" : "") + "</p>" +
         '<h3>這次認識的動物</h3><div class="chips" style="justify-content:center">' +
-        picked.map((a) => '<a class="chip" style="text-decoration:none;color:inherit" href="/animals.html#' + encodeURIComponent(a.id) + '" target="_blank" rel="noopener">' + a.groupInfo.emoji + " " + esc(a.name) + "</a>").join("") +
-        '</div><p><button class="btn primary big" id="again">再玩一次</button> <a class="btn big" href="/passport.html">看我的護照</a></p></div>'
+        picked.map((a) => '<a class="chip" style="text-decoration:none;color:inherit" href="/animals#' + encodeURIComponent(a.id) + '" target="_blank" rel="noopener">' + a.groupInfo.emoji + " " + esc(a.name) + "</a>").join("") +
+        '</div><p><button class="btn primary big" id="again">再玩一次</button> <a class="btn big" href="/passport">看我的護照</a></p></div>'
       );
       root.replaceChildren(box);
       root.querySelector("#again").onclick = menu;

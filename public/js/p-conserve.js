@@ -20,7 +20,7 @@ Zoo.boot(function (animals) {
     b.onclick = () => {
       list.hidden = false;
       list.innerHTML = "<h3 style='margin-top:0'>" + esc(c.name) + "的動物（" + n + " 種）</h3><div class='chips'>" +
-        byCons(code).map((a) => '<a class="chip" style="text-decoration:none;color:inherit" href="/animals.html#' + encodeURIComponent(a.id) + '">' + a.groupInfo.emoji + " " + esc(a.name) + "</a>").join("") + "</div>";
+        byCons(code).map((a) => '<a class="chip" style="text-decoration:none;color:inherit" href="/animals#' + encodeURIComponent(a.id) + '">' + a.groupInfo.emoji + " " + esc(a.name) + "</a>").join("") + "</div>";
     };
     ladder.appendChild(b);
   });
@@ -36,7 +36,7 @@ Zoo.boot(function (animals) {
       "<div><h3>" + esc(a.name) + ' <span class="badge" style="background:' + a.cons.color + '">' + esc(a.cons.name) + "</span></h3>" +
       '<div class="clue" style="max-width:640px"><small>牠面臨的危機</small><br>' + esc(a.crisis.trim().slice(0, 220)) + (a.crisis.trim().length > 220 ? "…" : "") + "</div></div>"
     ));
-    const more = el('<p><button class="btn primary">換一隻</button> <a class="btn" href="/animals.html#' + encodeURIComponent(a.id) + '">看完整介紹</a></p>');
+    const more = el('<p><button class="btn primary">換一隻</button> <a class="btn" href="/animals#' + encodeURIComponent(a.id) + '">看完整介紹</a></p>');
     more.querySelector("button").onclick = showWhy;
     why.appendChild(more);
   }

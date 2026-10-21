@@ -2,14 +2,14 @@
 (function () {
   "use strict";
   const NAV = [
-    ["animals", "動物小百科", "/animals.html"],
-    ["classify", "分類闖關", "/classify.html"],
-    ["habitat", "誰住哪裡", "/habitat.html"],
-    ["guess", "猜猜我是誰", "/guess.html"],
-    ["memory", "翻牌配對", "/memory.html"],
-    ["conserve", "保育小教室", "/conserve.html"],
-    ["passport", "探險護照", "/passport.html"],
-    ["teacher", "老師專區", "/teacher.html"],
+    ["animals", "動物小百科", "/animals"],
+    ["classify", "分類闖關", "/classify"],
+    ["habitat", "誰住哪裡", "/habitat"],
+    ["guess", "猜猜我是誰", "/guess"],
+    ["memory", "翻牌配對", "/memory"],
+    ["conserve", "保育小教室", "/conserve"],
+    ["passport", "探險護照", "/passport"],
+    ["teacher", "老師專區", "/teacher"],
   ];
   const page = document.body.dataset.page || "";
   const wrap = document.createElement("div");
@@ -41,6 +41,7 @@
         "目前共收錄 " + animals.length + " 種動物。資料更新日期：" + String(meta.modifiedDate || "").slice(0, 10) + "。";
       document.querySelectorAll("[data-count]").forEach((e) => (e.textContent = animals.length));
       await fn(animals, meta);
+      performance.mark("zoo-ready"); // 量「畫面可以操作」的時間用（瀏覽器開發者工具或測試腳本讀得到）
     } catch (e) {
       console.error(e);
       const b = document.getElementById("boot");

@@ -16,7 +16,7 @@
     const box = el('<div class="review"><h3>再看一次答錯的動物</h3><div class="rv-list"></div></div>');
     const list = box.querySelector(".rv-list");
     items.forEach((it) => {
-      const row = el('<a class="rv" href="/animals.html#' + encodeURIComponent(it.animal.id) + '" target="_blank" rel="noopener">' +
+      const row = el('<a class="rv" href="/animals#' + encodeURIComponent(it.animal.id) + '" target="_blank" rel="noopener">' +
         '<span class="rv-pic"></span><span><b>' + esc(it.animal.name) + "</b><br><small>正確答案：" + esc(it.answer) + "</small><br><small>看介紹 ➜</small></span></a>");
       row.querySelector(".rv-pic").replaceWith(Zoo.photo(it.animal));
       list.appendChild(row);
@@ -100,7 +100,7 @@
         (prev && score > prev ? "<p>🎊 打破自己的紀錄！（上次 " + prev + " 分）</p>" : prev ? "<p>你的最佳紀錄：" + Math.max(prev, score) + " 分</p>" : "") +
         '<div id="rv"></div><p><button class="btn primary big" id="again">再玩一次</button> ' +
         (wrongs.length ? '<button class="btn big" id="redo">只練錯的（' + wrongs.length + " 題）</button> " : "") +
-        '<a class="btn big" href="/passport.html">看我的護照</a></p></div>'
+        '<a class="btn big" href="/passport">看我的護照</a></p></div>'
       );
       box.querySelector("#rv").appendChild(review(wrongs));
       root.replaceChildren(box);

@@ -78,7 +78,7 @@ Zoo.boot(function (animals) {
         shown = cs.length; draw(); more.remove();
         opts.querySelectorAll(".opt").forEach((b) => { b.disabled = true; if (b.dataset.id === a.id) b.classList.add("right"); });
         fb.className = "feedback " + (ok ? "ok" : "no");
-        fb.innerHTML = (ok ? "答對了！🎉 +" + pts + " 分。" : "答案是 <b>" + esc(a.name) + "</b>。") + ' <a href="/animals.html#' + encodeURIComponent(a.id) + '" target="_blank" rel="noopener">看牠的介紹</a>';
+        fb.innerHTML = (ok ? "答對了！🎉 +" + pts + " 分。" : "答案是 <b>" + esc(a.name) + "</b>。") + ' <a href="/animals#' + encodeURIComponent(a.id) + '" target="_blank" rel="noopener">看牠的介紹</a>';
         const b = el('<button class="btn primary big">' + (idx === picked.length - 1 ? "看成績 🏆" : "下一題 ➜") + "</button>");
         b.onclick = () => { idx++; next(); };
         root.querySelector("#nx").appendChild(b); b.focus();
@@ -115,7 +115,7 @@ Zoo.boot(function (animals) {
         (best ? "<p>最佳紀錄：" + Math.max(best, score) + " 分</p>" : "") +
         '<div id="rv"></div><p><button class="btn primary big" id="again">再玩一次</button> ' +
         (wrongs.length ? '<button class="btn big" id="redo">只練錯的（' + wrongs.length + " 題）</button> " : "") +
-        '<a class="btn big" href="/passport.html">看我的護照</a></p></div>'
+        '<a class="btn big" href="/passport">看我的護照</a></p></div>'
       );
       box.querySelector("#rv").appendChild(Quiz.review(wrongs));
       root.replaceChildren(box);
