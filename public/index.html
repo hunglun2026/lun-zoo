@@ -4,31 +4,58 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>動物探險家｜臺北動物園動物教學網站</title>
-<meta name="description" content="用臺北市立動物園的開放資料，讓學生認識動物、分類闖關、猜謎、學保育，老師可直接產生學習單與全班搶答。免註冊、免安裝。">
-<link rel="stylesheet" href="/css/style.css?v=9">
+<meta name="description" content="用臺北市立動物園的開放資料，讓學生認識動物、分類闖關、猜謎、翻牌、學保育，老師可直接產生學習單與全班搶答。免註冊、免安裝。">
+<link rel="stylesheet" href="/css/style.css?v=10">
+<link rel="stylesheet" href="/css/home.css?v=10">
+<link rel="preload" as="image" href="/img/welcome/panda.webp">
 </head>
-<body data-page="home">
+<body data-page="home" class="welcome">
 <main>
-  <section class="hero">
-    <h1>🦁 動物探險家</h1>
-    <p class="lead">臺北動物園 <b><span data-count>270</span> 種動物</b>，一起認識、闖關、學保育。<br>不用註冊，打開就能玩；老師可以直接投影上課、列印學習單。</p>
-    <p><a class="btn primary big" href="/animals">開始探險 🐾</a> <a class="btn big" href="/teacher">我是老師</a> <a class="btn big" href="/help">📘 使用說明</a></p>
+  <section class="w-hero">
+    <div class="w-floats" aria-hidden="true"><span>🐘</span><span>🦜</span><span>🐢</span><span>🐸</span><span>🐟</span><span>🦋</span><span>🦒</span><span>🐼</span></div>
+    <p class="w-eyebrow"><span>臺北市立動物園開放資料</span><span class="w-sep">·</span><span>國小自然教學</span></p>
+    <h1 class="w-title"><span class="w-line">帶孩子走進</span><span class="w-line w-grad"><span data-count>270</span> 種動物</span><span class="w-line">的世界</span></h1>
+    <p class="w-sub">認識、分類、猜謎、翻牌、學保育。<br>不用註冊、不用安裝，打開就能上課。</p>
+    <p class="w-cta-row"><a class="btn primary big" href="/animals">開始探險 🐾</a> <a class="btn big" href="/teacher">我是老師</a> <a class="btn big" href="/help">📘 使用說明</a></p>
+    <a class="w-hint" href="#tour">↓ 向下滑動，看看可以玩什麼</a>
   </section>
 
-  <h2>八個學習工具</h2>
+  <!-- 捲動放大切換：畫面固定，往下捲時一張張照片放大淡出換下一張（動畫在 p-home.js） -->
+  <section class="w-tour" id="tour" aria-label="學習工具介紹">
+    <div class="w-tour-sticky">
+      <div class="w-panel"><img src="/img/welcome/panda.webp" alt="大貓熊" width="800" height="535"><div class="w-panel-text"><span class="w-tag">01 / 07 · 自然科學</span><h2>動物小百科</h2><p>270 種動物的照片、影片、叫聲和簡單介紹，還能挑兩種「比一比」。</p><a class="btn primary" href="/animals">打開小百科 →</a></div></div>
+      <div class="w-panel"><img src="/img/welcome/peacock.webp" alt="開屏的藍孔雀" width="800" height="600" loading="lazy"><div class="w-panel-text"><span class="w-tag">02 / 07 · 生物分類</span><h2>分類闖關</h2><p>牠是哺乳類、鳥類還是爬蟲類？看照片分一分，還有 60 秒挑戰。</p><a class="btn primary" href="/classify">開始闖關 →</a></div></div>
+      <div class="w-panel"><img src="/img/welcome/penguin.webp" alt="在水裡游泳的國王企鵝" width="800" height="554" loading="lazy"><div class="w-panel-text"><span class="w-tag">03 / 07 · 棲地與環境</span><h2>誰住哪裡</h2><p>森林、沙漠、海洋、極地冰原……幫每一種動物找到牠的家。</p><a class="btn primary" href="/habitat">幫動物找家 →</a></div></div>
+      <div class="w-panel"><img src="/img/welcome/redpanda.webp" alt="小貓熊" width="800" height="531" loading="lazy"><div class="w-panel-text"><span class="w-tag">04 / 07 · 觀察與推理</span><h2>猜猜我是誰</h2><p>線索一個一個出現，越早猜中分數越高，也能投影全班搶答。</p><a class="btn primary" href="/guess">來猜謎 →</a></div></div>
+      <div class="w-panel"><img src="/img/welcome/giraffe.webp" alt="長頸鹿媽媽和寶寶" width="800" height="533" loading="lazy"><div class="w-panel-text"><span class="w-tag">05 / 07 · 觀察與記憶</span><h2>翻牌配對</h2><p>把動物照片和名字配成一對，低年級最容易上手。</p><a class="btn primary" href="/memory">翻牌去 →</a></div></div>
+      <div class="w-panel"><img src="/img/welcome/leopardcat.webp" alt="石虎" width="800" height="531" loading="lazy"><div class="w-panel-text"><span class="w-tag">06 / 07 · 環境教育</span><h2>保育小教室</h2><p>石虎、穿山甲為什麼有危險？認識保育等級，想想我們能做什麼。</p><a class="btn primary" href="/conserve">認識保育 →</a></div></div>
+      <div class="w-panel"><img src="/img/welcome/koala.webp" alt="趴在樹上的無尾熊" width="800" height="531" loading="lazy"><div class="w-panel-text"><span class="w-tag">07 / 07 · 自主學習</span><h2>探險護照</h2><p>看過的動物會蓋章，玩遊戲拿星星，蒐集 10 個徽章。</p><a class="btn primary" href="/passport">看我的護照 →</a></div></div>
+      <div class="w-dots" aria-hidden="true"></div>
+      <span class="w-credit">照片：臺北市立動物園</span>
+    </div>
+  </section>
+
+  <section class="w-stats" aria-label="收錄數量">
+    <div class="w-stat w-reveal"><b class="w-num" data-stat="count">270</b><span>種動物</span></div>
+    <div class="w-stat w-reveal" style="--delay:1"><b class="w-num" data-stat="groups">6</b><span>大類</span></div>
+    <div class="w-stat w-reveal" style="--delay:2"><b class="w-num" data-stat="habitats">7</b><span>種棲地</span></div>
+    <div class="w-stat w-reveal" style="--delay:3"><b class="w-num" data-stat="danger">40</b><span>種有危險的動物</span></div>
+  </section>
+
+  <h2 class="w-reveal">八個學習工具</h2>
   <div class="cards">
-    <a class="tool" href="/animals"><div class="ico">📖</div><h3>動物小百科</h3><p>搜尋、篩選，看照片、影片與簡單介紹，還能挑兩種比一比。</p><span class="tag">自然科學</span></a>
-    <a class="tool" href="/classify"><div class="ico">🧩</div><h3>分類闖關</h3><p>牠是哺乳類、鳥類還是爬蟲類？還有 60 秒挑戰。</p><span class="tag">生物分類</span></a>
-    <a class="tool" href="/habitat"><div class="ico">🗺️</div><h3>誰住哪裡</h3><p>森林、沙漠、海洋…幫動物找到家。</p><span class="tag">棲地與環境</span></a>
-    <a class="tool" href="/guess"><div class="ico">🔍</div><h3>猜猜我是誰</h3><p>線索一個一個出現，越早猜中分數越高。可全班搶答。</p><span class="tag">觀察與推理</span></a>
-    <a class="tool" href="/memory"><div class="ico">🃏</div><h3>翻牌配對</h3><p>把動物照片和名字配成一對，低年級最好上手。</p><span class="tag">觀察與記憶</span></a>
-    <a class="tool" href="/conserve"><div class="ico">🌏</div><h3>保育小教室</h3><p>哪些動物有危險？為什麼？我們能做什麼？</p><span class="tag">環境教育</span></a>
-    <a class="tool" href="/passport"><div class="ico">🎫</div><h3>探險護照</h3><p>看過的動物會蓋章，玩遊戲拿星星換徽章。</p><span class="tag">自主學習</span></a>
-    <a class="tool" href="/teacher"><div class="ico">🍎</div><h3>老師專區</h3><p>四個現成課程包、一鍵產生學習單、出題投影、搶答計分板。</p><span class="tag">備課好幫手</span></a>
+    <a class="tool w-reveal" href="/animals"><div class="ico">📖</div><h3>動物小百科</h3><p>搜尋、篩選，看照片、影片與簡單介紹，還能挑兩種比一比。</p><span class="tag">自然科學</span></a>
+    <a class="tool w-reveal" style="--delay:1" href="/classify"><div class="ico">🧩</div><h3>分類闖關</h3><p>牠是哺乳類、鳥類還是爬蟲類？還有 60 秒挑戰。</p><span class="tag">生物分類</span></a>
+    <a class="tool w-reveal" style="--delay:2" href="/habitat"><div class="ico">🗺️</div><h3>誰住哪裡</h3><p>森林、沙漠、海洋…幫動物找到家。</p><span class="tag">棲地與環境</span></a>
+    <a class="tool w-reveal" style="--delay:3" href="/guess"><div class="ico">🔍</div><h3>猜猜我是誰</h3><p>線索一個一個出現，越早猜中分數越高。可全班搶答。</p><span class="tag">觀察與推理</span></a>
+    <a class="tool w-reveal" href="/memory"><div class="ico">🃏</div><h3>翻牌配對</h3><p>把動物照片和名字配成一對，低年級最好上手。</p><span class="tag">觀察與記憶</span></a>
+    <a class="tool w-reveal" style="--delay:1" href="/conserve"><div class="ico">🌏</div><h3>保育小教室</h3><p>哪些動物有危險？為什麼？我們能做什麼？</p><span class="tag">環境教育</span></a>
+    <a class="tool w-reveal" style="--delay:2" href="/passport"><div class="ico">🎫</div><h3>探險護照</h3><p>看過的動物會蓋章，玩遊戲拿星星換徽章。</p><span class="tag">自主學習</span></a>
+    <a class="tool w-reveal" style="--delay:3" href="/teacher"><div class="ico">🍎</div><h3>老師專區</h3><p>四個現成課程包、一鍵產生學習單、出題投影、搶答計分板。</p><span class="tag">備課好幫手</span></a>
   </div>
 
-  <h2>老師 3 分鐘上手</h2>
-  <div class="panel">
+  <h2 class="w-reveal">老師 3 分鐘上手</h2>
+  <div class="panel w-reveal">
     <ol class="steps">
       <li><div><b>投影「分類闖關」或「猜猜我是誰」</b>，全班一起看、舉手搶答，不需要每人一台裝置。</div></li>
       <li><div><b>到「老師專區」挑一個課程包</b>（生物分類、棲地、食物、保育），照 40 分鐘流程上課，按一下就產生學習單。</div></li>
@@ -37,11 +64,17 @@
     <p class="lead">第一次使用？<a href="/help">看完整使用說明</a>，有每個工具的畫面與步驟。</p>
     <p class="lead" style="margin-bottom:0">學生用平板或電腦也能自己玩，進度只存在自己的裝置，不蒐集任何個人資料。</p>
   </div>
+
+  <section class="w-end w-reveal">
+    <h2>準備好出發了嗎？</h2>
+    <p class="lead">從一隻你最喜歡的動物開始。</p>
+    <p><a class="btn primary big" href="/animals">開始探險 🐾</a> <a class="btn big" href="/memory">先玩翻牌配對</a></p>
+  </section>
 </main>
 <noscript><p style="text-align:center">需要開啟 JavaScript 才能使用互動功能。</p></noscript>
-<script src="/js/data.js?v=9"></script>
-<script src="/js/layout.js?v=9"></script>
-<script src="/js/fx.js?v=9"></script>
-<script>Zoo.boot(function () {});</script>
+<script src="/js/data.js?v=10"></script>
+<script src="/js/layout.js?v=10"></script>
+<script src="/js/fx.js?v=10"></script>
+<script src="/js/p-home.js?v=10"></script>
 </body>
 </html>
