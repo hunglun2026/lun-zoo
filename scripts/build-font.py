@@ -51,7 +51,11 @@ def keep(text: str) -> set:
 def needed() -> set:
     # 修正表裡手動補的罕用字（䴉、鶓…）也要進字型
     rows = "".join("".join(r.values()) for r in data_rows())
-    return keep(ui_text() + rows + (ROOT / "src" / "csv.ts").read_text(encoding="utf-8"))
+    # 低年級注音：注音符號與聲調記號在 zhuyin.json 裡（不是 html／js，要另外收）
+    zy = ROOT / "public" / "js" / "zhuyin.json"
+    bopo = "".join(chr(c) for c in range(0x3105, 0x312A)) + "ˊˇˋ˙"
+    return keep(ui_text() + rows + (ROOT / "src" / "csv.ts").read_text(encoding="utf-8")
+                + (zy.read_text(encoding="utf-8") if zy.exists() else "") + bopo)
 
 
 def chunks() -> list:

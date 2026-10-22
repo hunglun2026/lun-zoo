@@ -36,11 +36,19 @@ Zoo.boot(function (animals) {
         p.style.filter = "none";
         box.appendChild(p);
       } else {
-        box.appendChild(el('<div class="clue"><small>線索 ' + (i + 1) + "・" + c.label + "</small><br>" + esc(c.text) + "</div>"));
+        const d = el('<div class="clue"><small>線索 ' + (i + 1) + "・" + c.label + '</small><br><span class="zy">' + esc(c.text) + "</span></div>");
+        d.dataset.say = c.label + "。" + c.text;
+        d.querySelector("small").after(Speak.btn(() => [[d.dataset.say, d]], "念這個線索"));
+        box.appendChild(d);
       }
     });
     return box;
   }
+  // 念最新出現的線索（學生按過喇叭之後、或老師投影時）
+  const readLast = (clueEl) => {
+    const all = clueEl.querySelectorAll(".clue"), d = all[all.length - 1];
+    if (d) Speak.say([[d.dataset.say, d]]);
+  };
 
   // ---- 單人 ----
   // list：「只練錯的」時傳入上一輪答錯的動物
@@ -66,6 +74,7 @@ Zoo.boot(function (animals) {
       const draw = () => {
         clueEl.replaceChildren(clueBox(a, cs, shown));
         more.disabled = shown >= cs.length;
+        if (Speak.auto() && !over) readLast(clueEl);
       };
       let over = false, missed = false; // missed：這題有沒有猜錯過，猜錯過就列入複習
       const finishRound = (ok) => {
@@ -79,12 +88,13 @@ Zoo.boot(function (animals) {
         opts.querySelectorAll(".opt").forEach((b) => { b.disabled = true; if (b.dataset.id === a.id) b.classList.add("right"); });
         fb.className = "feedback " + (ok ? "ok" : "no");
         fb.innerHTML = (ok ? "答對了！🎉 +" + pts + " 分。" : "答案是 <b>" + esc(a.name) + "</b>。") + ' <a href="/animals#' + encodeURIComponent(a.id) + '" target="_blank" rel="noopener">看牠的介紹</a>';
+        if (Speak.auto()) Speak.say(ok ? "答對了！" : "答案是" + a.name);
         const b = el('<button class="btn primary big">' + (idx === picked.length - 1 ? "看成績 🏆" : "下一題 ➜") + "</button>");
         b.onclick = () => { idx++; next(); };
         root.querySelector("#nx").appendChild(b); b.focus();
       };
       options.forEach((o) => {
-        const b = el('<button class="opt">' + esc(o.name) + "</button>");
+        const b = el('<button class="opt zy">' + esc(o.name) + "</button>");
         b.dataset.id = o.id;
         b.onclick = () => {
           if (over) return;
@@ -134,7 +144,7 @@ Zoo.boot(function (animals) {
       '<div class="stage"><p id="info" class="lead" style="margin-top:0"></p><div id="clues"></div>' +
       '<div id="ans" style="font-size:2.4rem;font-weight:800;color:var(--green-d)"></div>' +
       '<p style="margin-top:16px"><button class="btn primary big" id="more">下一個線索（空白鍵）</button> ' +
-      '<button class="btn big" id="rev">揭曉答案</button> <button class="btn big" id="nxt">換下一隻 ➜</button></p>' +
+      '<button class="btn big" id="rev">揭曉答案</button> <button class="btn big" id="nxt">換下一隻 ➜</button> <button class="btn big" id="autoread" aria-pressed="true">🔊 自動念：開</button></p>' +
       '<p style="font-size:.85rem;color:var(--ink2)">提醒：老師用「老師專區」的搶答計分板記分。</p></div>'
     ));
     const clueEl = root.querySelector("#clues"), ans = root.querySelector("#ans");
@@ -143,7 +153,13 @@ Zoo.boot(function (animals) {
       clueEl.replaceChildren(clueBox(a, cs, shown));
       ans.textContent = revealed ? a.name : "";
       root.querySelector("#more").disabled = shown >= cs.length || revealed;
+      if (!loud) return;
+      if (revealed) Speak.say("答案是：" + a.name); else readLast(clueEl);
     };
+    // 投影給全班聽：預設自動念（老師不用每條自己念），可以關掉
+    let loud = true;
+    const ar = root.querySelector("#autoread");
+    ar.onclick = () => { loud = !loud; ar.textContent = loud ? "🔊 自動念：開" : "🔇 自動念：關"; ar.setAttribute("aria-pressed", String(loud)); if (!loud) Speak.stop(); };
     const moreClue = () => { if (!revealed && shown < cs.length) { shown++; draw(); } };
     root.querySelector("#more").onclick = moreClue;
     root.querySelector("#rev").onclick = () => { revealed = true; shown = cs.length; draw(); };

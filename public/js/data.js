@@ -256,5 +256,23 @@
     });
   }
 
-  window.Zoo = { GROUPS, HABITATS, CONS, DIETS, enrich, mask, load, photo, creditLine, placeholder, esc, shuffle, pick, el, youtubeEmbed, dialog };
+  // 年級（low／mid／high）：只影響呈現（注音、朗讀語速、預設難度），不擋內容。
+  // 沒選過就沿用首頁引導問過的年級（zoo-guide），都沒有當中年級。切換時發 zoo-grade 事件，頁面不用重整
+  const GRADES = { low: "低年級", mid: "中年級", high: "高年級" };
+  function grade() {
+    try {
+      const g = localStorage.getItem("zoo-grade") || (JSON.parse(localStorage.getItem("zoo-guide") || "{}").lv);
+      if (GRADES[g]) return g;
+    } catch (e) { /* 無痕模式 */ }
+    return "mid";
+  }
+  function setGrade(g) {
+    if (!GRADES[g]) return;
+    try { localStorage.setItem("zoo-grade", g); } catch (e) { /* 忽略 */ }
+    document.documentElement.dataset.grade = g;
+    document.dispatchEvent(new CustomEvent("zoo-grade", { detail: g }));
+  }
+  if (typeof document !== "undefined" && document.documentElement) document.documentElement.dataset.grade = grade(); // 單元測試沒有網頁
+
+  window.Zoo = { GROUPS, HABITATS, CONS, DIETS, GRADES, enrich, mask, load, photo, creditLine, placeholder, esc, shuffle, pick, el, youtubeEmbed, dialog, grade, setGrade };
 })();

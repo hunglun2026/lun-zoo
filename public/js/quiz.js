@@ -42,18 +42,23 @@
         : '<div class="bar"><i style="width:' + (i / rounds.length) * 100 + '%"></i></div><p>第 ' + (i + 1) + " / " + rounds.length + " 題　⭐ " + score + " 分</p>";
       const stage = el(
         '<div class="stage">' + head + (combo >= 2 ? '<p class="combo">🔥 連續答對 ' + combo + " 題！</p>" : "") +
-        '<div id="pic"></div><h2 style="margin:.4em 0">' + r.prompt + '</h2><div class="opts" id="opts"></div>' +
+        '<div id="pic"></div><h2 style="margin:.4em 0" class="zy" id="qt">' + r.prompt + '</h2><div class="spk-row" id="sr"></div><div class="opts" id="opts"></div>' +
         '<div class="feedback" id="fb" role="status" aria-live="polite"></div><div id="nx"></div></div>'
       );
       stage.querySelector("#pic").appendChild(Zoo.photo(r.animal));
       const opts = stage.querySelector("#opts");
       r.options.forEach((o) => {
-        const b = el('<button class="opt">' + esc(o.label) + (o.sub ? "<small>" + esc(o.sub) + "</small>" : "") + "</button>");
+        const b = el('<button class="opt zy">' + esc(o.label) + (o.sub ? "<small>" + esc(o.sub) + "</small>" : "") + "</button>");
         b.dataset.id = o.id;
         b.onclick = () => answer(o.id, b, stage, r);
         opts.appendChild(b);
       });
       root.appendChild(stage);
+      // 朗讀：一顆喇叭念題目再念選項；學生按過一次，之後每題自動念（限時模式太快，不自動念）
+      const qt = stage.querySelector("#qt");
+      const items = () => [[qt.innerHTML, qt]].concat([...opts.children].map((b, k) => ["第" + (k + 1) + "個，" + b.innerHTML, b]));
+      stage.querySelector("#sr").append(Speak.btn(items, "念題目和選項"));
+      if (Speak.auto() && !cfg.timed) Speak.say(items());
     }
 
     function answer(id, btn, stage, r) {
@@ -77,6 +82,7 @@
         return;
       }
       fb.innerHTML = (ok ? "答對了！🎉 " : "差一點點，再記一下～ ") + r.explain;
+      if (Speak.auto()) Speak.say([[fb.innerHTML, fb]]);
       const next = el('<button class="btn primary big">' + (last ? "看成績 🏆" : "下一題 ➜") + "</button>");
       next.onclick = () => { i++; last ? finish() : show(); };
       stage.querySelector("#nx").appendChild(next);

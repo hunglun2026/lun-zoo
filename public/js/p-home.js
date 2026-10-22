@@ -43,7 +43,7 @@
       show("lv");
     };
     guide.querySelectorAll("[data-who]").forEach((b) => (b.onclick = () => pick(b.dataset.who)));
-    guide.querySelectorAll("[data-lv]").forEach((b) => (b.onclick = () => { st.lv = b.dataset.lv; save(); done(); }));
+    guide.querySelectorAll("[data-lv]").forEach((b) => (b.onclick = () => { st.lv = b.dataset.lv; save(); Zoo.setGrade(st.lv); done(); }));
     guide.querySelector("[data-back]").onclick = () => show("who");
     guide.querySelector("[data-reset]").onclick = () => {
       st = {};

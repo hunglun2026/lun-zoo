@@ -29,6 +29,13 @@ Zoo.boot(function (animals) {
     });
     filters.appendChild(row);
   });
+  // 篩選：大螢幕預設展開；手機預設收起，一進來就先看到動物
+  const fbox = document.getElementById("fbox");
+  fbox.open = matchMedia("(min-width:761px)").matches;
+  const drawSum = () => {
+    const n = ["group", "habitat", "diet", "cons"].filter((k) => state[k]).length;
+    document.getElementById("fsum").textContent = n ? "篩選（已選 " + n + " 項）" : "篩選";
+  };
   document.getElementById("q").addEventListener("input", (e) => { state.q = e.target.value.trim().toLowerCase(); render(); });
 
   function match(a) {
@@ -44,15 +51,20 @@ Zoo.boot(function (animals) {
   }
 
   function render() {
+    drawSum();
     const list = animals.filter(match);
     document.getElementById("count").textContent = list.length ? "找到 " + list.length + " 種動物" : "找不到，換個條件試試看。";
     grid.replaceChildren(...list.map(card));
   }
   function card(a) {
-    const c = el('<button class="acard"><div class="info"><b>' + esc(a.name) + "</b><small>" + a.groupInfo.emoji + " " + esc(a.groupInfo.name) + "</small></div></button>");
+    const c = el('<button class="acard"><div class="info"><b class="zy">' + esc(a.name) + "</b><small>" + a.groupInfo.emoji + " " + esc(a.groupInfo.name) + "</small></div></button>");
     c.prepend(photo(a));
     c.onclick = () => open(a);
-    return c;
+    // 喇叭不能放在卡片按鈕裡面（按鈕不能包按鈕），所以外面多包一層
+    const w = document.createElement("div");
+    w.className = "acard-w";
+    w.append(c, Speak.btn(() => a.name, "念出" + a.nameClean + "的名字"));
+    return w;
   }
 
   // ---- 詳細介紹 ----
@@ -62,12 +74,12 @@ Zoo.boot(function (animals) {
     Progress.seen(a.id);
     const vid = Zoo.youtubeEmbed(a.videos);
     body.innerHTML =
-      '<div class="dlg-bar"><button class="btn" id="add">' + (cmp.includes(a) ? "✔ 已加入比一比" : "➕ 加入比一比") + '</button><button class="btn" id="x">關閉 ✕</button></div>' +
-      "<h2 style='margin-top:0'>" + esc(a.name) + "</h2>" +
+      '<div class="dlg-bar"><button class="btn" id="listen">🎧 從頭念給我聽</button><button class="btn" id="add">' + (cmp.includes(a) ? "✔ 已加入比一比" : "➕ 加入比一比") + '</button><button class="btn" id="x">關閉 ✕</button></div>' +
+      "<h2 style='margin-top:0' id='dname'><span class='zy'>" + esc(a.name) + "</span></h2>" +
       '<p><span class="badge" style="background:' + a.cons.color + '">' + esc(a.cons.name) + "</span> " +
       esc(a.name_en) + (a.name_latin ? "（<i>" + esc(a.name_latin) + "</i>）" : "") + "</p>" +
       '<div class="gallery" id="gal"></div>' +
-      '<div class="fact" style="background:var(--orange-l)"><h4>一句話認識牠</h4><p>' + esc(a.simple) + "</p></div>" +
+      '<div class="fact" style="background:var(--orange-l)"><h4>一句話認識牠</h4><p class="zy">' + esc(a.simple) + "</p></div>" +
       '<div class="facts">' +
       fact("長什麼樣子", a.feature) + fact("吃什麼", a.diet) + fact("住在哪裡", a.habitat) +
       fact("從哪裡來", a.distribution) + fact("行為", a.behavior) + fact("面臨的危機", a.crisis) +
@@ -80,12 +92,19 @@ Zoo.boot(function (animals) {
     // 有補圖的動物（原照片全部失效）只放 1 張，不然同一張補圖會重複 4 次
     a.pics.slice(0, a.fallback ? 1 : 4).forEach((_, i) => gal.appendChild(photo(a, i)));
     if (!a.pics.length) gal.appendChild(Zoo.placeholder(a, "xl"));
+    // 朗讀：名字（高年級多一顆英文）、每一段介紹各一顆喇叭；「從頭念」依序念、念到哪段亮哪段
+    const nm = body.querySelector("#dname");
+    nm.append(Speak.btn(() => [[a.name, nm]], "念名字"));
+    const en = (a.name_en || "").split(/[,，]/)[0].trim();
+    if (en) { const eb = Speak.btn(() => [[en, nm]], "念英文名字", "en"); eb.classList.add("hi-only"); nm.append(eb); }
+    body.querySelectorAll(".fact").forEach((f) => f.querySelector("h4").append(Speak.btn(() => [[f.querySelector("p").textContent, f]], "念這一段")));
+    body.querySelector("#listen").onclick = () => Speak.say([[a.name, nm]].concat([...body.querySelectorAll(".fact")].map((f) => [f.querySelector("h4").firstChild.textContent + "。" + f.querySelector("p").textContent, f])));
     body.querySelector("#x").onclick = () => dlg.close();
     body.querySelector("#add").onclick = (e) => { addCmp(a); e.target.textContent = "✔ 已加入比一比"; };
     if (!dlg.open) dlg.showModal();
     body.parentElement.scrollTop = 0;
   }
-  dlg.addEventListener("close", () => history.replaceState(null, "", location.pathname));
+  dlg.addEventListener("close", () => { Speak.stop(); history.replaceState(null, "", location.pathname); });
   dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
 
   // ---- 比一比：選兩種動物並排比較，對應自然課「比較異同」 ----

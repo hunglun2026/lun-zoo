@@ -4,6 +4,7 @@ Zoo.boot(function (animals) {
   const $ = (id) => document.getElementById(id);
   $("gen").disabled = false; // 資料載入完才能按（HTML 裡預設停用）
   $("gen2").disabled = false;
+  $("cm").disabled = false;
 
   // ---- 分頁 ----
   const tabs = document.querySelectorAll(".tab");
@@ -66,6 +67,13 @@ Zoo.boot(function (animals) {
     window.print();
   };
 
+  // ---- 全螢幕上課模式（p-class.js）：離開時重畫計分板分頁，分數才會跟上課時加的一樣 ----
+  $("cm").onclick = async () => {
+    const qs = questions();
+    if (!qs.length) { await Zoo.dialog("這個主題找不到足夠的題目，請換一個主題或題型。"); return; }
+    ClassMode.start(qs, () => Board.init($("tab-board")));
+  };
+
   // ---- 出題投影 ----
   let cd = null; // 投影的 10 秒倒數；放外層，重新出題時才停得掉上一輪的
   $("gen2").onclick = async () => {
@@ -88,6 +96,8 @@ Zoo.boot(function (animals) {
       ));
       // 猜謎題先不顯示照片，不然就直接看到答案；揭曉後才顯示
       if (q.kind !== "riddle" || showAns) box.querySelector("#pic").appendChild(Zoo.photo(q.animal));
+      const h = box.querySelector("h2");
+      h.append(Speak.btn(() => [[q.q, h]].concat(q.choices.map((c, k) => ["第" + (k + 1) + "個，" + c, box.querySelectorAll(".opt")[k]])), "念題目和選項"));
       box.querySelector("#prev").onclick = () => { i = Math.max(0, i - 1); showAns = false; draw(); };
       box.querySelector("#next").onclick = () => { i = Math.min(qs.length - 1, i + 1); showAns = false; draw(); };
       box.querySelector("#show").onclick = () => { showAns = !showAns; draw(); };

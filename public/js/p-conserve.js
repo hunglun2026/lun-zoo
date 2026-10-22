@@ -33,9 +33,11 @@ Zoo.boot(function (animals) {
     why.replaceChildren();
     why.appendChild(Zoo.photo(a));
     why.appendChild(el(
-      "<div><h3>" + esc(a.name) + ' <span class="badge" style="background:' + a.cons.color + '">' + esc(a.cons.name) + "</span></h3>" +
+      "<div><h3><span class=\"zy\">" + esc(a.name) + '</span> <span class="badge" style="background:' + a.cons.color + '">' + esc(a.cons.name) + "</span></h3>" +
       '<div class="clue" style="max-width:640px"><small>牠面臨的危機</small><br>' + esc(a.crisis.trim().slice(0, 220)) + (a.crisis.trim().length > 220 ? "…" : "") + "</div></div>"
     ));
+    const h = why.querySelector("h3"), cl = why.querySelector(".clue");
+    h.append(Speak.btn(() => [[a.name + "，" + a.cons.name + "。", h], ["牠面臨的危機：" + cl.lastChild.textContent, cl]], "念牠的危機"));
     const more = el('<p><button class="btn primary">換一隻</button> <a class="btn" href="/animals#' + encodeURIComponent(a.id) + '">看完整介紹</a></p>');
     more.querySelector("button").onclick = showWhy;
     why.appendChild(more);
@@ -53,10 +55,10 @@ Zoo.boot(function (animals) {
       let a, b;
       do { a = shuffle(known)[0]; b = shuffle(known)[0]; } while (a.cons.rank === b.cons.rank);
       duel.replaceChildren(el("<div><p>第 " + (i + 1) + " / " + N + " 題　⭐ " + score + "</p>" +
-        (combo >= 2 ? '<p class="combo">🔥 連續答對 ' + combo + " 題！</p>" : "") + '<h3 style="margin:.2em 0">哪一種動物比較危險？</h3></div>'));
+        (combo >= 2 ? '<p class="combo">🔥 連續答對 ' + combo + " 題！</p>" : "") + '<h3 style="margin:.2em 0" id="dq">哪一種動物比較危險？</h3></div>'));
       const row = el('<div class="opts"></div>');
       [a, b].forEach((x) => {
-        const o = el('<button class="opt"><span class="ph-slot"></span>' + esc(x.name) + "</button>");
+        const o = el('<button class="opt"><span class="ph-slot"></span><span class="zy">' + esc(x.name) + "</span></button>");
         o.querySelector(".ph-slot").replaceWith(Zoo.photo(x));
         o.onclick = () => {
           const ok = x.cons.rank > (x === a ? b : a).cons.rank;
@@ -79,6 +81,10 @@ Zoo.boot(function (animals) {
         row.appendChild(o);
       });
       duel.appendChild(row);
+      const dq = duel.querySelector("#dq");
+      const items = () => [[dq.textContent, dq], ["第1個，" + a.name, row.children[0]], ["第2個，" + b.name, row.children[1]]];
+      dq.append(Speak.btn(items, "念題目和選項"));
+      if (Speak.auto()) Speak.say(items());
     };
     const end = () => {
       const stars = score >= 50 ? 3 : score >= 30 ? 2 : score > 0 ? 1 : 0;

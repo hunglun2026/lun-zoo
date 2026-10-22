@@ -1,5 +1,5 @@
 /* 答題回饋效果：音效、撒彩紙、頁首的音效開關。只管「回饋」，遊戲規則不放這裡。
-   Fx.right() 答對、Fx.wrong() 答錯、Fx.tick() 倒數、Fx.ding() 時間到、Fx.confetti() 三顆星撒彩紙 */
+   Fx.right() 答對、Fx.wrong() 答錯、Fx.tick() 倒數、Fx.ding() 時間到、Fx.confetti() 三顆星撒彩紙、Fx.isOn() 頁首音效開關是否開著 */
 window.Fx = (function () {
   "use strict";
   const KEY = "zoo-sound";
@@ -68,5 +68,5 @@ window.Fx = (function () {
     nav.appendChild(b);
   }
 
-  return { right, wrong, tick, ding, confetti };
+  return { right, wrong, tick, ding, confetti, isOn: () => on };
 })();

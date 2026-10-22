@@ -7,8 +7,8 @@
 <meta name="description" content="四個現成課程包、一鍵產生可列印的動物學習單與答案、投影出題、全班搶答計分板與倒數計時器。">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preload" as="font" type="font/woff2" href="/fonts/zoo-sans-0-0397566f.woff2" crossorigin>
-<link rel="stylesheet" href="/css/style.css?v=12">
+<link rel="preload" as="font" type="font/woff2" href="/fonts/zoo-sans-0-92721f2d.woff2" crossorigin>
+<link rel="stylesheet" href="/css/style.css?v=13">
 </head>
 <body data-page="teacher">
 <main>
@@ -35,7 +35,8 @@
 
   <section id="tab-slides" class="panel" hidden>
     <p class="noprint">用上面「學習單」分頁選好的主題、題型、題數出題。</p>
-    <p class="noprint"><button class="btn primary" id="gen2" disabled>開始出題</button></p>
+    <p class="noprint"><button class="btn primary big" id="cm" disabled>🎬 全螢幕上課模式</button> <button class="btn" id="gen2" disabled>在這頁出題</button></p>
+    <p class="noprint lead">上課模式：題目、照片、倒數和各組計分在同一個畫面，會自動念題。只用簡報筆就能操作：「下一頁」揭曉答案、再按換下一題；黑畫面鍵（B）開始倒數；鍵盤數字 1～6 幫該組加分、R 隨機抽一組。</p>
     <div id="slide" class="stage" hidden></div>
   </section>
 
@@ -109,11 +110,14 @@
     </ul>
   </section>
 </main>
-<script src="/js/data.js?v=12"></script>
-<script src="/js/layout.js?v=12"></script>
-<script src="/js/fx.js?v=12"></script>
-<script src="/js/qgen.js?v=12"></script>
-<script src="/js/p-board.js?v=12"></script>
-<script src="/js/p-teacher.js?v=12"></script>
+<script src="/js/data.js?v=13"></script>
+<script src="/js/layout.js?v=13"></script>
+<script src="/js/fx.js?v=13"></script>
+<script src="/js/speak.js?v=13"></script>
+<script src="/js/zhuyin.js?v=13"></script>
+<script src="/js/qgen.js?v=13"></script>
+<script src="/js/p-board.js?v=13"></script>
+<script src="/js/p-class.js?v=13"></script>
+<script src="/js/p-teacher.js?v=13"></script>
 </body>
 </html>

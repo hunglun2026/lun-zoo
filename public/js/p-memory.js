@@ -39,7 +39,7 @@ Zoo.boot(function (animals) {
         p.loading = "eager"; // 牌蓋著時也先載好，翻開才不會空白
         front.appendChild(p);
       }
-      else front.innerHTML = "<b>" + esc(c.a.name) + "</b>";
+      else front.innerHTML = "<b class=\"zy\">" + esc(c.a.name) + "</b>";
       c.btn = b;
       b.onclick = () => flip(c);
       board.appendChild(b);
@@ -63,6 +63,8 @@ Zoo.boot(function (animals) {
         found++;
         head.querySelector("#found").textContent = found;
         Fx.right();
+        // 配對成功念出名字（學生自己翻牌觸發；頁首音效關掉就不念）
+        if (Fx.isOn()) setTimeout(() => Speak.say(c.a.name), 350);
         if (found === picked.length) setTimeout(done, 600);
       } else {
         lock = true;

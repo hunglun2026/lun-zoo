@@ -1,4 +1,5 @@
-/* 搶答計分板＋倒數計時器。資料只存在這台裝置的 localStorage，不上傳。 */
+/* 搶答計分板＋倒數計時器。資料只存在這台裝置的 localStorage，不上傳。
+   Board.init(root) 完整計分板（老師專區分頁）；Board.mini(root) 精簡版（上課模式右側），兩個共用同一份分數。 */
 window.Board = (function () {
   "use strict";
   const KEY = "zoo-board-v1";
@@ -62,5 +63,31 @@ window.Board = (function () {
     };
     draw(); show();
   }
-  return { init };
+  // 精簡版（老師上課模式右側用）：跟完整計分板共用同一份分數。回傳 add(第幾組, 加減分)、pick() 隨機抽一組
+  function mini(root) {
+    const st = loadState();
+    function draw(hi) {
+      root.innerHTML = st.teams.map((t, i) =>
+        '<div class="mteam' + (i === hi ? " picked" : "") + '" style="background:' + COLORS[i % COLORS.length] + '"><span>' + Zoo.esc(t.name) +
+        '<small>按 ' + (i + 1) + "</small></span><b>" + t.score + '</b><button class="btn" data-i="' + i + '" data-d="-1" aria-label="' + Zoo.esc(t.name) + '減 1 分">−</button><button class="btn" data-i="' + i + '" data-d="1" aria-label="' + Zoo.esc(t.name) + '加 1 分">+</button></div>').join("");
+      root.querySelectorAll("[data-d]").forEach((b) => (b.onclick = () => add(+b.dataset.i, +b.dataset.d)));
+    }
+    function add(i, d) {
+      if (!st.teams[i]) return;
+      st.teams[i].score += d; save(st); draw();
+      if (d > 0) Fx.right();
+    }
+    // 隨機抽一組：輪流亮幾下再停，全班看得到是公平抽的
+    function pick() {
+      let n = 0;
+      const total = 10 + Math.floor(Math.random() * st.teams.length);
+      const t = setInterval(() => {
+        draw(n % st.teams.length); Fx.tick();
+        if (++n > total) { clearInterval(t); Fx.ding(); }
+      }, 120);
+    }
+    draw();
+    return { add, pick };
+  }
+  return { init, mini };
 })();
