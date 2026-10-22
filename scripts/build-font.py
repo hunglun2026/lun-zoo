@@ -116,6 +116,16 @@ def main() -> int:
     css = CSS.read_text(encoding="utf-8")
     a, b = css.index("/* FONTS:BEGIN"), css.index("/* FONTS:END */")
     CSS.write_text(css[:a] + "/* FONTS:BEGIN 由 scripts/build-font.py 產生，不要手改 */\n" + "\n".join(faces) + "\n" + css[b:], encoding="utf-8")
+    # 每頁 <head> 預先載入第 0 包（介面文字）：不然要等 CSS 下載、解析完才開始抓字型，大標題會晚很久才畫好
+    first = re.search(r'/fonts/(zoo-sans-0-[0-9a-f]+\.woff2)', faces[0]).group(1)
+    tag = f'<link rel="preload" as="font" type="font/woff2" href="/fonts/{first}" crossorigin>'
+    for page in (ROOT / "public").glob("*.html"):
+        html = page.read_text(encoding="utf-8")
+        new, n = re.subn(r'<link rel="preload" as="font"[^>]*zoo-sans-0-[^>]*>', tag, html)
+        if not n:
+            new = html.replace('<link rel="stylesheet" href="/css/style.css', tag + '\n<link rel="stylesheet" href="/css/style.css', 1)
+        if new != html:
+            page.write_text(new, encoding="utf-8")
     lic = fonts.cache_dir() / "OFL-LICENSE.txt"
     if lic.exists():
         shutil.copy(lic, FONTS / "LICENSE-OFL.txt")

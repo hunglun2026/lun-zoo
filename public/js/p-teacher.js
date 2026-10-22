@@ -12,6 +12,10 @@ Zoo.boot(function (animals) {
     document.querySelectorAll("main > section").forEach((s) => (s.hidden = s.id !== "tab-" + name));
   };
   tabs.forEach((t) => (t.onclick = () => showTab(t.dataset.tab)));
+  // 網址 #guide、#board 這類可以直接打開那個分頁（首頁引導入口會連過來）
+  const fromHash = () => { const h = location.hash.slice(1); if ([...tabs].some((t) => t.dataset.tab === h)) showTab(h); };
+  window.addEventListener("hashchange", fromHash);
+  fromHash();
   Board.init($("tab-board"));
 
   // ---- 主題與題型 ----
