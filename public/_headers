@@ -11,3 +11,10 @@
   Cache-Control: public, max-age=86400
 /img/animals/*
   Cache-Control: public, max-age=86400
+# 首頁大照片、年級照片、說明截圖：檔名不帶雜湊，快取一天（之前每次都要問伺服器有沒有新版）
+/img/welcome/*
+  Cache-Control: public, max-age=86400
+/img/grade/*
+  Cache-Control: public, max-age=86400
+/img/help/*
+  Cache-Control: public, max-age=86400

@@ -38,7 +38,7 @@ Zoo.boot(function (animals) {
         p.style.filter = "none";
         box.appendChild(p);
       } else {
-        const d = el('<div class="clue"><small>線索 ' + (i + 1) + "・" + c.label + '</small><br><span class="zy">' + esc(c.text) + "</span></div>");
+        const d = el('<div class="clue"><small>線索 ' + ++n + "・" + c.label + '</small><br><span class="zy">' + esc(c.text) + "</span></div>");
         d.dataset.say = c.label + "。" + c.text;
         d.querySelector("small").after(Speak.btn(() => [[d.dataset.say, d]], "念這個線索"));
         box.appendChild(d);
