@@ -1,5 +1,5 @@
 /* 猜猜我是誰。單人挑戰：先給照片，4 選 1，看不出來再按「再給我一個線索」（文字提示），越早猜中分數越高。
-   全班搶答：老師投影、控制線索，文字線索由模糊到明確、最後才出照片，學生舉手搶答。 */
+   全班搶答：老師投影、控制線索，同樣先出照片，文字線索由老師一個一個加，學生舉手搶答。 */
 Zoo.boot(function (animals) {
   const { esc, el, shuffle } = Zoo;
   const root = document.getElementById("root");
@@ -145,7 +145,7 @@ Zoo.boot(function (animals) {
   // ---- 全班搶答 ----
   function classMode() {
     const order = shuffle(pool);
-    let idx = 0, shown = 1, revealed = false, a = order[0], cs = clues(a);
+    let idx = 0, shown = 1, revealed = false, a = order[0], cs = clues(a, true);
     root.replaceChildren(el(
       '<div class="stage"><p id="info" class="lead" style="margin-top:0"></p><div id="clues"></div>' +
       '<div id="ans" style="font-size:2.4rem;font-weight:800;color:var(--green-d)"></div>' +
@@ -170,7 +170,7 @@ Zoo.boot(function (animals) {
     root.querySelector("#more").onclick = moreClue;
     root.querySelector("#rev").onclick = () => { revealed = true; shown = cs.length; draw(); };
     root.querySelector("#nxt").onclick = () => {
-      idx = (idx + 1) % order.length; a = order[idx]; cs = clues(a); shown = 1; revealed = false; draw();
+      idx = (idx + 1) % order.length; a = order[idx]; cs = clues(a, true); shown = 1; revealed = false; draw();
     };
     const key = (e) => {
       if (!document.body.contains(root.querySelector("#more"))) return document.removeEventListener("keydown", key);
