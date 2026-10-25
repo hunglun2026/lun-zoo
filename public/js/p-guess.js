@@ -1,28 +1,29 @@
-/* 猜猜我是誰：線索由模糊到明確，最後照片從模糊變清楚。
-   單人挑戰：4 選 1，越早猜中分數越高。全班搶答：老師投影、控制線索，學生舉手搶答。 */
+/* 猜猜我是誰。單人挑戰：先給照片，4 選 1，看不出來再按「再給我一個線索」（文字提示），越早猜中分數越高。
+   全班搶答：老師投影、控制線索，文字線索由模糊到明確、最後才出照片，學生舉手搶答。 */
 Zoo.boot(function (animals) {
   const { esc, el, shuffle } = Zoo;
   const root = document.getElementById("root");
   const pool = animals.filter((a) => a.quizReady && a.hasPhoto && a.goodClue);
 
   const mask = Zoo.mask; // 線索文字常含動物自己的名字，遮起來才不會一眼破題
-  function clues(a) {
+  function clues(a, photoFirst) {
     const dietWord = a.dietKey === "omni" ? "什麼都吃" : a.dietInfo.name;
-    return [
+    const list = [
       { label: "我住在哪裡", text: "我住在" + a.habitatInfo.emoji + a.habitatInfo.name + "。" },
       { label: "我吃什麼", text: "我喜歡" + dietWord + "。" },
       { label: "我是哪一類", text: "我是" + a.groupInfo.emoji + a.groupInfo.name + "。" },
       { label: "我的特徵", text: mask(a, a.feature1) },
       { label: "我的家鄉", text: mask(a, a.simple.replace(/^.*家鄉在：/, "").replace(/。$/, "")) || "（動物園沒有寫）" },
-      { label: "我的照片", text: "", photo: true },
     ];
+    const pic = { label: "我的照片", text: "", photo: true };
+    return photoFirst ? [pic].concat(list) : list.concat(pic);
   }
 
   function menu() {
     root.replaceChildren(el(
-      '<div class="panel"><p class="lead" style="margin-top:0">線索會一個一個出現：住哪裡、吃什麼、哪一類、特徵、家鄉，最後看照片。越早猜中，分數越高。</p>' +
-      '<p><button class="btn primary big" id="solo">單人挑戰（8 題）</button></p>' +
-      '<p><button class="btn big" id="class">全班搶答（老師投影）</button></p></div>'
+      '<div class="panel"><p class="lead zy" style="margin-top:0">線索一個一個出現，越早猜中，分數越高。</p>' +
+      '<p><button class="btn primary big zy" id="solo">單人挑戰（8 題）</button></p>' +
+      '<p><button class="btn big zy" id="class">全班搶答</button> <small>老師用投影機，學生舉手</small></p></div>'
     ));
     root.querySelector("#solo").onclick = () => solo();
     root.querySelector("#class").onclick = classMode;
@@ -30,7 +31,8 @@ Zoo.boot(function (animals) {
 
   function clueBox(a, cs, shown) {
     const box = el("<div></div>");
-    cs.slice(0, shown).forEach((c, i) => {
+    let n = 0; // 文字線索的編號（照片不算）
+    cs.slice(0, shown).forEach((c) => {
       if (c.photo) {
         const p = Zoo.photo(a);
         p.style.filter = "none";
@@ -56,9 +58,11 @@ Zoo.boot(function (animals) {
     const picked = list ? shuffle(list) : shuffle(pool).slice(0, 8);
     let idx = 0, score = 0, combo = 0;
     const wrongs = [];
+    // 第一次玩：小手帶著選答案、找到「下一題」（「只練錯的」複習不用）
+    const tour = !list && window.Guide ? Guide.tour("guess") : null;
     const next = () => (idx >= picked.length ? done() : round(picked[idx]));
     function round(a) {
-      const cs = clues(a);
+      const cs = clues(a, true); // 單人挑戰先給照片
       let shown = 1;
       const sameGroup = shuffle(pool.filter((x) => x.group === a.group && x !== a));
       const distract = sameGroup.concat(shuffle(pool.filter((x) => x.group !== a.group))).slice(0, 3);
@@ -90,8 +94,9 @@ Zoo.boot(function (animals) {
         fb.innerHTML = (ok ? "答對了！🎉 +" + pts + " 分。" : "答案是 <b>" + esc(a.name) + "</b>。") + ' <a href="/animals#' + encodeURIComponent(a.id) + '" target="_blank" rel="noopener">看牠的介紹</a>';
         if (Speak.auto()) Speak.say(ok ? "答對了！" : "答案是" + a.name);
         const b = el('<button class="btn primary big">' + (idx === picked.length - 1 ? "看成績 🏆" : "下一題 ➜") + "</button>");
-        b.onclick = () => { idx++; next(); };
+        b.onclick = () => { if (tour) tour.done(); idx++; next(); };
         root.querySelector("#nx").appendChild(b); b.focus();
+        if (tour) tour.say(b, "按下一題");
       };
       options.forEach((o) => {
         const b = el('<button class="opt zy">' + esc(o.name) + "</button>");
@@ -107,6 +112,7 @@ Zoo.boot(function (animals) {
       });
       more.onclick = () => { if (shown < cs.length) { shown++; draw(); } };
       draw();
+      if (tour && idx === 0) tour.say(opts, "看線索，選一個");
     }
     function done() {
       const total = picked.length * 6;
@@ -173,5 +179,9 @@ Zoo.boot(function (animals) {
     document.addEventListener("keydown", key);
     draw();
   }
-  menu();
+  // 首頁推薦卡與老師的班級連結會帶 #m=solo／class，直接開局不經過選單
+  const direct = Zoo.hashParams().m;
+  if (direct === "solo") solo();
+  else if (direct === "class") classMode();
+  else menu();
 });

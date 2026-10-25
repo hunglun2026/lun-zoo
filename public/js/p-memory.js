@@ -45,6 +45,12 @@ Zoo.boot(function (animals) {
       board.appendChild(b);
     });
 
+    // 第一次玩：小手帶著配成第一對。只指路，翻牌和計分都是學生自己的操作，不影響星數
+    const tour = Guide.tour("memory");
+    const startCard = cards.find((c) => c.kind === "pic");
+    const mate = (c) => cards.find((x) => x.a === c.a && x !== c);
+    if (tour) tour.say(startCard.btn, "翻開一張");
+
     function open(c, show) {
       c.btn.classList.toggle("up", show);
       c.btn.setAttribute("aria-label", show ? (c.kind === "pic" ? "照片：" : "名字：") + c.a.name : "蓋著的牌");
@@ -54,10 +60,11 @@ Zoo.boot(function (animals) {
       open(c, true);
       flips++;
       head.querySelector("#flips").textContent = flips;
-      if (!first) { first = c; return; }
+      if (!first) { first = c; if (tour) tour.say(mate(c).btn, "找配對的"); return; }
       const a = first;
       first = null;
       if (a.a === c.a) {
+        if (tour) tour.end(c.btn, "換你試試看");
         a.done = c.done = true;
         a.btn.classList.add("ok"); c.btn.classList.add("ok");
         found++;
@@ -68,7 +75,7 @@ Zoo.boot(function (animals) {
         if (found === picked.length) setTimeout(done, 600);
       } else {
         lock = true;
-        setTimeout(() => { open(a, false); open(c, false); lock = false; }, 1000);
+        setTimeout(() => { open(a, false); open(c, false); lock = false; if (tour) tour.say(startCard.btn, "再翻翻看"); }, 1000);
       }
     }
 
@@ -92,5 +99,7 @@ Zoo.boot(function (animals) {
       root.querySelector("#again").onclick = menu;
     }
   }
-  menu();
+  // 首頁推薦卡與老師的班級連結會帶 #m=easy，直接開局不經過選單
+  const direct = Zoo.hashParams().m;
+  if (MODES[direct]) play(direct); else menu();
 });

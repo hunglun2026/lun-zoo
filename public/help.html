@@ -8,7 +8,7 @@
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/zoo-sans-0-92721f2d.woff2" crossorigin>
-<link rel="stylesheet" href="/css/style.css?v=13">
+<link rel="stylesheet" href="/css/style.css?v=18">
 </head>
 <body data-page="help">
 <main>
@@ -42,7 +42,7 @@
     <h2>🏫 三種上課方式</h2>
     <div class="cards">
       <div class="tool"><div class="ico">📽️</div><h3>只有一台電腦＋投影</h3><p>用老師專區的「全螢幕上課模式」或「猜猜我是誰」全班搶答，題目會念給全班聽，學生舉手回答，老師按數字鍵幫各組加分。不需要學生裝置。</p></div>
-      <div class="tool"><div class="ico">📱</div><h3>學生每人或每組一台平板</h3><p>學生自己玩分類闖關、誰住哪裡、翻牌配對，老師巡視。玩完看「探險護照」的星星與徽章。</p></div>
+      <div class="tool"><div class="ico">📱</div><h3>學生每人或每組一台平板</h3><p>學生自己玩分類闖關、誰住哪裡、翻牌配對，老師巡視。玩完看「探險護照」的星星與徽章。用老師專區的「班級連結」產生網址和 QR 碼，全班掃了就是同一個年級、同一個遊戲。</p></div>
       <div class="tool"><div class="ico">🖨️</div><h3>紙本練習</h3><p>在老師專區產生學習單（可附答案頁），當隨堂練習或回家作業。也能印「比一比」比較表。</p></div>
     </div>
   </section>
@@ -66,6 +66,8 @@
           <li><b>高年級</b>：朗讀快一點，動物介紹多一顆「🔈 英文」念英文名字。</li>
         </ol>
         <p class="tip">年級只改變注音和念的速度，所有內容每個年級都看得到。共用平板換班時點一下就能換，不用重新整理。第一次在首頁選過年級會自動帶入。</p>
+        <p class="tip">首頁按「我是學生」會問一題年級：小獅子、少年獅、大獅子分別是 1、2 年級、3、4 年級、5、6 年級，問題和年級都有注音和喇叭。選完推薦 3 個遊戲，低年級只有大圖示和三個字，一點進去就開始玩。照片是示意圖。</p>
+        <p class="tip">第一次玩每個遊戲時，畫面上的 👆 小手會指著下一步，上方一行字說明要做什麼，學生自己按就好，不想看按「略過」。玩過就不再出現；換班時用「班級連結」讓提示重新出現。</p>
         <p class="tip">朗讀用的是裝置內建的中文語音，聲音會因裝置不同。少數裝置沒有中文語音，喇叭會變灰色，這時可以到系統設定加裝「中文（台灣）」語音。學生各自用平板時建議戴耳機。</p>
       </div>
     </article>
@@ -147,7 +149,7 @@
       <div>
         <h3>🃏 翻牌配對</h3>
         <ol>
-          <li>選「入門（6 對）」或「挑戰（8 對）」。</li>
+          <li>選「入門（6 對）」或「挑戰（8 對）」。第一次玩時，畫面上的小手會帶著你配成第一對，不想看按「略過」。</li>
           <li>一次翻兩張，把動物照片和牠的名字配成一對；配錯的牌 1 秒後會蓋回去。</li>
           <li>全部配完會顯示翻了幾次、花了幾秒，並列出這次認識的動物，點名字可以看介紹。</li>
         </ol>
@@ -250,6 +252,19 @@
         <p class="tip">分數存在這台電腦，重新整理或隔天打開都還在，換班上課前記得歸零。</p>
       </div>
     </article>
+
+    <article class="htool">
+      <img src="/img/help/teacher-link.webp" alt="班級連結：選好遊戲和年級，產生網址和 QR 碼" width="880" height="608" loading="lazy">
+      <div>
+        <h3>🔗 班級連結</h3>
+        <ol>
+          <li>選遊戲和年級，網址和 QR 碼會跟著換。</li>
+          <li>按「複製連結」貼到班級群組，或把 QR 碼投影出來，全班用平板掃。</li>
+          <li>學生打開就是你選的年級和遊戲，低年級自動有注音。網址上的設定套用後會從網址列消失，重新整理不會重複套用。</li>
+        </ol>
+        <p class="tip">共用平板換班時勾「讓新手提示重新出現」；這節課不想要小手提示就勾「不要新手提示」。年級只接受低、中、高三種，其他值會被忽略。</p>
+      </div>
+    </article>
   </section>
 
   <section id="student">
@@ -282,11 +297,12 @@
 
   <p style="margin-top:28px"><a class="btn primary big" href="/">回首頁開始探險 🐾</a> <a class="btn big" href="/teacher">我是老師</a></p>
 </main>
-<script src="/js/data.js?v=13"></script>
-<script src="/js/layout.js?v=13"></script>
-<script src="/js/fx.js?v=13"></script>
-<script src="/js/speak.js?v=13"></script>
-<script src="/js/zhuyin.js?v=13"></script>
+<script src="/js/data.js?v=18"></script>
+<script src="/js/layout.js?v=18"></script>
+<script src="/js/fx.js?v=18"></script>
+<script src="/js/speak.js?v=18"></script>
+<script src="/js/zhuyin.js?v=18"></script>
+<script src="/js/guide.js?v=18"></script>
 <script>Zoo.boot(function () {});</script>
 </body>
 </html>

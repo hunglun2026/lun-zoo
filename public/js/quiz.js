@@ -33,6 +33,8 @@
     const rounds = cfg.rounds;
     let i = 0, score = 0, right = 0, combo = 0, left = cfg.timed || 0, timer = null, over = false;
     const wrongs = [];
+    // 第一次玩：cfg.guide 有給就用小手帶著答第一題、找到「下一題」（只指路，答題與計分都是學生自己的）
+    const tour = cfg.guide && window.Guide ? Guide.tour(cfg.guide) : null;
 
     function show() {
       const r = rounds[i];
@@ -59,6 +61,7 @@
       const items = () => [[qt.innerHTML, qt]].concat([...opts.children].map((b, k) => ["第" + (k + 1) + "個，" + b.innerHTML, b]));
       stage.querySelector("#sr").append(Speak.btn(items, "念題目和選項"));
       if (Speak.auto() && !cfg.timed) Speak.say(items());
+      if (tour && i === 0) tour.say(opts, "看照片，選一個");
     }
 
     function answer(id, btn, stage, r) {
@@ -77,6 +80,7 @@
       fb.className = "feedback " + (ok ? "ok" : "no");
       const last = i === rounds.length - 1;
       if (cfg.timed) {
+        if (tour) tour.done(); // 限時模式答完自動下一題，沒有「下一題」鈕可指
         fb.innerHTML = ok ? "答對了！🎉" + (combo >= 3 ? " 連續加分 +5" : "") : "答案是：" + esc(r.options.find((o) => o.id === r.answer).label);
         setTimeout(() => { if (over) return; i++; last ? finish() : show(); }, ok ? 600 : 1300);
         return;
@@ -84,9 +88,10 @@
       fb.innerHTML = (ok ? "答對了！🎉 " : "差一點點，再記一下～ ") + r.explain;
       if (Speak.auto()) Speak.say([[fb.innerHTML, fb]]);
       const next = el('<button class="btn primary big">' + (last ? "看成績 🏆" : "下一題 ➜") + "</button>");
-      next.onclick = () => { i++; last ? finish() : show(); };
+      next.onclick = () => { if (tour) tour.done(); i++; last ? finish() : show(); };
       stage.querySelector("#nx").appendChild(next);
       next.focus();
+      if (tour) tour.say(next, "按下一題");
     }
 
     function finish() {

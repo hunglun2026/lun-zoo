@@ -8,7 +8,7 @@
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/zoo-sans-0-92721f2d.woff2" crossorigin>
-<link rel="stylesheet" href="/css/style.css?v=13">
+<link rel="stylesheet" href="/css/style.css?v=18">
 <link rel="preload" as="image" href="/img/welcome/panda.webp" imagesrcset="/img/welcome/panda-480.webp 480w, /img/welcome/panda.webp 800w" imagesizes="(max-width: 760px) calc(100vw - 32px), 1100px">
 </head>
 <body data-page="home" class="welcome">
@@ -18,7 +18,7 @@
     <p class="w-eyebrow"><span>臺北市立動物園開放資料</span><span class="w-sep">·</span><span>國小自然教學</span></p>
     <h1 class="w-title"><span class="w-line">帶孩子走進</span><span class="w-line w-grad"><span data-count>270</span> 種動物</span><span class="w-line">的世界</span></h1>
     <p class="w-sub">認識、分類、猜謎、翻牌、學保育。<br>不用註冊、不用安裝，打開就能上課。</p>
-    <p class="w-cta-row"><a class="btn primary big" href="#start" data-pick="student">🎒 我是學生</a> <a class="btn primary big" href="#start" data-pick="teacher">🍎 我是老師</a> <a class="btn big" href="/help">📘 使用說明</a></p>
+    <p class="w-cta-row"><a class="btn primary big" href="#start" data-pick="student" id="pick-student">🎒 <span class="zy">我是學生</span></a> <a class="btn primary big" href="#start" data-pick="teacher">🍎 我是老師</a> <a class="btn big" href="/help">📘 使用說明</a></p>
     <a class="w-hint" href="#tour">↓ 向下滑動，看看可以玩什麼</a>
   </section>
 
@@ -34,16 +34,17 @@
       </div>
     </div>
     <div class="g-step" data-step="lv" hidden>
-      <p class="g-q"><small>第 2 題，共 2 題</small><span id="g-lvq">你幾年級？</span></p>
-      <div class="g-opts">
-        <button class="g-opt" type="button" data-lv="low"><span class="e" aria-hidden="true">🌱</span><b>低年級</b><small>一、二年級</small></button>
-        <button class="g-opt" type="button" data-lv="mid"><span class="e" aria-hidden="true">🌿</span><b>中年級</b><small>三、四年級</small></button>
-        <button class="g-opt" type="button" data-lv="high"><span class="e" aria-hidden="true">🌳</span><b>高年級</b><small>五、六年級</small></button>
+      <p class="g-q" id="g-q-lv"><small class="zy zy-always">第 2 題，共 2 題</small><span id="g-lvq" class="zy zy-always">你幾年級？</span></p>
+      <div class="g-opts g-lvs">
+        <button class="g-opt g-lv" type="button" data-lv="low" aria-label="低年級，一、二年級"><img src="/img/grade/low.webp" alt="小獅子（示意圖）" width="400" height="400" loading="lazy" decoding="async"><b><span class="e" aria-hidden="true">🌱</span> <span class="zy zy-always">1、2 年級</span></b></button>
+        <button class="g-opt g-lv" type="button" data-lv="mid" aria-label="中年級，三、四年級"><img src="/img/grade/mid.webp" alt="少年獅（示意圖）" width="400" height="400" loading="lazy" decoding="async"><b><span class="e" aria-hidden="true">🌿</span> <span class="zy zy-always">3、4 年級</span></b></button>
+        <button class="g-opt g-lv" type="button" data-lv="high" aria-label="高年級，五、六年級"><img src="/img/grade/high.webp" alt="成年雄獅（示意圖）" width="400" height="400" loading="lazy" decoding="async"><b><span class="e" aria-hidden="true">🌳</span> <span class="zy zy-always">5、6 年級</span></b></button>
       </div>
+      <p class="g-note">照片為示意圖</p>
       <div class="g-nav"><button class="btn" type="button" data-back>← 上一步</button></div>
     </div>
     <div class="g-step" data-step="done" hidden>
-      <p class="g-q"><small>推薦給你</small><span class="g-who" id="g-who"></span></p>
+      <p class="g-q"><small id="g-rec-s">推薦給你</small><span class="g-who" id="g-who"></span></p>
       <div class="cards g-recs" id="g-recs"></div>
       <div class="g-nav"><button class="btn" type="button" data-reset>重新選擇</button> <a class="btn" href="/help">📘 看使用說明</a></div>
     </div>
@@ -101,11 +102,12 @@
   </section>
 </main>
 <noscript><p style="text-align:center">需要開啟 JavaScript 才能使用互動功能。</p></noscript>
-<script src="/js/data.js?v=13"></script>
-<script src="/js/layout.js?v=13"></script>
-<script src="/js/fx.js?v=13"></script>
-<script src="/js/speak.js?v=13"></script>
-<script src="/js/zhuyin.js?v=13"></script>
-<script src="/js/p-home.js?v=13"></script>
+<script src="/js/data.js?v=18"></script>
+<script src="/js/layout.js?v=18"></script>
+<script src="/js/fx.js?v=18"></script>
+<script src="/js/speak.js?v=18"></script>
+<script src="/js/zhuyin.js?v=18"></script>
+<script src="/js/guide.js?v=18"></script>
+<script src="/js/p-home.js?v=18"></script>
 </body>
 </html>

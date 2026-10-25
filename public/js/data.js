@@ -274,5 +274,28 @@
   }
   if (typeof document !== "undefined" && document.documentElement) document.documentElement.dataset.grade = grade(); // 單元測試沒有網頁
 
-  window.Zoo = { GROUPS, HABITATS, CONS, DIETS, GRADES, enrich, mask, load, photo, creditLine, placeholder, esc, shuffle, pick, el, youtubeEmbed, dialog, grade, setGrade };
+  // 容易分錯的動物：答完分類題多一句小提醒。學生常用「住哪裡、會不會飛、名字像什麼」來分，教過分類後還是會這樣。
+  // 只列動物園資料集裡真的有的動物；資料集沒有的動物不寫
+  const CONFUSE = [
+    [/企鵝/, "不會飛，但會游泳；有羽毛、會下蛋，所以是鳥類。"],
+    [/鴕鳥/, "不會飛，但有羽毛、會下蛋，所以是鳥類。"],
+    [/穿山甲/, "身上有硬鱗片，但寶寶喝媽媽的奶，所以是哺乳類。"],
+    [/袋鼠|無尾熊/, "寶寶住在媽媽的育兒袋裡喝奶，所以是哺乳類。"],
+    [/蜘蛛猴/, "名字有蜘蛛，但牠是猴子，身上有毛。"],
+    [/鱷龜/, "名字有鱷，但牠是烏龜，是爬蟲類。"],
+    [/鱷蜥/, "名字有鱷，但牠是蜥蜴，是爬蟲類。"],
+    [/水獺/, "常在水邊生活，但身上有毛、寶寶喝奶，所以是哺乳類。"],
+  ];
+  const confuseNote = (a) => { const c = CONFUSE.find(([re]) => re.test(a.name)); return c ? " 小提醒：" + c[1] : ""; };
+
+  // 網址 # 後面的 m=easy&grade=low（首頁推薦卡直達遊戲、老師的班級連結用）。
+  // 不是 a=b 格式的（#動物編號、#guide）回空物件，不會跟原本的用法打架
+  function hashParams() {
+    const h = location.hash.slice(1);
+    const out = {};
+    if (h.includes("=")) new URLSearchParams(h).forEach((v, k) => { out[k] = v; });
+    return out;
+  }
+
+  window.Zoo = { GROUPS, HABITATS, CONS, DIETS, GRADES, enrich, mask, load, photo, creditLine, placeholder, esc, shuffle, pick, el, youtubeEmbed, dialog, grade, setGrade, hashParams, confuseNote };
 })();

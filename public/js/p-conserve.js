@@ -47,9 +47,18 @@ Zoo.boot(function (animals) {
   // ---- 3. 誰比較危險 ----
   const duel = document.getElementById("duel");
   const known = animals.filter((a) => a.cons.rank >= 3 && !a.name_suspect && a.hasPhoto);
+  // 危險程度色尺：由安全排到危險，顏色加文字（色弱、便宜平板顏色偏淡時也看得懂）。放在題目下面，答題前就看得到
+  const SCALE = ["LC", "NT", "VU", "EN", "CR", "EW"];
+  const scaleEl = () => el(
+    '<div class="scale" role="img" aria-label="危險程度色尺：' + SCALE.map((c) => Zoo.CONS[c].name).join("、") + '，越右邊越危險"><div class="scale-bar">' +
+    SCALE.map((c) => '<span style="background:' + Zoo.CONS[c].color + (c === "NT" || c === "VU" ? ";color:var(--ink)" : "") + '">' + esc(Zoo.CONS[c].name) + "</span>").join("") +
+    '</div><small class="zy">越右邊越危險</small></div>'
+  );
   function playDuel() {
     let i = 0, score = 0, combo = 0;
     const N = 5, wrongs = [];
+    // 第一次玩：小手帶著選「比較危險的」、找到「下一題」。只指路，答題與星數都是學生自己的
+    const tour = window.Guide ? Guide.tour("conserve") : null;
     const next = () => {
       if (i >= N) return end();
       let a, b;
@@ -74,13 +83,16 @@ Zoo.boot(function (animals) {
           });
           if (!ok) o.classList.add("wrong");
           const nx = el('<p><button class="btn primary big">' + (i === N - 1 ? "看成績" : "下一題 ➜") + "</button></p>");
-          nx.querySelector("button").onclick = () => { i++; next(); };
+          nx.querySelector("button").onclick = () => { if (tour) tour.done(); i++; next(); };
           duel.appendChild(el('<div class="feedback ' + (ok ? "ok" : "no") + '">' + (ok ? "答對了！🎉" : "再想想，看看下面的等級～") + "</div>"));
           duel.appendChild(nx);
+          if (tour) tour.say(nx.querySelector("button"), "按下一題");
         };
         row.appendChild(o);
       });
       duel.appendChild(row);
+      duel.appendChild(scaleEl());
+      if (tour && i === 0) tour.say(row, "選比較危險的");
       const dq = duel.querySelector("#dq");
       const items = () => [[dq.textContent, dq], ["第1個，" + a.name, row.children[0]], ["第2個，" + b.name, row.children[1]]];
       dq.append(Speak.btn(items, "念題目和選項"));

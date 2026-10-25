@@ -1,4 +1,4 @@
-/* 老師專區：分頁切換、學習單產生與列印、出題投影（含 10 秒倒數）、課程包一鍵帶入設定。計分板在 p-board.js。 */
+/* 老師專區：分頁切換、學習單產生與列印、出題投影（含 10 秒倒數）、課程包一鍵帶入設定。計分板在 p-board.js，班級連結在 p-classlink.js。 */
 Zoo.boot(function (animals) {
   const { esc, el } = Zoo;
   const $ = (id) => document.getElementById(id);
@@ -18,6 +18,7 @@ Zoo.boot(function (animals) {
   window.addEventListener("hashchange", fromHash);
   fromHash();
   Board.init($("tab-board"));
+  ClassLink.init($("tab-link"));
 
   // ---- 主題與題型 ----
   const themes = [["all", "全部動物", () => true]]

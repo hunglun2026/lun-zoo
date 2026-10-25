@@ -6,9 +6,9 @@ Zoo.boot(function (animals) {
 
   function menu() {
     root.replaceChildren(el(
-      '<div class="panel"><p class="lead" style="margin-top:0">每一題會出現一隻動物，請選出牠平常住在哪裡。一共 10 題。</p>' +
-      '<p><button class="btn primary big" id="go">開始（10 題）</button></p>' +
-      '<p><button class="btn big" id="go60">⏱️ 60 秒挑戰（答越多越好）</button></p>' +
+      '<div class="panel"><p class="lead zy" style="margin-top:0">看照片，選出牠住在哪裡。一共 10 題。</p>' +
+      '<p><button class="btn primary big zy" id="go">開始（10 題）</button></p>' +
+      '<p><button class="btn big zy" id="go60">⏱️ 60 秒挑戰</button> <small>答越多越好</small></p>' +
       "<details><summary>有哪些地方？</summary><ul>" +
       Zoo.HABITATS.map((h) => "<li>" + h.emoji + " " + esc(h.name) + "</li>").join("") + "</ul></details></div>"
     ));
@@ -36,7 +36,11 @@ Zoo.boot(function (animals) {
         explain: esc(a.name) + "住在" + esc(a.habitatInfo.name) + "。動物園的介紹說：「" + esc(clue) + "」",
       };
     });
-    Quiz.run(root, { key: timed ? "habitat-timed" : "habitat", title: timed ? "60 秒棲地挑戰" : "誰住哪裡", rounds, onAgain: menu, timed: timed ? 60 : 0 });
+    Quiz.run(root, { key: timed ? "habitat-timed" : "habitat", title: timed ? "60 秒棲地挑戰" : "誰住哪裡", rounds, onAgain: menu, timed: timed ? 60 : 0, guide: "habitat" });
   }
-  menu();
+  // 首頁推薦卡與老師的班級連結會帶 #m=easy／timed，直接開局不經過選單
+  const direct = Zoo.hashParams().m;
+  if (direct === "easy") play(false);
+  else if (direct === "timed") play(true);
+  else menu();
 });

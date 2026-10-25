@@ -7,12 +7,13 @@
 
   // ---- 引導入口：身分 → 年級 → 推薦 3 個工具。選過的記在這台裝置（zoo-guide） ----
   const GKEY = "zoo-guide";
-  const R = (href, ico, name, why) => ({ href, ico, name, why });
+  // verb：低年級學生只看圖和三個字的動作詞（不用讀整句）。學生的推薦直接帶 #m=… 開局，跳過選單
+  const R = (href, ico, name, why, verb) => ({ href, ico, name, why, verb });
   const RECS = {
     student: {
-      low: [R("/memory", "🃏", "翻牌配對", "照片配名字，最容易上手"), R("/animals", "📖", "動物小百科", "看照片、聽叫聲，找出最喜歡的動物"), R("/guess", "🔍", "猜猜我是誰", "線索一個一個出現，猜猜是誰")],
-      mid: [R("/classify", "🧩", "分類闖關", "牠是哺乳類、鳥類還是爬蟲類？"), R("/habitat", "🗺️", "誰住哪裡", "森林、沙漠、海洋，幫動物找到家"), R("/guess", "🔍", "猜猜我是誰", "越早猜中分數越高")],
-      high: [R("/classify", "🧩", "分類闖關", "挑戰 6 大類，還有 60 秒挑戰"), R("/conserve", "🌏", "保育小教室", "石虎、穿山甲為什麼有危險？"), R("/animals", "📖", "動物小百科", "挑兩種動物「比一比」，找出異同")],
+      low: [R("/memory#m=easy", "🃏", "翻牌配對", "照片配名字，最容易上手", "來翻牌"), R("/animals", "📖", "動物小百科", "看照片、聽叫聲，找出最喜歡的動物", "看百科"), R("/guess#m=solo", "🔍", "猜猜我是誰", "線索一個一個出現，猜猜是誰", "猜猜看")],
+      mid: [R("/classify#m=easy", "🧩", "分類闖關", "牠是哺乳類、鳥類還是爬蟲類？"), R("/habitat#m=easy", "🗺️", "誰住哪裡", "森林、沙漠、海洋，幫動物找到家"), R("/guess#m=solo", "🔍", "猜猜我是誰", "越早猜中分數越高")],
+      high: [R("/classify#m=hard", "🧩", "分類闖關", "挑戰 6 大類，還有 60 秒挑戰"), R("/conserve", "🌏", "保育小教室", "石虎、穿山甲為什麼有危險？"), R("/animals", "📖", "動物小百科", "挑兩種動物「比一比」，找出異同")],
     },
     teacher: {
       low: [R("/teacher#guide", "📚", "課程包「棲地與適應」", "40 分鐘流程，一鍵帶入學習單"), R("/guess", "🔍", "猜猜我是誰", "投影全班搶答，不用每人一台"), R("/memory", "🃏", "翻牌配對", "低年級最好上手的暖身活動")],
@@ -28,11 +29,20 @@
   try { st = JSON.parse(localStorage.getItem(GKEY) || "{}") || {}; } catch (e) { /* 無痕模式 */ }
   if (!WHO[st.who]) st = {};
   const save = () => { try { localStorage.setItem(GKEY, JSON.stringify(st)); } catch (e) { /* 忽略 */ } };
-  const show = (name) => steps.forEach((s) => (s.hidden = s.dataset.step !== name));
+  // 問問題時把上面的大標題收起來，畫面只剩一個問題，低年級才不會被一堆字干擾
+  const show = (name) => {
+    if (guide) guide.classList.toggle("asking", name !== "who");
+    steps.forEach((s) => (s.hidden = s.dataset.step !== name));
+  };
   function done() {
-    document.getElementById("g-who").textContent = WHO[st.who] + "・" + LV[st.lv];
-    document.getElementById("g-recs").innerHTML = RECS[st.who][st.lv].map((r) =>
-      '<a class="tool" href="' + r.href + '"><div class="ico">' + r.ico + "</div><h3>" + Zoo.esc(r.name) + '</h3><span class="why">' + Zoo.esc(r.why) + "</span></a>").join("");
+    // 低年級學生：每張卡只有大圖示和三個字（帶注音），不放整句說明
+    const easy = st.who === "student" && st.lv === "low";
+    const rs = document.getElementById("g-rec-s"), who = document.getElementById("g-who");
+    rs.className = easy ? "zy zy-always" : "";
+    who.textContent = easy ? "" : WHO[st.who] + "・" + LV[st.lv];
+    document.getElementById("g-recs").innerHTML = RECS[st.who][st.lv].map((r) => easy
+      ? '<a class="tool g-big" href="' + r.href + '"><div class="ico">' + r.ico + '</div><h3 class="zy zy-always">' + Zoo.esc(r.verb) + "</h3></a>"
+      : '<a class="tool" href="' + r.href + '"><div class="ico">' + r.ico + "</div><h3>" + Zoo.esc(r.name) + '</h3><span class="why">' + Zoo.esc(r.why) + "</span></a>").join("");
     show("done");
   }
   if (guide) {
@@ -56,6 +66,11 @@
       pick(a.dataset.pick);
       guide.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
     }));
+    // 點了才念（瀏覽器規定沒點擊就不能出聲）：一年級看不懂字時，按喇叭聽「我是學生」和問題
+    const stuBtn = document.getElementById("pick-student");
+    if (stuBtn && window.Speak) stuBtn.after(" ", Speak.btn(() => [["我是學生", stuBtn]], "念：我是學生"));
+    const lvq = document.getElementById("g-lvq"), lvBox = document.getElementById("g-q-lv");
+    if (lvBox && window.Speak) lvBox.append(Speak.btn(() => [[lvq.textContent, lvq]], "念題目"));
     if (st.who && LV[st.lv]) done();
   }
 
