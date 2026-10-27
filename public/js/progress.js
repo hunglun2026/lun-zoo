@@ -23,7 +23,7 @@ window.Progress = (function () {
   const GAMES = [
     ["classify-easy", "分類闖關・入門"], ["classify-hard", "分類闖關・挑戰"], ["classify-easy-timed", "分類闖關・60 秒"],
     ["habitat", "誰住哪裡"], ["habitat-timed", "誰住哪裡・60 秒"], ["guess", "猜猜我是誰"],
-    ["conserve", "誰比較危險"], ["memory-easy", "翻牌配對・入門"], ["memory-hard", "翻牌配對・挑戰"],
+    ["conserve", "誰比較危險"],
   ];
 
   // 徽章：有沒有拿到全部從紀錄算出來，不另外存，規則改了舊紀錄也會跟著對
@@ -40,7 +40,6 @@ window.Progress = (function () {
       ["🗺️", "棲地專家", "誰住哪裡拿到三顆星", st("habitat") >= 3],
       ["🕵️", "觀察小偵探", "猜猜我是誰拿到三顆星", st("guess") >= 3],
       ["⚡", "閃電快手", "任一個 60 秒挑戰拿到三顆星", st("classify-easy-timed") >= 3 || st("habitat-timed") >= 3],
-      ["🃏", "翻牌記憶王", "完成翻牌配對挑戰（8 對）", st("memory-hard") >= 1],
       ["🛡️", "保育判斷王", "誰比較危險拿到三顆星", st("conserve") >= 3],
     ];
     return list.map(([icon, name, how, got]) => ({ icon, name, how, got }));

@@ -78,8 +78,8 @@ a.btn{text-decoration:none;display:inline-block;line-height:1.4}
 .acard:hover{border-color:var(--green)}
 .acard .photo,.acard .ph{width:100%;aspect-ratio:4/3;object-fit:contain;background:var(--photo-bg);display:block}
 .acard .info{padding:8px 12px 12px}
-@media (max-width:600px){.grid{grid-template-columns:1fr 1fr;gap:10px}.acard .info{padding:6px 10px 10px}.acard b{font-size:.95rem}}
-.acard b{display:block;font-size:1.05rem}
+@media (max-width:600px){.grid{grid-template-columns:1fr 1fr;gap:10px}.acard .info{padding:6px 10px 10px}.acard .info>b{font-size:.95rem}}
+.acard .info>b{display:block;font-size:1.05rem}
 .acard small{color:var(--ink2)}
 .ph{display:grid;place-items:center;font-size:3.4rem}
 .ph.xl{font-size:7rem;aspect-ratio:4/3}
@@ -178,9 +178,11 @@ html[data-grade=high] .hi-only:not([hidden]){display:inline-block}
 .acard-w .acard{flex:1}
 .acard-w .spk{position:absolute;top:6px;right:6px;margin:0;box-shadow:0 2px 6px rgba(0,0,0,.15)}
 /* 注音排法（同課本）：符號直排在字右邊，聲調在符號右側最後一格，輕聲在符號上方 */
-ruby{display:inline-flex;align-items:center;vertical-align:baseline;margin-right:.08em}
-rt{display:inline-flex;align-items:stretch;font-size:.5em;color:var(--ink2);font-weight:500;line-height:1;white-space:nowrap;margin-left:.1em}
-rt b{writing-mode:vertical-rl;text-orientation:upright;font-weight:500;letter-spacing:0}
+ruby{display:inline-flex;align-items:center;vertical-align:baseline;margin-right:.14em}
+.zyw{line-height:1.75}
+html[data-grade=low] .acard .info>b{font-size:1.25rem}
+rt{display:inline-flex;align-items:stretch;font-size:.56em;color:var(--ink);font-weight:500;line-height:1;white-space:nowrap;margin-left:.08em}
+rt b{writing-mode:vertical-rl;text-orientation:upright;font-weight:500;letter-spacing:0;font-size:1em!important;display:inline!important;line-height:1!important;margin:0!important}  /* 固定大小，不被 .acard b、.g-opt b 這類「頁面裡的粗體」樣式撐大 */
 rt i{font-style:normal;align-self:flex-end;margin-left:.05em;line-height:.8}
 rt.q{flex-direction:column;align-items:center}
 rt u{text-decoration:none;line-height:.8}

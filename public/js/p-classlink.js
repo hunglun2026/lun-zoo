@@ -7,7 +7,6 @@ window.ClassLink = (function () {
 
   // [顯示名稱, 路徑, m 參數（沒有就直接進頁面）]
   const TARGETS = [
-    ["翻牌配對・入門", "/memory", "easy"], ["翻牌配對・挑戰", "/memory", "hard"],
     ["分類闖關・入門", "/classify", "easy"], ["分類闖關・挑戰", "/classify", "hard"], ["分類闖關・60 秒", "/classify", "timed"],
     ["誰住哪裡", "/habitat", "easy"], ["誰住哪裡・60 秒", "/habitat", "timed"],
     ["猜猜我是誰・單人", "/guess", "solo"], ["保育小教室", "/conserve", ""], ["動物小百科", "/animals", ""], ["首頁", "/", ""],
