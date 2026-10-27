@@ -437,7 +437,7 @@ table.cmp .photo,table.cmp .ph{width:100%;aspect-ratio:4/3;object-fit:contain;ba
 @media (max-width:600px){.scale-bar span{font-size:.68rem;letter-spacing:-.02em;padding:8px 0}}
 /* 新手提示（guide.js）：目標上的橘框＋小手，加頁首下方一條文字。全部 pointer-events 關掉，點擊穿過去直接按到下面的按鈕（只有「略過」收點擊） */
 .guide{display:contents}
-.g-hand{position:fixed;z-index:60;margin-left:-.6em;pointer-events:none;font-size:2.8rem;line-height:1;animation:g-tap 1s ease-in-out infinite}
+.g-hand{display:none;position:fixed;z-index:60;margin-left:-.6em;pointer-events:none;font-size:2.8rem;line-height:1;animation:g-tap 1s ease-in-out infinite}
 .g-hand.up{margin-top:-1em;animation-name:g-tap-up}
 .g-bar{position:fixed;left:50%;transform:translateX(-50%);z-index:60;display:flex;align-items:center;gap:8px;max-width:calc(100vw - 24px);pointer-events:none}
 .g-tip{background:#fff;border:3px solid var(--orange);color:var(--ink);border-radius:999px;padding:6px 20px;font-weight:800;font-size:1.25rem;box-shadow:var(--shadow);white-space:nowrap}
