@@ -178,17 +178,17 @@ html[data-grade=high] .hi-only:not([hidden]){display:inline-block}
 .acard-w .acard{flex:1}
 .acard-w .spk{position:absolute;top:6px;right:6px;margin:0;box-shadow:0 2px 6px rgba(0,0,0,.15)}
 /* 注音排法（同課本）：符號直排在字右邊，聲調在符號右側最後一格，輕聲在符號上方 */
-ruby{display:inline-flex;align-items:center;vertical-align:baseline;margin-right:.08em}
+ruby{display:inline-flex;align-items:flex-start;vertical-align:baseline;margin-right:.1em;line-height:1.2;min-height:1.55em}
 .zyw{line-height:1.75}
 html[data-grade=low] .acard .info>b{font-size:1.15rem}
 .acard .info>b{text-wrap:balance}
 @media (max-width:600px){html[data-grade=low] .acard .info>b{font-size:1.05rem}}
 /* 低年級：注音讓名字變寬，卡片要加大才不會一行只剩三個字；手機改一欄橫排（照片在左、名字在右） */
 html[data-grade=low] .grid{grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
-html[data-grade=low] .acard .info{padding:10px 6px 14px 10px}
+html[data-grade=low] .acard .info{padding:12px 10px 16px 14px}
 html[data-grade=low] .acard .info>b{line-height:1.9}
 /* 寬螢幕一列 5 張：卡片夠寬，國字與注音才不擠，投影教學也看得清楚 */
-@media (min-width:1000px){.grid,html[data-grade=low] .grid{grid-template-columns:repeat(5,1fr);gap:14px 10px}html[data-grade=low] .acard .info>b{font-size:1.25rem}}
+@media (min-width:1000px){.grid,html[data-grade=low] .grid{grid-template-columns:repeat(4,1fr);gap:16px 12px}html[data-grade=low] .acard .info>b{font-size:1.5rem}}
 @media (max-width:600px){
   html[data-grade=low] .grid{grid-template-columns:1fr;gap:12px}
   html[data-grade=low] .acard{flex-direction:row;align-items:center}
@@ -196,9 +196,9 @@ html[data-grade=low] .acard .info>b{line-height:1.9}
   html[data-grade=low] .acard .info{flex:1;padding:8px 58px 8px 12px}
   html[data-grade=low] .acard .info>b{font-size:1.05rem}
 }
-rt{display:inline-flex;align-items:stretch;font-size:.5em;color:var(--ink);font-weight:500;line-height:1;white-space:nowrap;margin-left:.08em}
-rt b{writing-mode:vertical-rl;text-orientation:upright;font-weight:500;letter-spacing:0;font-size:1em!important;display:inline!important;line-height:1!important;margin:0!important}  /* 固定大小，不被 .acard b、.g-opt b 這類「頁面裡的粗體」樣式撐大 */
-rt i{font-style:normal;align-self:flex-end;margin-left:.05em;line-height:.8}
+rt{display:inline-flex;align-items:stretch;font-size:.52em;color:var(--ink);font-weight:500;line-height:1;white-space:nowrap;margin-left:.08em}
+rt b{writing-mode:vertical-rl;text-orientation:upright;font-weight:500;letter-spacing:-.06em;font-size:1em!important;display:inline!important;line-height:1!important;margin:0!important}  /* 固定大小，不被 .acard b、.g-opt b 這類「頁面裡的粗體」樣式撐大 */
+rt i{font-style:normal;align-self:flex-end;margin-left:.02em;line-height:.8}
 rt.q{flex-direction:column;align-items:center}
 rt u{text-decoration:none;line-height:.8}
 @media (prefers-reduced-motion:reduce){.spk.on{animation:none}}
