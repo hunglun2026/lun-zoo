@@ -6,7 +6,6 @@
     ["classify", "分類闖關", "/classify", "🧩"],
     ["habitat", "誰住哪裡", "/habitat", "🗺️"],
     ["guess", "猜猜我是誰", "/guess", "🔍"],
-    ["memory", "翻牌配對", "/memory", "🃏"],
     ["passport", "探險護照", "/passport", "🎫"],
     ["teacher", "教師專區", "/teacher", "🍎"],
   ];
@@ -38,7 +37,7 @@
   drawGrade();
 
   // 手機底部分頁列：9 個連結在窄螢幕會排成好幾行，改成 4 個大按鈕，其餘收進「更多」
-  const PLAY = ["play", "classify", "habitat", "guess", "memory"];
+  const PLAY = ["play", "classify", "habitat", "guess"];
   const TABS = [
     ["📖", "百科", "/animals", page === "animals"],
     ["🎮", "闖關", "/play", PLAY.includes(page)],
