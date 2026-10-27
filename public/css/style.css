@@ -187,8 +187,12 @@ html[data-grade=low] .acard .info>b{font-size:1.15rem}
 html[data-grade=low] .grid{grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
 html[data-grade=low] .acard .info{padding:12px 10px 16px 14px}
 html[data-grade=low] .acard .info>b{line-height:1.9}
-/* 寬螢幕一列 5 張：卡片夠寬，國字與注音才不擠，投影教學也看得清楚 */
-@media (min-width:1000px){.grid,html[data-grade=low] .grid{grid-template-columns:repeat(4,1fr);gap:16px 12px}html[data-grade=low] .acard .info>b{font-size:1.5rem}}
+/* 寬螢幕一列 4 張；低年級名字依字數自動縮小到一行放得下（--n 由 zhuyin.js 寫入，每個字約占 1.95 個字級寬） */
+@media (min-width:1000px){.grid,html[data-grade=low] .grid{grid-template-columns:repeat(4,1fr);gap:16px 12px}}
+@media (min-width:601px){
+  html[data-grade=low] .acard .info{container-type:inline-size}
+  html[data-grade=low] .acard .info>b{font-size:clamp(.9rem,calc(100cqw / (var(--n,5) * 1.95)),1.1rem)}
+}
 @media (max-width:600px){
   html[data-grade=low] .grid{grid-template-columns:1fr;gap:12px}
   html[data-grade=low] .acard{flex-direction:row;align-items:center}

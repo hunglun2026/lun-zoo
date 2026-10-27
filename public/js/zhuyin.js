@@ -73,7 +73,12 @@
     const on = targets.filter(wants);
     if (!on.length) return;
     await load();
-    if (data) on.forEach((t) => { if (wants(t)) addTo(t); });
+    if (data) on.forEach((t) => {
+      if (!wants(t)) return;
+      addTo(t);
+      // 小百科卡片的名字：記下字數（--n），CSS 依字數把字級縮到剛好一行放得下
+      if (t.matches(".acard .info>b")) t.style.setProperty("--n", [...t.querySelectorAll(".zyw")].reduce((n, z) => n + z.dataset.t.length, 0));
+    });
   }
 
   // 新畫出來的 .zy（遊戲換題、開詳細介紹）也自動加
