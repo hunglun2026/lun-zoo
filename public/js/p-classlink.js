@@ -1,4 +1,4 @@
-/* 老師專區的「班級連結」：選遊戲、年級，產生一條網址和 QR 碼，全班平板掃了就是同一個年級、同一個遊戲。
+/* 教師專區的「班級連結」：選遊戲、年級，產生一條網址和 QR 碼，全班平板掃了就是同一個年級、同一個遊戲。
    網址格式 #m=easy&grade=low&fresh=1&guide=off，學生端的套用在 guide.js 的 applyClassLink。
    QR 碼用 js/vendor/qrcode.js（qrcode-generator，MIT），畫在 canvas 上。 */
 window.ClassLink = (function () {

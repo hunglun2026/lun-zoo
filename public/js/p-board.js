@@ -1,5 +1,5 @@
 /* 搶答計分板＋倒數計時器。資料只存在這台裝置的 localStorage，不上傳。
-   Board.init(root) 完整計分板（老師專區分頁）；Board.mini(root) 精簡版（上課模式右側），兩個共用同一份分數。 */
+   Board.init(root) 完整計分板（教師專區分頁）；Board.mini(root) 精簡版（上課模式右側），兩個共用同一份分數。 */
 window.Board = (function () {
   "use strict";
   const KEY = "zoo-board-v1";

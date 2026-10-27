@@ -3,15 +3,12 @@
   "use strict";
   const NAV = [
     ["animals", "動物小百科", "/animals", "📖"],
-    ["map", "逛動物園", "/map", "🚶"],
     ["classify", "分類闖關", "/classify", "🧩"],
     ["habitat", "誰住哪裡", "/habitat", "🗺️"],
     ["guess", "猜猜我是誰", "/guess", "🔍"],
     ["memory", "翻牌配對", "/memory", "🃏"],
-    ["conserve", "保育小教室", "/conserve", "🌏"],
     ["passport", "探險護照", "/passport", "🎫"],
-    ["teacher", "老師專區", "/teacher", "🍎"],
-    ["help", "使用說明", "/help", "📘"],
+    ["teacher", "教師專區", "/teacher", "🍎"],
   ];
   const page = document.body.dataset.page || "";
   const wrap = document.createElement("div");
@@ -41,7 +38,7 @@
   drawGrade();
 
   // 手機底部分頁列：9 個連結在窄螢幕會排成好幾行，改成 4 個大按鈕，其餘收進「更多」
-  const PLAY = ["play", "classify", "habitat", "guess", "memory", "conserve"];
+  const PLAY = ["play", "classify", "habitat", "guess", "memory"];
   const TABS = [
     ["📖", "百科", "/animals", page === "animals"],
     ["🎮", "闖關", "/play", PLAY.includes(page)],
