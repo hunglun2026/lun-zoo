@@ -64,11 +64,8 @@
   const foot = document.createElement("footer");
   foot.className = "foot";
   foot.innerHTML =
-    '<p>動物資料與照片來源：<a href="https://www.zoo.gov.tw/" target="_blank" rel="noopener">臺北市立動物園</a>，' +
-    '經<a href="https://data.gov.tw/dataset/121197" target="_blank" rel="noopener">政府資料開放平臺</a>提供，依政府資料開放授權條款第1版使用；' +
-    "其中僅文字開放授權，照片與影音著作權屬原單位，本站僅供教學引用並連回來源；列表與遊戲中的小圖由本站依原照片縮小，以加快載入。</p>" +
-    '<p id="data-stamp">資料載入中…</p>' +
-    "<p>鴻綸科技 製作。本站不蒐集任何個人資料，學習進度只存在這台裝置的瀏覽器裡。</p>";
+    "<p>由政府資料獲取</p>" +
+    '<p id="data-stamp" hidden></p>';
   wrap.appendChild(foot);
 
   // Zoo.boot(fn)：載入資料後呼叫 fn(animals, meta)，處理載入中與失敗畫面
