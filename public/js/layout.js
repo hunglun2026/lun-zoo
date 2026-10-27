@@ -3,6 +3,7 @@
   "use strict";
   const NAV = [
     ["animals", "動物小百科", "/animals", "📖"],
+    ["map", "逛動物園", "/map", "🚶"],
     ["classify", "分類闖關", "/classify", "🧩"],
     ["habitat", "誰住哪裡", "/habitat", "🗺️"],
     ["guess", "猜猜我是誰", "/guess", "🔍"],
