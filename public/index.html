@@ -2,108 +2,46 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>動物探險家｜臺北動物園動物教學網站</title>
-<meta name="description" content="用臺北市立動物園的開放資料，讓學生認識動物、分類闖關、猜謎，老師可直接產生學習單與全班搶答。免註冊、免安裝。">
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preload" as="font" type="font/woff2" href="/fonts/zoo-sans-0-9d6bb45f.woff2" crossorigin>
-<link rel="stylesheet" href="/css/style.css?v=35">
-<link rel="preload" as="image" href="/img/welcome/panda.webp" imagesrcset="/img/welcome/panda-480.webp 480w, /img/welcome/panda.webp 800w" imagesizes="(max-width: 760px) calc(100vw - 32px), 1100px">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>動物探險家｜歡迎</title>
+<meta name="description" content="帶孩子走進 270 種動物的世界，認識、分類、猜謎，邊玩邊學。">
+<meta name="theme-color" content="#2F7D4F">
+<meta property="og:type" content="website">
+<meta property="og:title" content="動物探險家">
+<meta property="og:description" content="帶孩子走進 270 種動物的世界，認識、分類、猜謎，邊玩邊學。">
+<meta property="og:image" content="https://zoo.hunglun.com/img/logo.webp">
+<link rel="canonical" href="https://zoo.hunglun.com/">
+<link rel="icon" href="/img/logo.webp">
+<link rel="stylesheet" href="/css/welcome-fonts.css?v=36">
+<link rel="stylesheet" href="/css/welcome-theme.css?v=36">
+<link rel="stylesheet" href="/css/welcome.css?v=36">
 </head>
-<body data-page="home" class="welcome">
-<main>
-  <section class="w-hero">
-    <div class="w-floats" aria-hidden="true"><span>🐘</span><span>🦜</span><span>🐢</span><span>🐸</span><span>🐟</span><span>🦋</span><span>🦒</span><span>🐼</span></div>
-    <p class="w-eyebrow"><span>臺北市立動物園開放資料</span><span class="w-sep">·</span><span>國小自然教學</span></p>
-    <h1 class="w-title"><span class="w-line">帶孩子走進</span><span class="w-line w-grad"><span data-count>270</span> 種動物</span><span class="w-line">的世界</span></h1>
-    <p class="w-sub">認識、分類、猜謎。<br>不用註冊、不用安裝，打開就能上課。</p>
-    <p class="w-cta-row"><a class="btn primary big" href="#start" data-pick="student" id="pick-student">🎒 <span class="zy">我是學生</span></a> <a class="btn primary big" href="#start" data-pick="teacher">🍎 我是老師</a> <a class="btn big" href="/help">📘 使用說明</a></p>
-    <a class="w-hint" href="#tour">↓ 向下滑動，看看可以玩什麼</a>
-  </section>
+<body class="wl" data-level-key="zoo-grade" data-home="/home">
+<div class="wl-bg" aria-hidden="true"><i class="wl-orb wl-o1"></i><i class="wl-orb wl-o2"></i><i class="wl-orb wl-o3"></i><i class="wl-orb wl-o4"></i><i class="wl-grain"></i></div>
 
-  <!-- 引導入口：回答兩題（身分、年級），推薦從哪裡開始。程式在 p-home.js，選過的會記在這台裝置 -->
-  <section class="w-guide" id="start" aria-labelledby="g-title">
-    <h2 id="g-title"><span class="nobr">不知道從哪裡開始？</span><span class="nobr">回答兩個問題</span></h2>
-    <p class="lead"><span class="nobr">選完會推薦最適合的工具。</span></p>
-    <div class="g-step" data-step="who">
-      <p class="g-q"><small>第 1 題，共 2 題</small>你是…</p>
-      <div class="g-opts">
-        <button class="g-opt" type="button" data-who="student"><span class="e" aria-hidden="true">🎒</span><b>學生</b><small>自己認識動物、玩遊戲、蒐集徽章</small></button>
-        <button class="g-opt" type="button" data-who="teacher"><span class="e" aria-hidden="true">🍎</span><b>老師</b><small>上課投影、印學習單、全班搶答</small></button>
-      </div>
-    </div>
-    <div class="g-step" data-step="lv" hidden>
-      <p class="g-q" id="g-q-lv"><small class="zy zy-always">第 2 題，共 2 題</small><span id="g-lvq" class="zy zy-always">你幾年級？</span></p>
-      <div class="g-opts g-lvs">
-        <button class="g-opt g-lv" type="button" data-lv="low" aria-label="低年級，一、二年級"><img src="/img/grade/low.webp" alt="小獅子（示意圖）" width="400" height="400" loading="lazy" decoding="async"><b><span class="e" aria-hidden="true">🌱</span> <span class="zy zy-always">1、2 年級</span></b></button>
-        <button class="g-opt g-lv" type="button" data-lv="mid" aria-label="中年級，三、四年級"><img src="/img/grade/mid.webp" alt="少年獅（示意圖）" width="400" height="400" loading="lazy" decoding="async"><b><span class="e" aria-hidden="true">🌿</span> <span class="zy zy-always">3、4 年級</span></b></button>
-        <button class="g-opt g-lv" type="button" data-lv="high" aria-label="高年級，五、六年級"><img src="/img/grade/high.webp" alt="成年雄獅（示意圖）" width="400" height="400" loading="lazy" decoding="async"><b><span class="e" aria-hidden="true">🌳</span> <span class="zy zy-always">5、6 年級</span></b></button>
-      </div>
-      <p class="g-note">照片為示意圖</p>
-      <div class="g-nav"><button class="btn" type="button" data-back>← 上一步</button></div>
-    </div>
-    <div class="g-step" data-step="done" hidden>
-      <p class="g-q"><small id="g-rec-s">推薦給你</small><span class="g-who" id="g-who"></span></p>
-      <div class="cards g-recs" id="g-recs"></div>
-      <div class="g-nav"><button class="btn" type="button" data-reset>重新選擇</button> <a class="btn" href="/help">📘 看使用說明</a></div>
-    </div>
-  </section>
+<header class="wl-top">
+  <a class="wl-brand" href="/home" aria-label="動物探險家"><img src="/img/logo.webp" alt="" width="36" height="36"><span>動物探險家</span></a>
+  <nav class="wl-nav" aria-label="快速連結"><a href="/teacher">老師專區</a><a href="/help">使用說明</a></nav>
+</header>
 
-  <!-- 捲動放大切換：畫面固定，往下捲時一張張照片放大淡出換下一張（動畫在 p-home.js） -->
-  <section class="w-tour" id="tour" aria-label="學習工具介紹">
-    <div class="w-tour-sticky">
-      <div class="w-panel"><img src="/img/welcome/panda.webp" srcset="/img/welcome/panda-480.webp 480w, /img/welcome/panda.webp 800w" sizes="(max-width: 760px) calc(100vw - 32px), 1100px" alt="大貓熊" width="800" height="535"><div class="w-panel-text"><span class="w-tag">01 / 05 · 自然科學</span><h2>動物小百科</h2><p>270 種動物的照片、影片、叫聲和簡單介紹，還能挑兩種「比一比」。</p><a class="btn primary" href="/animals">打開小百科 →</a></div></div>
-      <div class="w-panel"><img data-src="/img/welcome/peacock.webp" data-srcset="/img/welcome/peacock-480.webp 480w, /img/welcome/peacock.webp 800w" sizes="(max-width: 760px) calc(100vw - 32px), 1100px" alt="開屏的藍孔雀" width="800" height="600"><div class="w-panel-text"><span class="w-tag">02 / 05 · 生物分類</span><h2>分類闖關</h2><p>牠是哺乳類、鳥類還是爬蟲類？看照片分一分，還有 60 秒挑戰。</p><a class="btn primary" href="/classify">開始闖關 →</a></div></div>
-      <div class="w-panel"><img data-src="/img/welcome/penguin.webp" data-srcset="/img/welcome/penguin-480.webp 480w, /img/welcome/penguin.webp 800w" sizes="(max-width: 760px) calc(100vw - 32px), 1100px" alt="在水裡游泳的國王企鵝" width="800" height="554"><div class="w-panel-text"><span class="w-tag">03 / 05 · 棲地與環境</span><h2>誰住哪裡</h2><p>森林、沙漠、海洋、極地冰原……幫每一種動物找到牠的家。</p><a class="btn primary" href="/habitat">幫動物找家 →</a></div></div>
-      <div class="w-panel"><img data-src="/img/welcome/redpanda.webp" data-srcset="/img/welcome/redpanda-480.webp 480w, /img/welcome/redpanda.webp 800w" sizes="(max-width: 760px) calc(100vw - 32px), 1100px" alt="小貓熊" width="800" height="531"><div class="w-panel-text"><span class="w-tag">04 / 05 · 觀察與推理</span><h2>猜猜我是誰</h2><p>線索一個一個出現，越早猜中分數越高，也能投影全班搶答。</p><a class="btn primary" href="/guess">來猜謎 →</a></div></div>
-      <div class="w-panel"><img data-src="/img/welcome/koala.webp" data-srcset="/img/welcome/koala-480.webp 480w, /img/welcome/koala.webp 800w" sizes="(max-width: 760px) calc(100vw - 32px), 1100px" alt="趴在樹上的無尾熊" width="800" height="531"><div class="w-panel-text"><span class="w-tag">05 / 05 · 自主學習</span><h2>探險護照</h2><p>看過的動物會蓋章，玩遊戲拿星星，蒐集 10 個徽章。</p><a class="btn primary" href="/passport">看我的護照 →</a></div></div>
-      <div class="w-dots" aria-hidden="true"></div>
-      <span class="w-credit">照片：臺北市立動物園</span>
-    </div>
-  </section>
-
-  <section class="w-stats" aria-label="收錄數量">
-    <div class="w-stat w-reveal"><b class="w-num" data-stat="count">270</b><span>種動物</span></div>
-    <div class="w-stat w-reveal" style="--delay:1"><b class="w-num" data-stat="groups">6</b><span>大類</span></div>
-    <div class="w-stat w-reveal" style="--delay:2"><b class="w-num" data-stat="habitats">7</b><span>種棲地</span></div>
-    <div class="w-stat w-reveal" style="--delay:3"><b class="w-num" data-stat="danger">40</b><span>種有危險的動物</span></div>
-  </section>
-
-  <h2 class="w-reveal">六個學習工具</h2>
-  <div class="cards">
-    <a class="tool w-reveal" href="/animals"><div class="ico">📖</div><h3>動物小百科</h3><p>搜尋、篩選，看照片、影片與簡單介紹，還能挑兩種比一比。</p><span class="tag">自然科學</span></a>
-    <a class="tool w-reveal" style="--delay:1" href="/classify"><div class="ico">🧩</div><h3>分類闖關</h3><p>牠是哺乳類、鳥類還是爬蟲類？還有 60 秒挑戰。</p><span class="tag">生物分類</span></a>
-    <a class="tool w-reveal" style="--delay:2" href="/habitat"><div class="ico">🗺️</div><h3>誰住哪裡</h3><p>森林、沙漠、海洋…幫動物找到家。</p><span class="tag">棲地與環境</span></a>
-    <a class="tool w-reveal" style="--delay:3" href="/guess"><div class="ico">🔍</div><h3>猜猜我是誰</h3><p>線索一個一個出現，越早猜中分數越高。可全班搶答。</p><span class="tag">觀察與推理</span></a>
-    <a class="tool w-reveal" style="--delay:2" href="/passport"><div class="ico">🎫</div><h3>探險護照</h3><p>看過的動物會蓋章，玩遊戲拿星星換徽章。</p><span class="tag">自主學習</span></a>
-    <a class="tool w-reveal" style="--delay:3" href="/teacher"><div class="ico">🍎</div><h3>教師專區</h3><p>四個現成課程包、一鍵產生學習單、出題投影、搶答計分板。</p><span class="tag">備課好幫手</span></a>
+<main class="wl-main">
+  <div class="wl-logo-wrap wl-in wl-d0"><span class="wl-ring" aria-hidden="true"></span><img class="wl-logo" src="/img/logo.webp" alt="動物探險家 標誌" width="196" height="196" fetchpriority="high"></div>
+  <p class="wl-kicker wl-in wl-d1"><i aria-hidden="true"></i>臺北市立動物園開放資料　國小自然教學</p>
+  <p class="wl-greet wl-in wl-d2" data-greet>歡迎，小探險家</p>
+  <h1 class="wl-title wl-in wl-d2">動物探險家</h1>
+  <p class="wl-tag wl-in wl-d3">帶孩子走進 270 種動物的世界，認識、分類、猜謎，邊玩邊學。</p>
+  <ul class="wl-stats"><li class="wl-in wl-d4"><b>270</b><span>種動物</span></li><li class="wl-in wl-d5"><b>3</b><span>個年級</span></li><li class="wl-in wl-d6"><b>免註冊</b><span>打開就能玩</span></li></ul>
+  <div class="wl-cta wl-in wl-d7">
+    <a class="wl-btn wl-btn-main" href="/home">開始探險</a>
+    <a class="wl-btn wl-btn-sub" href="/teacher">老師專區</a><a class="wl-btn wl-btn-sub" href="/help">使用說明</a>
   </div>
-
-  <h2 class="w-reveal">老師 3 分鐘上手</h2>
-  <div class="panel w-reveal">
-    <ol class="steps">
-      <li><div><b>投影「分類闖關」或「猜猜我是誰」</b>，全班一起看、舉手搶答，不需要每人一台裝置。</div></li>
-      <li><div><b>到「教師專區」挑一個課程包</b>（生物分類、棲地、食物、保育），照 40 分鐘流程上課，按一下就產生學習單。</div></li>
-      <li><div><b>用「搶答計分板」記錄各組分數</b>，還有倒數計時器。</div></li>
-    </ol>
-    <p class="lead">第一次使用？<a href="/help">看完整使用說明</a>，有每個工具的畫面與步驟。</p>
-    <p class="lead" style="margin-bottom:0">學生用平板或電腦也能自己玩，進度只存在自己的裝置，不蒐集任何個人資料。</p>
-  </div>
-
-  <section class="w-end w-reveal">
-    <h2>準備好出發了嗎？</h2>
-    <p class="lead">從一隻你最喜歡的動物開始。</p>
-    <p><a class="btn primary big" href="/animals">開始探險 🐾</a> <a class="btn big" href="/classify">先玩分類闖關</a></p>
-  </section>
+  <section class="wl-levels wl-in wl-d8" aria-label="選擇程度"><p>你是哪個程度？畫面會跟著調整</p><div class="wl-seg" role="group"><button class="wl-lv" type="button" data-value="low" aria-pressed="false">低年級</button><button class="wl-lv" type="button" data-value="mid" aria-pressed="false">中年級</button><button class="wl-lv" type="button" data-value="high" aria-pressed="false">高年級</button></div></section>
 </main>
-<noscript><p style="text-align:center">需要開啟 JavaScript 才能使用互動功能。</p></noscript>
-<script src="/js/data.js?v=23"></script>
-<script src="/js/layout.js?v=30"></script>
-<script src="/js/fx.js?v=23"></script>
-<script src="/js/speak.js?v=23"></script>
-<script src="/js/zhuyin.js?v=24"></script>
-<script src="/js/guide.js?v=23"></script>
-<script src="/js/p-home.js?v=24"></script>
+
+<footer class="wl-foot">
+  <span>資料來自臺北市立動物園開放資料，依政府資料開放授權條款使用</span>
+  <span>不用註冊、不用安裝，打開就能上課</span>
+</footer>
+<script src="/js/welcome.js?v=36"></script>
 </body>
 </html>
