@@ -1,0 +1,47 @@
+/* 動物園守護戰（defense.html）。顏色與圓角沿用 style.css 的變數。 */
+.df-sum{font-size:1.2rem;font-weight:800;margin:.2em 0 .8em}
+.df-levels{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.df-lv{position:relative;font:inherit;display:flex;flex-direction:column;align-items:center;gap:2px;border:4px solid var(--line);background:#fff;border-radius:18px;padding:12px 8px;cursor:pointer;min-height:112px;color:var(--ink)}
+.df-lv b{font-size:2rem;line-height:1;color:var(--green-d)}
+.df-lv span{font-weight:800}
+.df-lv i{font-style:normal;letter-spacing:2px}
+.df-lv em{position:absolute;top:-10px;right:-6px;background:var(--red);color:#fff;font-style:normal;font-size:.75rem;font-weight:800;padding:2px 8px;border-radius:999px}
+.df-lv:hover:not([disabled]){border-color:var(--green);background:var(--green-l)}
+.df-lv.locked{opacity:.5;cursor:not-allowed}
+
+.df-wrap{max-width:960px;margin:0 auto}
+.df-hud{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}
+.df-hud .chip{background:#fff;border:3px solid var(--line);border-radius:999px;padding:4px 14px;font-weight:800;font-size:1.05rem;min-width:84px;text-align:center}
+.df-hud .btn{min-height:44px;padding:6px 14px}
+.df-hud .btn:first-of-type{margin-left:auto}
+.df-stage{position:relative;aspect-ratio:16/9;border-radius:24px;overflow:hidden;border:4px solid var(--line);background:#a7d676;box-shadow:var(--shadow);touch-action:manipulation;user-select:none;-webkit-user-select:none}
+/* Pixi 會把寬高寫進 canvas 的行內樣式，要 !important 才能跟著版面縮放 */
+.df-canvas{width:100%!important;height:100%!important;display:block}
+.df-tip{margin:.6em 0 0;color:var(--ink2);text-align:center}
+.df-banner{position:absolute;left:50%;top:14%;transform:translate(-50%,-20px);opacity:0;pointer-events:none;background:rgba(35,51,43,.82);color:#fff;font-weight:900;font-size:clamp(1.2rem,4vw,2rem);padding:8px 28px;border-radius:999px;transition:opacity .25s,transform .25s;z-index:2;white-space:nowrap}
+.df-banner.on{opacity:1;transform:translate(-50%,0)}
+.df-banner.boss{background:rgba(200,52,31,.92)}
+.df-toast{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);background:rgba(35,51,43,.9);color:#fff;padding:8px 18px;border-radius:999px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s;z-index:2;max-width:92%;text-align:center}
+.df-toast.on{opacity:1}
+
+.df-layer{position:fixed;inset:0;z-index:50}
+.df-modal{display:flex;align-items:center;justify-content:center;background:rgba(35,51,43,.55);padding:12px;overflow:auto}
+.df-q{width:min(560px,100%);max-height:96vh;overflow:auto}
+.df-q .photo,.df-q .ph{max-width:340px;max-height:34vh}
+.df-sheet{display:flex;align-items:flex-end;justify-content:center;background:rgba(35,51,43,.35)}
+.df-sheet-in{width:min(760px,100%);background:#fff;border-radius:24px 24px 0 0;padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px));text-align:center;box-shadow:0 -6px 24px rgba(0,0,0,.2)}
+.df-picks{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:10px;margin:8px 0 12px}
+.df-pick{font:inherit;display:flex;flex-direction:column;align-items:center;gap:2px;border:3px solid var(--line);background:#fff;border-radius:16px;padding:8px 6px;cursor:pointer;color:var(--ink)}
+.df-pick:hover{border-color:var(--green);background:var(--green-l)}
+.df-pick img{width:64px;height:64px;border-radius:50%;object-fit:cover;border:4px solid var(--line)}
+.df-pick small{color:var(--ink2);font-size:.75rem;line-height:1.25}
+
+.df-rotate{display:none;margin:0 0 8px;padding:8px 12px;background:var(--orange-l);border:2px solid var(--orange);border-radius:12px;font-weight:700;text-align:center}
+@media (max-width:640px) and (orientation:portrait){.df-rotate{display:block}}
+@media (max-width:560px){
+  .df-hud .chip{min-width:0;padding:4px 10px;font-size:.95rem}
+  .df-hud .btn{padding:6px 10px}
+}
+@media (prefers-reduced-motion:reduce){
+  .df-banner,.df-toast{transition:none}
+}

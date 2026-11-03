@@ -7,7 +7,7 @@
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "db:local": "wrangler d1 migrations apply zoo-db --local",
-    "test": "node --experimental-strip-types scripts/test-parse.ts && node --experimental-strip-types scripts/test-classify.ts"
+    "test": "node --experimental-strip-types scripts/test-parse.ts && node --experimental-strip-types scripts/test-classify.ts && node --experimental-strip-types scripts/test-defense.ts"
   },
   "devDependencies": {
     "wrangler": "^4"

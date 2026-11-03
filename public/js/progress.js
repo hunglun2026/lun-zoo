@@ -23,8 +23,14 @@ window.Progress = (function () {
   const GAMES = [
     ["classify-easy", "分類闖關・入門"], ["classify-hard", "分類闖關・挑戰"], ["classify-easy-timed", "分類闖關・60 秒"],
     ["habitat", "誰住哪裡"], ["habitat-timed", "誰住哪裡・60 秒"], ["guess", "猜猜我是誰"],
-    ["conserve", "誰比較危險"],
+    ["conserve", "誰比較危險"], ["defense", "動物園守護戰"],
   ];
+  // 守護戰每一關各存一個星數（鍵 defense-1～defense-10），護照只顯示過了幾關、共幾顆星
+  const defense = () => {
+    const s = get().stars;
+    const lv = Object.keys(s).filter((k) => /^defense-\d+$/.test(k) && s[k] > 0);
+    return { cleared: lv.length, stars: lv.reduce((n, k) => n + s[k], 0) };
+  };
 
   // 徽章：有沒有拿到全部從紀錄算出來，不另外存，規則改了舊紀錄也會跟著對
   function badges(animals) {
@@ -41,8 +47,10 @@ window.Progress = (function () {
       ["🕵️", "觀察小偵探", "猜猜我是誰拿到三顆星", st("guess") >= 3],
       ["⚡", "閃電快手", "任一個 60 秒挑戰拿到三顆星", st("classify-easy-timed") >= 3 || st("habitat-timed") >= 3],
       ["🛡️", "保育判斷王", "誰比較危險拿到三顆星", st("conserve") >= 3],
+      ["🐯", "守園小隊長", "動物園守護戰通過 5 關", defense().cleared >= 5],
+      ["🏰", "動物園守護者", "動物園守護戰 10 關全部通過", defense().cleared >= 10],
     ];
     return list.map(([icon, name, how, got]) => ({ icon, name, how, got }));
   }
-  return { get, seen, stars, clear, badges, GAMES };
+  return { get, seen, stars, clear, badges, defense, GAMES };
 })();
