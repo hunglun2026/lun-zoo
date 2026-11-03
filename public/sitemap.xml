@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://zoo.hunglun.com/</loc><lastmod>2026-10-23</lastmod></url>
-  <url><loc>https://zoo.hunglun.com/animals</loc><lastmod>2026-10-23</lastmod></url>
-  <url><loc>https://zoo.hunglun.com/classify</loc><lastmod>2026-10-23</lastmod></url>
-  <url><loc>https://zoo.hunglun.com/conserve</loc><lastmod>2026-10-23</lastmod></url>
-  <url><loc>https://zoo.hunglun.com/guess</loc><lastmod>2026-10-23</lastmod></url>
-  <url><loc>https://zoo.hunglun.com/habitat</loc><lastmod>2026-10-23</lastmod></url>
-  <url><loc>https://zoo.hunglun.com/help</loc><lastmod>2026-10-23</lastmod></url>
-  <url><loc>https://zoo.hunglun.com/memory</loc><lastmod>2026-10-23</lastmod></url>
-  <url><loc>https://zoo.hunglun.com/passport</loc><lastmod>2026-10-23</lastmod></url>
-  <url><loc>https://zoo.hunglun.com/play</loc><lastmod>2026-10-23</lastmod></url>
-  <url><loc>https://zoo.hunglun.com/map</loc><lastmod>2026-10-27</lastmod></url>
-  <url><loc>https://zoo.hunglun.com/teacher</loc><lastmod>2026-10-23</lastmod></url>
-  <url><loc>https://zoo.hunglun.com/home</loc></url>
+  <url><loc>https://zoo.hunglun.com/animals</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://zoo.hunglun.com/classify</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://zoo.hunglun.com/conserve</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://zoo.hunglun.com/guess</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://zoo.hunglun.com/habitat</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://zoo.hunglun.com/help</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://zoo.hunglun.com/home</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://zoo.hunglun.com/</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://zoo.hunglun.com/map</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://zoo.hunglun.com/memory</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://zoo.hunglun.com/open-data</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://zoo.hunglun.com/passport</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://zoo.hunglun.com/play</loc><lastmod>2026-11-03</lastmod></url>
+  <url><loc>https://zoo.hunglun.com/teacher</loc><lastmod>2026-11-03</lastmod></url>
 </urlset>
