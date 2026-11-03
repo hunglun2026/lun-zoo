@@ -9,7 +9,7 @@ window.ClassLink = (function () {
   const TARGETS = [
     ["分類闖關・入門", "/classify", "easy"], ["分類闖關・挑戰", "/classify", "hard"], ["分類闖關・60 秒", "/classify", "timed"],
     ["誰住哪裡", "/habitat", "easy"], ["誰住哪裡・60 秒", "/habitat", "timed"],
-    ["動物園守護戰（選關）", "/defense", ""], ["守護戰・第 1 關", "/defense", "1"], ["猜猜我是誰・單人", "/guess", "solo"], ["保育小教室", "/conserve", ""], ["動物小百科", "/animals", ""], ["首頁", "/", ""],
+    ["猜猜我是誰・單人", "/guess", "solo"], ["保育小教室", "/conserve", ""], ["動物小百科", "/animals", ""], ["首頁", "/", ""],
   ];
 
   function drawQR(canvas, text) {

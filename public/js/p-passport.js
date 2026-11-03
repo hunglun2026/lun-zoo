@@ -20,10 +20,6 @@ Zoo.boot(function (animals) {
         (b.got ? "已獲得！" : "怎麼拿：") + esc(b.how) + "</small></div>").join("") + "</div>" +
       "<h2>⭐ 遊戲星星</h2>" +
       '<div class="panel"><table class="gtable"><tbody>' + Progress.GAMES.map(([k, name]) => {
-        if (k === "defense") {
-          const d = Progress.defense();
-          return "<tr><th scope=\"row\">" + esc(name) + "</th><td>" + (d.cleared ? "過 " + d.cleared + " / 10 關　⭐ " + d.stars + " / 30" : "<small>還沒玩</small>") + "</td></tr>";
-        }
         const n = s.stars[k] || 0;
         return "<tr><th scope=\"row\">" + esc(name) + '</th><td aria-label="' + n + ' 顆星">' + (n ? "⭐".repeat(n) + "☆".repeat(3 - n) : "<small>還沒玩</small>") + "</td></tr>";
       }).join("") + "</tbody></table></div>" +
